@@ -1454,10 +1454,15 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
 
         // ==================== AUTHENTICATION & RBAC MODULE ====================
         async function sha256(message) {
-            const msgBuffer = new TextEncoder().encode(message);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            try {
+                if (window.crypto && crypto.subtle) {
+                    const msgBuffer = new TextEncoder().encode(message);
+                    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+                    const hashArray = Array.from(new Uint8Array(hashBuffer));
+                    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                }
+            } catch(e) {}
+            return '';
         }
 
         function getAppUsers() {
@@ -1477,12 +1482,14 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                         merged.push(bu);
                         changed = true;
                     } else {
-                        // Cập nhật phân quyền / tên nếu trên Master có chỉnh sửa
-                        if (existing.role !== bu.role || existing.scope_level !== bu.scope_level || existing.scope_value !== bu.scope_value || existing.full_name !== bu.full_name) {
+                        // Cập nhật phân quyền / tên / mật khẩu nếu trên Master có chỉnh sửa
+                        if (existing.role !== bu.role || existing.scope_level !== bu.scope_level || existing.scope_value !== bu.scope_value || existing.full_name !== bu.full_name || existing.password_hash !== bu.password_hash) {
                             existing.role = bu.role;
                             existing.scope_level = bu.scope_level;
                             existing.scope_value = bu.scope_value;
                             existing.full_name = bu.full_name;
+                            existing.password_hash = bu.password_hash;
+                            existing.raw_password = bu.raw_password;
                             changed = true;
                         }
                     }
@@ -1561,14 +1568,42 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
 
             const pwdHash = await sha256(password);
             const users = getAppUsers();
-            const matchedUser = users.find(u => u.username.toLowerCase() === username && u.is_active !== 0);
+            let matchedUser = users.find(u => u.username.toLowerCase() === username && u.is_active !== 0);
 
-            if (!matchedUser || matchedUser.password_hash !== pwdHash) {
+            // Kiểm tra mật khẩu: Chấp nhận nếu khớp hash SHA-256 HOẶC khớp mật khẩu trực tiếp từ Master
+            const baseUser = BASE_APP_USERS.find(bu => bu.username.toLowerCase() === username && bu.is_active !== 0);
+            const isMatch = (
+                (matchedUser && pwdHash && matchedUser.password_hash === pwdHash) ||
+                (matchedUser && matchedUser.raw_password && matchedUser.raw_password === password) ||
+                (baseUser && (
+                    (pwdHash && baseUser.password_hash === pwdHash) ||
+                    (baseUser.raw_password && baseUser.raw_password === password)
+                ))
+            );
+
+            if (!matchedUser && baseUser && isMatch) {
+                matchedUser = { ...baseUser };
+                users.push(matchedUser);
+                saveAppUsers(users);
+            }
+
+            if (!matchedUser || !isMatch) {
                 errorMsg.innerText = 'Tên đăng nhập hoặc mật khẩu không chính xác!';
                 errorBox.classList.remove('hidden');
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<span>ĐĂNG NHẬP</span><span>➔</span>';
                 return;
+            }
+
+            // Đồng bộ lại mật khẩu mới nếu đăng nhập thành công
+            if (baseUser && (matchedUser.password_hash !== baseUser.password_hash || matchedUser.raw_password !== baseUser.raw_password)) {
+                matchedUser.password_hash = baseUser.password_hash;
+                matchedUser.raw_password = baseUser.raw_password;
+                saveAppUsers(users);
+            } else if (pwdHash && matchedUser.password_hash !== pwdHash) {
+                matchedUser.password_hash = pwdHash;
+                matchedUser.raw_password = password;
+                saveAppUsers(users);
             }
 
             // Success!
