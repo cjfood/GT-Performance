@@ -1352,8 +1352,8 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                                 <input type="file" id="input-import-excel" accept=".xlsx, .xls, .csv" onchange="importUsersFromExcel(event)" class="hidden">
                             </label>
                             <!-- Nút Khôi Phục Mặc Định -->
-                            <button type="button" onclick="resetUsersToDefault()" class="px-2.5 py-1.5 text-[11px] font-bold text-slate-600 bg-slate-100 border border-slate-300 rounded-lg hover:bg-slate-200 transition" title="Khôi phục 4 tài khoản mặc định ban đầu">
-                                🔄 Mặc Định
+                            <button type="button" onclick="resetUsersToDefault()" class="px-2.5 py-1.5 text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-300 rounded-lg hover:bg-emerald-100 transition" title="Khôi phục danh sách chuẩn 100% từ file Master_Users.xlsx (Dọn sạch tài khoản rác/cũ trên trình duyệt)">
+                                🔄 Đồng Bộ Master
                             </button>
                         </div>
                     </div>
@@ -1475,23 +1475,31 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 } catch(e) {}
             }
             
+            // Blacklist các tài khoản đã được Admin bấm Xóa trên Web
+            let deletedUsers = [];
+            try {
+                deletedUsers = JSON.parse(localStorage.getItem('cj_deleted_users') || '[]');
+            } catch(e) {}
+            const deletedSet = new Set(deletedUsers.map(u => (u || '').toLowerCase().trim()));
+
             const storedMap = new Map();
             storedUsers.forEach(su => {
-                if (su && su.username) storedMap.set(su.username.toLowerCase(), su);
+                if (su && su.username) storedMap.set(su.username.toLowerCase().trim(), su);
             });
 
             const merged = [];
             const processed = new Set();
 
-            // 1. Duyệt qua BASE_APP_USERS từ bản dựng hệ thống
+            // 1. Duyệt qua BASE_APP_USERS từ Master_Users.xlsx
             BASE_APP_USERS.forEach(bu => {
-                const uKey = bu.username.toLowerCase();
+                const uKey = (bu.username || '').toLowerCase().trim();
                 processed.add(uKey);
-                if (bu.is_active === 0) return; // Bỏ qua tài khoản khóa
+                if (bu.is_active === 0) return; // Bỏ qua tài khoản đã khóa
+                if (deletedSet.has(uKey)) return; // BỎ QUA NẾU ĐÃ BỊ ADMIN XÓA!
 
                 const su = storedMap.get(uKey);
                 if (su) {
-                    // Người dùng đã có trong localStorage: BẢO TOÀN mật khẩu đã đổi!
+                    if (su.is_active === 0 || su.is_deleted === true) return; // Bỏ qua nếu bị khóa/xóa
                     merged.push({
                         ...bu,
                         password_hash: su.password_hash || bu.password_hash,
@@ -1506,12 +1514,16 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 }
             });
 
-            // 2. Giữ lại tài khoản mới tạo tạm thời trên giao diện web (nếu chưa có trong BASE_APP_USERS)
+            // 2. Chỉ giữ lại tài khoản do Admin tạo thêm trực tiếp trên Web (loại bỏ tài khoản rác cũ không có trong Master)
+            const KNOWN_PHANTOM = new Set(['head_mt', 'kam_hyper', 'lead_b2b', 'lead_kr']);
             storedUsers.forEach(su => {
                 if (!su || !su.username) return;
-                const uKey = su.username.toLowerCase();
-                if (!processed.has(uKey) && su.is_active !== 0) {
-                    merged.push(su);
+                const uKey = su.username.toLowerCase().trim();
+                if (KNOWN_PHANTOM.has(uKey)) return; // Tự động dọn dẹp tài khoản rác cũ!
+                if (!processed.has(uKey) && su.is_active !== 0 && !su.is_deleted && !deletedSet.has(uKey)) {
+                    if (su.full_name && su.role) {
+                        merged.push(su);
+                    }
                 }
             });
 
@@ -1524,10 +1536,11 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
         }
 
         function resetUsersToDefault() {
-            if (confirm('Bạn có chắc chắn muốn khôi phục danh sách người dùng về mặc định ban đầu không?')) {
+            if (confirm('Bạn có chắc chắn muốn khôi phục danh sách người dùng chuẩn 100% theo file Master_Users.xlsx không?\n(Mọi tài khoản rác/cũ và cache trên trình duyệt này sẽ được dọn sạch hoàn toàn)')) {
                 localStorage.removeItem('cj_app_users');
+                localStorage.removeItem('cj_deleted_users');
                 renderAdminUserTable();
-                alert('Đã khôi phục danh sách người dùng mặc định thành công!');
+                alert('Đã đồng bộ danh sách tài khoản chuẩn theo Master thành công!');
             }
         }
 
@@ -1647,6 +1660,12 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 const res = await fetch(GOOGLE_SHEET_API_URL);
                 const data = await res.json();
                 if (data && data.users && Array.isArray(data.users)) {
+                    let deletedUsers = [];
+                    try {
+                        deletedUsers = JSON.parse(localStorage.getItem('cj_deleted_users') || '[]');
+                    } catch(e) {}
+                    const deletedSet = new Set(deletedUsers.map(u => (u || '').toLowerCase().trim()));
+
                     const local = localStorage.getItem('cj_app_users');
                     let storedUsers = [];
                     if (local) {
@@ -1659,6 +1678,14 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                     data.users.forEach(cu => {
                         const uname = (cu.username || '').trim().toLowerCase();
                         if (!uname) return;
+                        if (deletedSet.has(uname)) {
+                            const delIdx = storedUsers.findIndex(u => (u.username || '').toLowerCase().trim() === uname);
+                            if (delIdx !== -1) {
+                                storedUsers.splice(delIdx, 1);
+                                changed = true;
+                            }
+                            return;
+                        }
                         const idx = storedUsers.findIndex(u => u.username && u.username.toLowerCase() === uname);
                         if (idx !== -1) {
                             if (cu.password_hash && storedUsers[idx].password_hash !== cu.password_hash) {
@@ -2235,7 +2262,14 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 users[targetIdx] = updatedUserObj;
                 syncToGoogleSheet('upsert_user', updatedUserObj);
             }
-            
+            // Xóa khỏi danh sách deletedUsers nếu tài khoản này được tạo/cập nhật lại
+            let deletedUsers = [];
+            try {
+                deletedUsers = JSON.parse(localStorage.getItem('cj_deleted_users') || '[]');
+            } catch(e) {}
+            deletedUsers = deletedUsers.filter(u => (u || '').toLowerCase().trim() !== username.toLowerCase().trim());
+            localStorage.setItem('cj_deleted_users', JSON.stringify(deletedUsers));
+
             saveAppUsers(users);
             renderAdminUserTable();
             resetUserForm();
@@ -2243,17 +2277,37 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
         }
 
         function deleteUser(username) {
-            if (username.toLowerCase() === 'admin') {
+            const uname = (username || '').toLowerCase().trim();
+            if (uname === 'admin') {
                 alert('Không thể xóa tài khoản Admin quản trị cao nhất!');
                 return;
             }
             if (confirm(`Bạn có chắc chắn muốn xóa tài khoản '${username}' không?`)) {
-                let users = getAppUsers();
-                users = users.filter(u => u.username.toLowerCase() !== username.toLowerCase());
-                saveAppUsers(users);
+                // 1. Thêm vào danh sách blacklist tài khoản đã xóa (lưu bền vững trong localStorage)
+                let deletedUsers = [];
+                try {
+                    deletedUsers = JSON.parse(localStorage.getItem('cj_deleted_users') || '[]');
+                } catch(e) {}
+                if (!deletedUsers.includes(uname)) {
+                    deletedUsers.push(uname);
+                }
+                localStorage.setItem('cj_deleted_users', JSON.stringify(deletedUsers));
+
+                // 2. Lọc bỏ khỏi cj_app_users
+                let stored = [];
+                try {
+                    stored = JSON.parse(localStorage.getItem('cj_app_users') || '[]');
+                } catch(e) {}
+                stored = stored.filter(u => (u.username || '').toLowerCase().trim() !== uname);
+                localStorage.setItem('cj_app_users', JSON.stringify(stored));
+
+                // 3. Đồng bộ sự kiện xóa lên Google Sheets
                 syncToGoogleSheet('delete_user', { username: username });
+
+                // 4. Cập nhật bảng và thông báo
                 renderAdminUserTable();
                 resetUserForm();
+                alert(`Đã xóa tài khoản '${username}' thành công!`);
             }
         }
 
