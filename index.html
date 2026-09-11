@@ -1351,9 +1351,14 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                                 <span>Nhập từ Excel</span>
                                 <input type="file" id="input-import-excel" accept=".xlsx, .xls, .csv" onchange="importUsersFromExcel(event)" class="hidden">
                             </label>
-                            <!-- Nút Khôi Phục Mặc Định -->
-                            <button type="button" onclick="resetUsersToDefault()" class="px-2.5 py-1.5 text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-300 rounded-lg hover:bg-emerald-100 transition" title="Khôi phục danh sách chuẩn 100% từ file Master_Users.xlsx (Dọn sạch tài khoản rác/cũ trên trình duyệt)">
-                                🔄 Đồng Bộ Master
+                            <!-- Nút Đồng Bộ Đám Mây Hai Chiều (Latest Wins) -->
+                            <button type="button" id="btn-cloud-sync" onclick="syncWithCloud(true)" class="px-3 py-1.5 text-[11px] font-bold text-emerald-800 bg-emerald-100 border border-emerald-400 rounded-lg hover:bg-emerald-200 shadow-sm transition flex items-center space-x-1.5" title="Đồng bộ 2 chiều thời gian thực giữa Web Local, Web Publish và Cloud Google Sheets (Theo lần sửa mới nhất)">
+                                <span id="sync-icon" class="text-sm inline-block">🔄</span>
+                                <span id="sync-text">Đồng Bộ Đám Mây</span>
+                            </button>
+                            <!-- Nút Khôi Phục Mặc Định Master -->
+                            <button type="button" onclick="resetUsersToDefault()" class="px-2 py-1.5 text-[11px] font-semibold text-slate-600 bg-slate-100 border border-slate-300 rounded-lg hover:bg-slate-200 transition" title="Khôi phục danh sách chuẩn 100% từ file Master_Users.xlsx (Dọn sạch tài khoản rác/cũ trên trình duyệt)">
+                                ⚙️ Khôi Phục Master
                             </button>
                         </div>
                     </div>
@@ -1401,7 +1406,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
         }
 
         // User Authentication & Roles Database
-        const BASE_APP_USERS = [{"username": "admin", "password_hash": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5", "full_name": "Quản Trị Viên (Admin)", "role": "admin", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "12345"}, {"username": "rsm_north", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Từ Ngọc Chương", "role": "rsm", "scope_level": "region", "scope_value": "MIỀN BẮC", "is_active": 1, "raw_password": "cj@2026"}, {"username": "asm_hcm", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Chung Thành", "role": "asm", "scope_level": "vung", "scope_value": "HCM", "is_active": 1, "raw_password": "cj@2026"}, {"username": "kimseungjin", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Kim Súng Jin", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456"}, {"username": "hailp", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Lê Phúc Hải", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456"}, {"username": "tm", "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "full_name": "Trade MKT", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123"}, {"username": "bod_director", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Ban Giám Đốc (BOD)", "role": "director", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "cj@2026"}, {"username": "rsm_gt_all", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Trưởng Kênh GT Toàn Quốc", "role": "rsm", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "cj@2026"}, {"username": "rsm_south", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Giám Đốc Miền Nam GT", "role": "rsm", "scope_level": "region", "scope_value": "MIỀN NAM", "is_active": 1, "raw_password": "cj@2026"}, {"username": "asm_danang", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Quản Lý Vùng Đà Nẵng (Nguyễn Văn Lúa)", "role": "asm", "scope_level": "vung", "scope_value": "Da Nang", "is_active": 1, "raw_password": "cj@2026"}, {"username": "gsbh_dn1", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "GSBH Đà Nẵng 1 (Nguyễn Văn Lúa)", "role": "gsbh", "scope_level": "office", "scope_value": "D.Nang", "is_active": 1, "raw_password": "cj@2026"}, {"username": "npp_phuoctai", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "NPP Phước Tài Đà Nẵng", "role": "npp", "scope_level": "npp", "scope_value": "1033603", "is_active": 1, "raw_password": "cj@2026"}];
+        const BASE_APP_USERS = [{"username": "admin", "password_hash": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5", "full_name": "Quản Trị Viên (Admin)", "role": "admin", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "admin@cj2026", "updated_at": "Fri Sep 11 2026 15:22:13 GMT+0700 (Giờ Đông Dương)"}, {"username": "rsm_north", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Từ Ngọc Chương", "role": "rsm", "scope_level": "region", "scope_value": "MIỀN BẮC", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "asm_hcm", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Chung Thành", "role": "asm", "scope_level": "vung", "scope_value": "HCM", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "kimseungjin", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Kim Seung Jin", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 15:13:18 GMT+0700 (Giờ Đông Dương)"}, {"username": "hailp", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Lê Phúc Hải", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": ""}, {"username": "tm", "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "full_name": "Trade MKT", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123", "updated_at": ""}, {"username": "rsm_gt_all", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Trưởng Kênh GT Toàn Quốc", "role": "rsm", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "rsm_south", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Giám Đốc Miền Nam GT", "role": "rsm", "scope_level": "region", "scope_value": "MIỀN NAM", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "asm_danang", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Quản Lý Vùng Đà Nẵng (Nguyễn Văn Lúa)", "role": "asm", "scope_level": "vung", "scope_value": "Da Nang", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "gsbh_dn1", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "GSBH Đà Nẵng 1 (Nguyễn Văn Lúa)", "role": "gsbh", "scope_level": "office", "scope_value": "D.Nang", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "npp_phuoctai", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "NPP Phước Tài Đà Nẵng", "role": "npp", "scope_level": "npp", "scope_value": "1033603", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}];
         const GOOGLE_SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwK7qLxIDHg7fpXaxcCHyFTM_Oo0_3TrLVdBw3MP9kdvoPRxquuuGQurq25QGtt3Pj9gg/exec";
 
         async function syncToGoogleSheet(action, payload) {
@@ -1465,6 +1470,29 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
             return '';
         }
 
+        function parseTimestamp(ts) {
+            if (!ts) return 0;
+            if (typeof ts === 'number') return ts;
+            const str = ts.toString().trim();
+            if (!str) return 0;
+            // Clean out timezone strings in parentheses e.g. "(Giờ Đông Dương)"
+            const cleaned = str.replace(/\s*\([^)]*\)/g, '').trim();
+            const parsed = Date.parse(cleaned);
+            if (!isNaN(parsed)) return parsed;
+            const parts = cleaned.split(/[- :T]/);
+            if (parts.length >= 6) {
+                const y = parseInt(parts[0], 10);
+                const m = parseInt(parts[1], 10) - 1;
+                const d = parseInt(parts[2], 10);
+                const hr = parseInt(parts[3], 10);
+                const mn = parseInt(parts[4], 10);
+                const sc = parseInt(parts[5], 10);
+                const dt = new Date(y, m, d, hr, mn, sc);
+                if (!isNaN(dt.getTime())) return dt.getTime();
+            }
+            return 0;
+        }
+
         function getAppUsers() {
             const local = localStorage.getItem('cj_app_users');
             let storedUsers = [];
@@ -1475,12 +1503,19 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 } catch(e) {}
             }
             
-            // Blacklist các tài khoản đã được Admin bấm Xóa trên Web
+            // Blacklist các tài khoản đã được Admin bấm Xóa trên Web (hỗ trợ cả string và object)
             let deletedUsers = [];
             try {
                 deletedUsers = JSON.parse(localStorage.getItem('cj_deleted_users') || '[]');
             } catch(e) {}
-            const deletedSet = new Set(deletedUsers.map(u => (u || '').toLowerCase().trim()));
+            const deletedMap = new Map();
+            deletedUsers.forEach(u => {
+                if (typeof u === 'string') {
+                    deletedMap.set(u.toLowerCase().trim(), 0);
+                } else if (u && u.username) {
+                    deletedMap.set(u.username.toLowerCase().trim(), parseTimestamp(u.deleted_at));
+                }
+            });
 
             const storedMap = new Map();
             storedUsers.forEach(su => {
@@ -1495,19 +1530,28 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 const uKey = (bu.username || '').toLowerCase().trim();
                 processed.add(uKey);
                 if (bu.is_active === 0) return; // Bỏ qua tài khoản đã khóa
-                if (deletedSet.has(uKey)) return; // BỎ QUA NẾU ĐÃ BỊ ADMIN XÓA!
 
                 const su = storedMap.get(uKey);
+                const bTime = parseTimestamp(bu.updated_at);
+                const sTime = su ? parseTimestamp(su.updated_at) : 0;
+                const delTime = deletedMap.has(uKey) ? deletedMap.get(uKey) : -1;
+
+                // Nếu có trong deletedUsers và thời gian xóa mới hơn hoặc bằng Base
+                if (delTime >= 0 && delTime >= bTime && (!su || sTime <= delTime)) return;
+
                 if (su) {
                     if (su.is_active === 0 || su.is_deleted === true) return; // Bỏ qua nếu bị khóa/xóa
+                    const useLocal = sTime >= bTime;
                     merged.push({
-                        ...bu,
-                        password_hash: su.password_hash || bu.password_hash,
-                        raw_password: su.raw_password || bu.raw_password,
-                        full_name: su.full_name || bu.full_name,
-                        role: su.role || bu.role,
-                        scope_level: su.scope_level || bu.scope_level,
-                        scope_value: su.scope_value || bu.scope_value
+                        username: bu.username,
+                        password_hash: (useLocal ? su.password_hash : bu.password_hash) || bu.password_hash,
+                        raw_password: (useLocal ? su.raw_password : bu.raw_password) || bu.raw_password,
+                        full_name: (useLocal ? su.full_name : bu.full_name) || bu.full_name,
+                        role: (useLocal ? su.role : bu.role) || bu.role,
+                        scope_level: (useLocal ? su.scope_level : bu.scope_level) || bu.scope_level,
+                        scope_value: (useLocal ? su.scope_value : bu.scope_value) || bu.scope_value,
+                        is_active: 1,
+                        updated_at: useLocal && su.updated_at ? su.updated_at : (bu.updated_at || '')
                     });
                 } else {
                     merged.push({ ...bu });
@@ -1520,7 +1564,10 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 if (!su || !su.username) return;
                 const uKey = su.username.toLowerCase().trim();
                 if (KNOWN_PHANTOM.has(uKey)) return; // Tự động dọn dẹp tài khoản rác cũ!
-                if (!processed.has(uKey) && su.is_active !== 0 && !su.is_deleted && !deletedSet.has(uKey)) {
+                if (!processed.has(uKey) && su.is_active !== 0 && !su.is_deleted) {
+                    const delTime = deletedMap.has(uKey) ? deletedMap.get(uKey) : -1;
+                    const sTime = parseTimestamp(su.updated_at);
+                    if (delTime >= 0 && delTime >= sTime) return;
                     if (su.full_name && su.role) {
                         merged.push(su);
                     }
@@ -1654,85 +1701,211 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
             }
         }
 
-        async function fetchLatestUsersFromCloud() {
-            if (!GOOGLE_SHEET_API_URL || !GOOGLE_SHEET_API_URL.startsWith('http')) return;
-            try {
-                const res = await fetch(GOOGLE_SHEET_API_URL);
-                const data = await res.json();
-                if (data && data.users && Array.isArray(data.users)) {
-                    let deletedUsers = [];
-                    try {
-                        deletedUsers = JSON.parse(localStorage.getItem('cj_deleted_users') || '[]');
-                    } catch(e) {}
-                    const deletedSet = new Set(deletedUsers.map(u => (u || '').toLowerCase().trim()));
+        async function syncWithCloud(isManual = false) {
+            if (!GOOGLE_SHEET_API_URL || !GOOGLE_SHEET_API_URL.startsWith('http')) {
+                if (isManual) alert('Chưa cấu hình đường dẫn Google Sheets Webhook!');
+                return;
+            }
 
-                    const local = localStorage.getItem('cj_app_users');
-                    let storedUsers = [];
-                    if (local) {
-                        try { storedUsers = JSON.parse(local); } catch(e) {}
+            const btnSync = document.getElementById('btn-cloud-sync');
+            const syncIcon = document.getElementById('sync-icon');
+            const syncText = document.getElementById('sync-text');
+
+            if (isManual && btnSync) {
+                btnSync.disabled = true;
+                if (syncIcon) syncIcon.classList.add('animate-spin');
+                if (syncText) syncText.innerText = 'Đang đồng bộ...';
+            }
+
+            try {
+                // 1. Tải danh sách tài khoản từ Cloud
+                const res = await fetch(GOOGLE_SHEET_API_URL);
+                const cloudData = await res.json();
+                const cloudUsers = (cloudData && Array.isArray(cloudData.users)) ? cloudData.users : [];
+
+                // 2. Đọc dữ liệu tài khoản và danh sách xóa tại Local
+                const localUsers = getAppUsers();
+                let deletedUsers = [];
+                try {
+                    deletedUsers = JSON.parse(localStorage.getItem('cj_deleted_users') || '[]');
+                } catch(e) {}
+                
+                const deletedMap = new Map();
+                deletedUsers.forEach(u => {
+                    if (typeof u === 'string') {
+                        deletedMap.set(u.toLowerCase().trim(), { username: u.toLowerCase().trim(), deleted_at: '' });
+                    } else if (u && u.username) {
+                        deletedMap.set(u.username.toLowerCase().trim(), u);
                     }
-                    if (!Array.isArray(storedUsers) || storedUsers.length === 0) {
-                        storedUsers = [...BASE_APP_USERS];
-                    }
-                    let changed = false;
-                    data.users.forEach(cu => {
-                        const uname = (cu.username || '').trim().toLowerCase();
-                        if (!uname) return;
-                        if (deletedSet.has(uname)) {
-                            const delIdx = storedUsers.findIndex(u => (u.username || '').toLowerCase().trim() === uname);
-                            if (delIdx !== -1) {
-                                storedUsers.splice(delIdx, 1);
-                                changed = true;
+                });
+
+                const localMap = new Map();
+                localUsers.forEach(u => {
+                    if (u && u.username) localMap.set(u.username.toLowerCase().trim(), u);
+                });
+
+                const cloudMap = new Map();
+                cloudUsers.forEach(u => {
+                    if (u && u.username) cloudMap.set(u.username.toLowerCase().trim(), u);
+                });
+
+                let pulledCount = 0;
+                let pushedCount = 0;
+                const pushTasks = [];
+
+                // 3. SO SÁNH CLOUD VÀ LOCAL THEO NGUYÊN TẮC "LATEST WINS" (LẦN SỬA MỚI NHẤT THẮNG)
+                for (const cu of cloudUsers) {
+                    const uname = (cu.username || '').toLowerCase().trim();
+                    if (!uname) continue;
+
+                    const cTime = parseTimestamp(cu.updated_at);
+                    const lu = localMap.get(uname);
+                    const lTime = lu ? parseTimestamp(lu.updated_at) : 0;
+                    const delEntry = deletedMap.get(uname);
+                    const delTime = delEntry ? parseTimestamp(delEntry.deleted_at) : 0;
+
+                    // TRƯỜNG HỢP 1: Tài khoản đã bị xóa ở Local
+                    if (delEntry) {
+                        if (delTime >= cTime) {
+                            if (cu.is_active !== 0) {
+                                pushTasks.push(syncToGoogleSheet('delete_user', { username: uname }));
+                                pushedCount++;
                             }
-                            return;
+                        } else {
+                            // Cloud có cập nhật MỚI HƠN thời điểm xóa ở Local -> Khôi phục theo Cloud
+                            if (cu.is_active !== 0) {
+                                deletedMap.delete(uname);
+                                localMap.set(uname, {
+                                    username: uname,
+                                    password_hash: cu.password_hash || '',
+                                    raw_password: cu.raw_password || '',
+                                    full_name: cu.full_name || uname,
+                                    role: cu.role || 'viewer',
+                                    scope_level: cu.scope_level || 'all',
+                                    scope_value: cu.scope_value || 'Tất cả',
+                                    is_active: 1,
+                                    updated_at: cu.updated_at || new Date().toISOString()
+                                });
+                                pulledCount++;
+                            }
                         }
-                        const idx = storedUsers.findIndex(u => u.username && u.username.toLowerCase() === uname);
-                        if (idx !== -1) {
-                            if (cu.password_hash && storedUsers[idx].password_hash !== cu.password_hash) {
-                                storedUsers[idx].password_hash = cu.password_hash;
-                                storedUsers[idx].raw_password = cu.raw_password || storedUsers[idx].raw_password;
-                                changed = true;
+                        continue;
+                    }
+
+                    // TRƯỜNG HỢP 2: Tài khoản đã bị Cloud khóa/xóa (is_active === 0)
+                    if (cu.is_active === 0) {
+                        if (cTime >= lTime) {
+                            if (lu) {
+                                localMap.delete(uname);
+                                deletedMap.set(uname, { username: uname, deleted_at: cu.updated_at || new Date().toISOString() });
+                                pulledCount++;
                             }
-                            if (cu.is_active !== undefined && storedUsers[idx].is_active !== cu.is_active) {
-                                storedUsers[idx].is_active = cu.is_active;
-                                changed = true;
+                        } else {
+                            if (lu && lu.is_active !== 0) {
+                                pushTasks.push(syncToGoogleSheet('upsert_user', lu));
+                                pushedCount++;
                             }
-                        } else if (cu.is_active !== 0) {
-                            storedUsers.push({
-                                username: uname,
-                                password_hash: cu.password_hash || '',
-                                raw_password: cu.raw_password || '',
-                                full_name: cu.full_name || uname,
-                                role: cu.role || 'viewer',
-                                scope_level: cu.scope_level || 'all',
-                                scope_value: cu.scope_value || 'Tất cả',
-                                is_active: cu.is_active !== undefined ? cu.is_active : 1
+                        }
+                        continue;
+                    }
+
+                    // TRƯỜNG HỢP 3: Tài khoản đang hoạt động (is_active !== 0)
+                    if (!lu) {
+                        localMap.set(uname, {
+                            username: uname,
+                            password_hash: cu.password_hash || '',
+                            raw_password: cu.raw_password || '',
+                            full_name: cu.full_name || uname,
+                            role: cu.role || 'viewer',
+                            scope_level: cu.scope_level || 'all',
+                            scope_value: cu.scope_value || 'Tất cả',
+                            is_active: 1,
+                            updated_at: cu.updated_at || ''
+                        });
+                        pulledCount++;
+                    } else {
+                        if (cTime > lTime) {
+                            localMap.set(uname, {
+                                ...lu,
+                                password_hash: cu.password_hash || lu.password_hash,
+                                raw_password: cu.raw_password || lu.raw_password,
+                                full_name: cu.full_name || lu.full_name,
+                                role: cu.role || lu.role,
+                                scope_level: cu.scope_level || lu.scope_level,
+                                scope_value: cu.scope_value || lu.scope_value,
+                                is_active: 1,
+                                updated_at: cu.updated_at
                             });
-                            changed = true;
-                        }
-                    });
-                    if (changed) {
-                        localStorage.setItem('cj_app_users', JSON.stringify(storedUsers));
-                        if (currentUser) {
-                            const updatedMe = storedUsers.find(u => u.username.toLowerCase() === currentUser.username.toLowerCase());
-                            if (updatedMe) {
-                                currentUser.password_hash = updatedMe.password_hash;
-                                currentUser.raw_password = updatedMe.raw_password;
-                                sessionStorage.setItem('cj_auth_user', JSON.stringify(currentUser));
-                            }
-                        }
-                        if (typeof renderAdminUserTable === 'function' && document.getElementById('admin-modal') && !document.getElementById('admin-modal').classList.contains('hidden')) {
-                            renderAdminUserTable();
+                            pulledCount++;
+                        } else if (lTime > cTime) {
+                            pushTasks.push(syncToGoogleSheet('upsert_user', lu));
+                            pushedCount++;
                         }
                     }
                 }
-            } catch(e) {
-                console.warn('[CloudSync] Không thể tải user từ Cloud:', e);
+
+                // 4. KIỂM TRA CÁC TÀI KHOẢN CÓ Ở LOCAL NHƯNG CHƯA CÓ TRÊN CLOUD
+                for (const [uname, lu] of localMap.entries()) {
+                    if (!cloudMap.has(uname)) {
+                        if (lu.is_active !== 0) {
+                            pushTasks.push(syncToGoogleSheet('upsert_user', lu));
+                            pushedCount++;
+                        }
+                    }
+                }
+
+                // 5. Đợi tất cả request đẩy lên Cloud hoàn tất
+                if (pushTasks.length > 0) {
+                    await Promise.all(pushTasks);
+                }
+
+                // 6. Lưu kết quả vào LocalStorage
+                const finalUsers = Array.from(localMap.values());
+                saveAppUsers(finalUsers);
+                localStorage.setItem('cj_deleted_users', JSON.stringify(Array.from(deletedMap.values())));
+
+                // 7. Cập nhật phiên đăng nhập hiện tại nếu thông tin thay đổi
+                if (currentUser) {
+                    const updatedMe = finalUsers.find(u => u.username.toLowerCase() === currentUser.username.toLowerCase());
+                    if (updatedMe) {
+                        currentUser = updatedMe;
+                        sessionStorage.setItem('cj_auth_user', JSON.stringify(currentUser));
+                        if (localStorage.getItem('cj_auth_user_remember')) {
+                            localStorage.setItem('cj_auth_user_remember', JSON.stringify(currentUser));
+                        }
+                    }
+                }
+
+                // 8. Cập nhật bảng hiển thị
+                if (typeof renderAdminUserTable === 'function') {
+                    renderAdminUserTable();
+                }
+
+                if (isManual) {
+                    alert(`✅ ĐỒNG BỘ HAI CHIỀU THÀNH CÔNG!\n\n` +
+                          `• Cập nhật từ Đám mây về máy: ${pulledCount} tài khoản\n` +
+                          `• Tải từ máy lên Đám mây: ${pushedCount} tài khoản\n\n` +
+                          `Tất cả chỉnh sửa mới nhất (Web Local hay Web Publish) đã được đồng nhất hoàn toàn cho mọi người dùng!`);
+                }
+            } catch(err) {
+                console.error('[CloudSync Lỗi]', err);
+                if (isManual) {
+                    alert(`⚠️ Không thể hoàn tất đồng bộ với Đám mây:\n${err.message || err}\nVui lòng kiểm tra kết nối mạng và thử lại.`);
+                }
+            } finally {
+                if (isManual && btnSync) {
+                    btnSync.disabled = false;
+                    if (syncIcon) syncIcon.classList.remove('animate-spin');
+                    if (syncText) syncText.innerText = 'Đồng Bộ Đám Mây';
+                }
             }
         }
 
+        // Biệt danh tương thích ngược
+        const fetchLatestUsersFromCloud = syncWithCloud;
+
         function initAuthAndApp() {
-            fetchLatestUsersFromCloud();
+            syncWithCloud(false);
             const sessionUser = getSessionUser();
             if (sessionUser) {
                 const users = getAppUsers();
@@ -1835,18 +2008,21 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
             }
 
             // Hash mật khẩu mới và cập nhật trong danh sách app users
+            const nowIso = new Date().toISOString();
             const newHash = await sha256(newPwd);
             const users = getAppUsers();
             const idx = users.findIndex(u => u.username.toLowerCase() === currentUser.username.toLowerCase());
             if (idx !== -1) {
                 users[idx].password_hash = newHash;
                 users[idx].raw_password = newPwd;
+                users[idx].updated_at = nowIso;
                 saveAppUsers(users);
             }
 
             // Cập nhật phiên đăng nhập hiện tại
             currentUser.password_hash = newHash;
             currentUser.raw_password = newPwd;
+            currentUser.updated_at = nowIso;
             sessionStorage.setItem('cj_auth_user', JSON.stringify(currentUser));
             if (localStorage.getItem('cj_auth_user_remember')) {
                 localStorage.setItem('cj_auth_user_remember', JSON.stringify(currentUser));
@@ -1857,13 +2033,14 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 renderAdminUserTable();
             }
 
-            // Đồng bộ ngầm thông tin đổi mật khẩu lên Google Sheets
+            // Đồng bộ ngầm thông tin đổi mật khẩu lên Google Sheets (kèm timestamp)
             syncToGoogleSheet('change_password', {
                 username: currentUser.username,
                 password_hash: newHash,
                 raw_password: newPwd,
                 full_name: currentUser.full_name,
-                role: currentUser.role
+                role: currentUser.role,
+                updated_at: nowIso
             });
 
             successBox.classList.remove('hidden');
@@ -2216,6 +2393,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 return;
             }
             
+            const nowIso = new Date().toISOString();
             const users = getAppUsers();
             if (mode === 'create') {
                 if (!password) {
@@ -2235,7 +2413,8 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                     role: role,
                     scope_level: scopeLevel,
                     scope_value: scopeValue,
-                    is_active: 1
+                    is_active: 1,
+                    updated_at: nowIso
                 };
                 users.push(newUserObj);
                 syncToGoogleSheet('upsert_user', newUserObj);
@@ -2257,7 +2436,8 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                     role: role,
                     scope_level: scopeLevel,
                     scope_value: scopeValue,
-                    is_active: 1
+                    is_active: 1,
+                    updated_at: nowIso
                 };
                 users[targetIdx] = updatedUserObj;
                 syncToGoogleSheet('upsert_user', updatedUserObj);
@@ -2267,7 +2447,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
             try {
                 deletedUsers = JSON.parse(localStorage.getItem('cj_deleted_users') || '[]');
             } catch(e) {}
-            deletedUsers = deletedUsers.filter(u => (u || '').toLowerCase().trim() !== username.toLowerCase().trim());
+            deletedUsers = deletedUsers.filter(u => (typeof u === 'string' ? u : u.username).toLowerCase().trim() !== username.toLowerCase().trim());
             localStorage.setItem('cj_deleted_users', JSON.stringify(deletedUsers));
 
             saveAppUsers(users);
@@ -2283,14 +2463,14 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 return;
             }
             if (confirm(`Bạn có chắc chắn muốn xóa tài khoản '${username}' không?`)) {
-                // 1. Thêm vào danh sách blacklist tài khoản đã xóa (lưu bền vững trong localStorage)
+                const nowIso = new Date().toISOString();
+                // 1. Thêm vào danh sách blacklist tài khoản đã xóa (lưu bền vững trong localStorage kèm timestamp)
                 let deletedUsers = [];
                 try {
                     deletedUsers = JSON.parse(localStorage.getItem('cj_deleted_users') || '[]');
                 } catch(e) {}
-                if (!deletedUsers.includes(uname)) {
-                    deletedUsers.push(uname);
-                }
+                deletedUsers = deletedUsers.filter(u => (typeof u === 'string' ? u : u.username).toLowerCase().trim() !== uname);
+                deletedUsers.push({ username: uname, deleted_at: nowIso });
                 localStorage.setItem('cj_deleted_users', JSON.stringify(deletedUsers));
 
                 // 2. Lọc bỏ khỏi cj_app_users
@@ -2302,7 +2482,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 localStorage.setItem('cj_app_users', JSON.stringify(stored));
 
                 // 3. Đồng bộ sự kiện xóa lên Google Sheets
-                syncToGoogleSheet('delete_user', { username: username });
+                syncToGoogleSheet('delete_user', { username: username, updated_at: nowIso });
 
                 // 4. Cập nhật bảng và thông báo
                 renderAdminUserTable();
@@ -2516,6 +2696,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                                 pwdHash = await sha256(password);
                                 rawPwd = password.trim();
                             }
+                            const importNowIso = new Date().toISOString();
                             users[existingIdx] = {
                                 username: username,
                                 password_hash: pwdHash,
@@ -2524,13 +2705,15 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                                 role: role || users[existingIdx].role,
                                 scope_level: scopeLevel,
                                 scope_value: scopeValue,
-                                is_active: 1
+                                is_active: 1,
+                                updated_at: importNowIso
                             };
                             countUpdate++;
                         } else {
                             // New user
                             const pwd = password || '123456';
                             const pwdHash = await sha256(pwd);
+                            const importNowIso = new Date().toISOString();
                             users.push({
                                 username: username,
                                 password_hash: pwdHash,
@@ -2539,7 +2722,8 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                                 role: role,
                                 scope_level: scopeLevel,
                                 scope_value: scopeValue,
-                                is_active: 1
+                                is_active: 1,
+                                updated_at: importNowIso
                             });
                             countNew++;
                         }
@@ -2547,7 +2731,8 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
 
                     saveAppUsers(users);
                     renderAdminUserTable();
-                    alert(`✅ Đã nhập thành công dữ liệu từ Excel!\n- Tài khoản tạo mới: ${countNew}\n- Tài khoản cập nhật: ${countUpdate}\nTổng cộng hiện có: ${users.length} người dùng.`);
+                    syncWithCloud(false);
+                    alert(`✅ Đã nhập thành công dữ liệu từ Excel!\n- Tài khoản tạo mới: ${countNew}\n- Tài khoản cập nhật: ${countUpdate}\nTổng cộng hiện có: ${users.length} người dùng.\n(Hệ thống đang tự động đồng bộ lên Đám Mây)`);
                 } catch (err) {
                     alert('Lỗi đọc tệp Excel: ' + err.message);
                 }
