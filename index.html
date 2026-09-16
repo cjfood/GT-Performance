@@ -4740,11 +4740,6 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
-            // Đồng bộ tab Hiệu suất đơn hàng nếu có thay đổi bộ lọc
-            if (typeof updateBasketFromGlobalFilters === 'function') {
-                try { updateBasketFromGlobalFilters(); } catch(e) { console.warn(e); }
-            }
-        }
         function renderCharts() {
             const geoNode = getActiveGeoNode();
             const data = database[getBaseGeoNode()];
