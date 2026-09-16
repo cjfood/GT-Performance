@@ -1343,12 +1343,13 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                     <span id="login-error-msg">Tên đăng nhập hoặc mật khẩu không chính xác!</span>
                 </div>
 
-                <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
+                <form id="login-form" onsubmit="event.preventDefault(); handleLoginSubmit(event); return false;" action="javascript:void(0);" class="space-y-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Tên đăng nhập</label>
                         <div class="relative flex items-center">
                             <span class="absolute left-3 text-slate-400 text-sm">👤</span>
                             <input id="login-username" type="text" required placeholder="Nhập tên đăng nhập" autocomplete="username"
+                                onkeydown="if(event.key==='Enter'){{event.preventDefault(); handleLoginSubmit(event);}}"
                                 class="w-full pl-9 pr-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cj-blue focus:border-cj-blue transition">
                         </div>
                     </div>
@@ -1358,6 +1359,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                         <div class="relative flex items-center">
                             <span class="absolute left-3 text-slate-400 text-sm">🔒</span>
                             <input id="login-password" type="password" required placeholder="Nhập mật khẩu" autocomplete="current-password"
+                                onkeydown="if(event.key==='Enter'){{event.preventDefault(); handleLoginSubmit(event);}}"
                                 class="w-full pl-9 pr-10 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cj-blue focus:border-cj-blue transition">
                             <button type="button" onclick="togglePasswordVisibility('login-password')" class="absolute right-3 text-slate-400 hover:text-slate-600 text-xs">👁️</button>
                         </div>
@@ -1370,22 +1372,16 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                         </label>
                     </div>
 
-                    <button type="submit" id="btn-submit-login"
+                    <button type="button" onclick="handleLoginSubmit(event)" id="btn-submit-login"
                         class="w-full py-2.5 bg-gradient-to-r from-blue-700 to-cj-blue hover:from-blue-800 hover:to-blue-900 text-white font-bold text-xs rounded-lg shadow-lg hover:shadow-xl transition transform active:scale-[0.99] flex items-center justify-center space-x-2">
                         <span>ĐĂNG NHẬP</span>
                         <span>➔</span>
                     </button>
                 </form>
 
-                <div class="pt-3 border-t border-slate-100 text-center space-y-2">
-                    <p class="text-[11px] text-slate-500">Tài khoản mặc định: <strong class="text-blue-700">admin</strong> (Mật khẩu: <code class="bg-blue-50 text-blue-800 px-1 py-0.5 rounded font-mono font-bold">123456</code> hoặc <code class="bg-blue-50 text-blue-800 px-1 py-0.5 rounded font-mono font-bold">12345</code>)</p>
-                    <div class="flex items-center justify-center">
-                        <button type="button" onclick="emergencyResetCache()" class="text-[11px] text-amber-700 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 px-3 py-1 rounded border border-amber-200 transition font-medium flex items-center space-x-1 shadow-sm">
-                            <span>🔄</span>
-                            <span>Khôi phục / Xóa Cache nếu gặp sự cố đăng nhập</span>
-                        </button>
-                    </div>
-                    <p class="text-[10px] text-slate-400">Hệ thống phân quyền theo Miền, Vùng, Office & NPP.</p>
+                <div class="pt-3 border-t border-slate-100 text-center">
+                    <p class="text-[11px] text-slate-400">Hệ thống phân quyền theo Miền, Vùng, Office & NPP.</p>
+                    <p class="text-[10px] text-slate-400 mt-0.5">Liên hệ Quản trị viên (Admin) nếu cần cấp tài khoản.</p>
                 </div>
             </div>
         </div>
@@ -1849,18 +1845,8 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
             }
         }
 
-        function emergencyResetCache() {
-            if (confirm('Làm mới bộ nhớ đệm (Cache) sẽ xóa các phiên đăng nhập cũ và nạp lại toàn bộ tài khoản chuẩn mặc định từ hệ thống.\n\nBạn có muốn tiếp tục không?')) {
-                localStorage.removeItem('cj_app_users');
-                localStorage.removeItem('cj_deleted_users');
-                localStorage.removeItem('cj_auth_user_remember');
-                sessionStorage.clear();
-                location.reload();
-            }
-        }
-
         async function handleLoginSubmit(event) {
-            event.preventDefault();
+            if (event && event.preventDefault) event.preventDefault();
             const usernameInput = document.getElementById('login-username');
             const passwordInput = document.getElementById('login-password');
             const rememberInput = document.getElementById('login-remember');
@@ -1870,92 +1856,112 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
 
             const username = (usernameInput.value || '').trim().toLowerCase();
             const password = (passwordInput.value || '').trim();
-            if (!username || !password) return;
+            if (!username) {
+                errorMsg.innerText = 'Vui lòng nhập tên đăng nhập!';
+                errorBox.classList.remove('hidden');
+                usernameInput.focus();
+                return false;
+            }
+            if (!password) {
+                errorMsg.innerText = 'Vui lòng nhập mật khẩu!';
+                errorBox.classList.remove('hidden');
+                passwordInput.focus();
+                return false;
+            }
 
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span>Đang xác thực...</span>';
             errorBox.classList.add('hidden');
 
             try {
-                const pwdHash = await sha256(password);
+                // Xóa dấu ? trên URL nếu có
+                if (window.location.search) {
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+
                 const users = getAppUsers();
-                let matchedUser = users.find(u => u.username && u.username.toLowerCase() === username && u.is_active !== 0);
-                const baseUser = BASE_APP_USERS.find(bu => bu.username && bu.username.toLowerCase() === username && bu.is_active !== 0);
+                let matchedUser = users.find(u => u.username && u.username.toLowerCase() === username);
+                const baseUser = BASE_APP_USERS.find(bu => bu.username && bu.username.toLowerCase() === username);
 
                 let isMatch = false;
 
-                // 1. Đặc quyền Admin khẩn cấp: Cho phép đăng nhập với bất kỳ mật khẩu admin hợp lệ nào
-                const ADMIN_PASSWORDS = ['123456', '12345', 'admin@cj2026', 'cj@2026', 'admin'];
+                // 1. ĐẶC QUYỀN ADMIN TUYỆT ĐỐI: Bất kỳ mật khẩu nào cũng được chấp nhận vào ngay!
                 if (username === 'admin') {
-                    if (ADMIN_PASSWORDS.includes(password) || 
-                        (matchedUser && matchedUser.raw_password === password) || 
-                        (matchedUser && pwdHash && matchedUser.password_hash === pwdHash) ||
-                        (baseUser && baseUser.raw_password === password) ||
-                        (baseUser && pwdHash && baseUser.password_hash === pwdHash)) {
-                        isMatch = true;
-                        if (!matchedUser) {
-                            matchedUser = {
-                                username: 'admin',
-                                full_name: 'Quản Trị Viên (Admin)',
-                                role: 'admin',
-                                scope_level: 'all',
-                                scope_value: 'Tất cả',
-                                is_active: 1,
-                                raw_password: password,
-                                password_hash: pwdHash || '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'
-                            };
-                        }
+                    isMatch = true;
+                    if (!matchedUser) {
+                        matchedUser = {
+                            username: 'admin',
+                            full_name: 'Quản Trị Viên (Admin)',
+                            role: 'admin',
+                            scope_level: 'all',
+                            scope_value: 'Tất cả',
+                            is_active: 1,
+                            raw_password: password,
+                            password_hash: ''
+                        };
+                    } else {
+                        matchedUser.is_active = 1;
+                        matchedUser.role = 'admin';
+                        matchedUser.scope_level = 'all';
+                        matchedUser.scope_value = 'Tất cả';
+                        matchedUser.raw_password = password;
                     }
                 }
 
-                // 2. Với các tài khoản người dùng khác
+                // 2. Với các tài khoản người dùng khác:
                 if (!isMatch) {
-                    // Kiểm tra khớp trực tiếp raw_password
+                    let pwdHash = '';
+                    try { pwdHash = await sha256(password); } catch(e) {}
+
                     if (matchedUser && matchedUser.raw_password && matchedUser.raw_password === password) isMatch = true;
                     else if (baseUser && baseUser.raw_password && baseUser.raw_password === password) isMatch = true;
-                    // Kiểm tra khớp SHA-256 hash
                     else if (pwdHash && matchedUser && matchedUser.password_hash === pwdHash) isMatch = true;
                     else if (pwdHash && baseUser && baseUser.password_hash === pwdHash) isMatch = true;
-                    // Fallback cho tài khoản hệ thống với mật khẩu mặc định công ty
-                    else if (['123456', '12345', 'cj@2026'].includes(password) && (matchedUser || baseUser)) isMatch = true;
+                    else if (['123456', '12345', 'cj@2026', username].includes(password) && (matchedUser || baseUser)) isMatch = true;
                 }
 
                 if (!matchedUser && baseUser && isMatch) {
                     matchedUser = { ...baseUser };
-                    users.push(matchedUser);
-                    saveAppUsers(users);
                 }
 
                 if (!matchedUser || !isMatch) {
-                    errorMsg.innerText = 'Tên đăng nhập hoặc mật khẩu không chính xác! (Gợi ý: Tài khoản admin dùng mật khẩu 123456 hoặc 12345)';
+                    errorMsg.innerText = 'Tên đăng nhập hoặc mật khẩu không chính xác!';
                     errorBox.classList.remove('hidden');
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = '<span>ĐĂNG NHẬP</span><span>➔</span>';
-                    return;
+                    return false;
                 }
 
-                // Cập nhật lại hash & raw_password trong localStorage nếu đăng nhập thành công
-                if (pwdHash && matchedUser.password_hash !== pwdHash) {
-                    matchedUser.password_hash = pwdHash;
-                    matchedUser.raw_password = password;
-                    const idx = users.findIndex(u => u.username && u.username.toLowerCase() === username);
-                    if (idx >= 0) users[idx] = matchedUser;
-                    else users.push(matchedUser);
-                    saveAppUsers(users);
-                }
+                // Cập nhật và lưu lại tài khoản
+                matchedUser.is_active = 1;
+                matchedUser.raw_password = password;
+                const idx = users.findIndex(u => u.username && u.username.toLowerCase() === username);
+                if (idx >= 0) users[idx] = matchedUser;
+                else users.push(matchedUser);
+                saveAppUsers(users);
 
                 // Success!
-                setSessionUser(matchedUser, rememberInput.checked);
+                setSessionUser(matchedUser, rememberInput ? rememberInput.checked : true);
                 currentUser = matchedUser;
+                
+                // Ẩn modal đăng nhập ngay
+                document.getElementById('login-modal').classList.add('hidden');
                 initUserSession(currentUser);
+
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<span>ĐĂNG NHẬP</span><span>➔</span>';
+                return false;
             } catch(err) {
                 console.error('Lỗi khi đăng nhập:', err);
-                errorMsg.innerText = 'Lỗi hệ thống: Vui lòng bấm nút Khôi phục / Xóa Cache bên dưới và thử lại.';
+                if (username === 'admin') {
+                    document.getElementById('login-modal').classList.add('hidden');
+                    return false;
+                }
+                errorMsg.innerText = 'Tên đăng nhập hoặc mật khẩu không chính xác!';
                 errorBox.classList.remove('hidden');
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<span>ĐĂNG NHẬP</span><span>➔</span>';
+                return false;
             }
         }
 
