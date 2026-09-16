@@ -6203,7 +6203,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
 
                 let caret = '';
                 if (!isLeaf) {
-                    caret = '<button type="button" onclick="event.stopPropagation(); toggleBasketNode('' + id + '')" class="w-4 h-4 inline-flex items-center justify-center rounded hover:bg-slate-200/60 text-slate-500 font-bold text-[10px] mr-1 focus:outline-none">' + (isExpanded ? '▼' : '▶') + '</button>';
+                    caret = '<button type="button" data-basket-id="' + id + '" onclick="event.stopPropagation(); toggleBasketNode(this.dataset.basketId)" class="w-4 h-4 inline-flex items-center justify-center rounded hover:bg-slate-200/60 text-slate-500 font-bold text-[10px] mr-1 focus:outline-none">' + (isExpanded ? '▼' : '▶') + '</button>';
                 } else {
                     caret = '<span class="w-4 inline-block mr-1"></span>';
                 }
@@ -6217,7 +6217,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 const p1 = r[H_COL.p_o1];
                 const alert1 = (p1 > 50.0 && lvl >= 3) ? 'text-rose-600 font-black' : (p1 > 50.0 ? 'text-rose-600 font-bold' : 'text-slate-700');
 
-                html += '<tr class="' + rowBg + ' border-b border-slate-100 transition cursor-pointer" onclick="toggleBasketNode('' + id + '')">' +
+                html += '<tr class="' + rowBg + ' border-b border-slate-100 transition cursor-pointer" data-basket-id="' + id + '" onclick="toggleBasketNode(this.dataset.basketId)">' +
                     '<td class="py-2 pr-2 border border-slate-200 sticky-col-left-0 col-w-260 bg-inherit" style="padding-left: ' + (indentPx + 8) + 'px;">' +
                         '<div class="flex items-center space-x-1 overflow-hidden whitespace-nowrap text-ellipsis">' +
                             caret +
