@@ -625,7 +625,16 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
             white-space: normal !important;
             word-wrap: break-word !important;
         }
-    </style>
+    
+        /* SKU Basket Table Custom Header High-Contrast Overrides */
+        #basket-tree-table thead th, #basket-monthly-table thead th {
+            border-color: #334155 !important;
+        }
+        #basket-tree-table thead tr:first-child th, #basket-monthly-table thead tr:first-child th {
+            letter-spacing: 0.5px !important;
+            text-transform: uppercase !important;
+        }
+</style>
 </head>
 <body class="text-slate-800 antialiased">
     <!-- Header -->
@@ -705,7 +714,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 <span id="mobile-filter-indicator" class="text-[10px] text-slate-500 font-bold">▼ Click để mở</span>
             </div>
             <!-- Unified Compact Filter Panel (Redesigned & Cleareable) -->
-            <div id="filter-panel-box" class="filter-container-box bg-white p-3 rounded-lg border border-slate-200 shadow-sm space-y-3">
+            <div id="filter-panel-box" class="filter-container-box bg-white p-3 rounded-lg border border-slate-200 shadow-md space-y-3 sticky top-0 z-30" style="position: sticky; top: -1px; z-index: 40; background-color: #ffffff;">
                 <!-- Data Filters Grid -->
                 <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-9 gap-3">
                     <!-- Region -->
@@ -1235,31 +1244,31 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                         <div class="scroll-helper">Vuốt ngang để xem chi tiết các nhóm SKU ➡️</div>
                         <div class="pivot-scroll-container max-h-[650px] overflow-auto border border-slate-200 rounded-lg shadow-sm">
                             <table id="basket-tree-table" class="w-full text-xs text-left text-slate-600 border-collapse sticky-table">
-                                <thead class="text-[11px] uppercase bg-slate-800 text-white font-bold sticky top-0 z-20">
+                                <thead class="text-[11px] uppercase font-bold sticky top-0 z-20">
                                     <tr>
-                                        <th rowspan="2" class="px-3 py-2.5 border border-slate-700 sticky-col-left-0 col-w-260 bg-slate-800">Cấp Bậc / Đơn Vị</th>
-                                        <th colspan="3" class="px-3 py-1.5 border border-slate-700 text-center bg-blue-900/90 text-blue-100">DOANH SỐ SELL-OUT</th>
-                                        <th colspan="7" class="px-3 py-1.5 border border-slate-700 text-center bg-teal-900/90 text-teal-100">HIỆU QUẢ GIỎ HÀNG (SKU/ORDER)</th>
-                                        <th colspan="7" class="px-3 py-1.5 border border-slate-700 text-center bg-amber-900/90 text-amber-100">ĐỘ PHỦ OUTLET (SKU/OUTLET)</th>
+                                        <th rowspan="2" class="px-3 py-2.5 border border-slate-700 sticky-col-left-0 col-w-260 text-center" style="background-color: #0f172a !important; color: #ffffff !important; font-weight: 900 !important;">CẤP BẬC / ĐƠN VỊ</th>
+                                        <th colspan="3" class="px-3 py-1.5 border border-slate-700 text-center" style="background-color: #1e3a8a !important; color: #ffffff !important; font-weight: 900 !important; letter-spacing: 0.5px !important;">DOANH SỐ SELL-OUT</th>
+                                        <th colspan="7" class="px-3 py-1.5 border border-slate-700 text-center" style="background-color: #064e3b !important; color: #ffffff !important; font-weight: 900 !important; letter-spacing: 0.5px !important;">HIỆU QUẢ GIỎ HÀNG (SKU/ORDER)</th>
+                                        <th colspan="7" class="px-3 py-1.5 border border-slate-700 text-center" style="background-color: #78350f !important; color: #ffffff !important; font-weight: 900 !important; letter-spacing: 0.5px !important;">ĐỘ PHỦ OUTLET (SKU/OUTLET)</th>
                                     </tr>
                                     <tr>
-                                        <th class="px-2.5 py-2 border border-slate-700 text-right bg-slate-800">Doanh Số (Tr)</th>
-                                        <th class="px-2.5 py-2 border border-slate-700 text-center bg-slate-800">Số Đơn</th>
-                                        <th class="px-2.5 py-2 border border-slate-700 text-right bg-slate-800">Drop Size (k)</th>
-                                        <th class="px-2.5 py-2 border border-slate-700 text-center bg-teal-950 font-black text-teal-300">SKU/Order</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 1 SKU</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 2 SKU</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 3 SKU</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 4 SKU</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 5+ SKU</th>
-                                        <th class="px-2.5 py-2 border border-slate-700 text-center bg-slate-800">Đơn 1 SKU</th>
-                                        <th class="px-2.5 py-2 border border-slate-700 text-center bg-slate-800">Outlets</th>
-                                        <th class="px-2.5 py-2 border border-slate-700 text-right bg-slate-800">DS TB (k)</th>
-                                        <th class="px-2.5 py-2 border border-slate-700 text-center bg-amber-950 font-black text-amber-300">SKU/Outlet</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 1 SKU</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 2 SKU</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 3 SKU</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 5+ SKU</th>
+                                        <th class="px-2.5 py-2 border border-slate-700 text-right" style="background-color: #1e293b !important; color: #ffffff !important; font-weight: 800 !important;">Doanh Số (Tr)</th>
+                                        <th class="px-2.5 py-2 border border-slate-700 text-center" style="background-color: #1e293b !important; color: #ffffff !important; font-weight: 800 !important;">Số Đơn</th>
+                                        <th class="px-2.5 py-2 border border-slate-700 text-right" style="background-color: #1e293b !important; color: #ffffff !important; font-weight: 800 !important;">Drop Size (k)</th>
+                                        <th class="px-2.5 py-2 border border-slate-700 text-center" style="background-color: #047857 !important; color: #fef08a !important; font-weight: 900 !important; font-size: 12px !important;">SKU/Order</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #065f46 !important; color: #ffffff !important; font-weight: 800 !important;">% 1 SKU</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #065f46 !important; color: #ffffff !important; font-weight: 800 !important;">% 2 SKU</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #065f46 !important; color: #ffffff !important; font-weight: 800 !important;">% 3 SKU</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #065f46 !important; color: #ffffff !important; font-weight: 800 !important;">% 4 SKU</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #065f46 !important; color: #ffffff !important; font-weight: 800 !important;">% 5+ SKU</th>
+                                        <th class="px-2.5 py-2 border border-slate-700 text-center" style="background-color: #065f46 !important; color: #ffffff !important; font-weight: 800 !important;">Đơn 1 SKU</th>
+                                        <th class="px-2.5 py-2 border border-slate-700 text-center" style="background-color: #1e293b !important; color: #ffffff !important; font-weight: 800 !important;">Outlets</th>
+                                        <th class="px-2.5 py-2 border border-slate-700 text-right" style="background-color: #1e293b !important; color: #ffffff !important; font-weight: 800 !important;">DS TB (k)</th>
+                                        <th class="px-2.5 py-2 border border-slate-700 text-center" style="background-color: #b45309 !important; color: #fef08a !important; font-weight: 900 !important; font-size: 12px !important;">SKU/Outlet</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #92400e !important; color: #ffffff !important; font-weight: 800 !important;">% 1 SKU</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #92400e !important; color: #ffffff !important; font-weight: 800 !important;">% 2 SKU</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #92400e !important; color: #ffffff !important; font-weight: 800 !important;">% 3 SKU</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #92400e !important; color: #ffffff !important; font-weight: 800 !important;">% 5+ SKU</th>
                                     </tr>
                                 </thead>
                                 <tbody id="basket-tree-tbody" class="divide-y divide-slate-100">
@@ -1283,31 +1292,31 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                         <div class="scroll-helper">Vuốt ngang để xem thêm ➡️</div>
                         <div class="pivot-scroll-container max-h-[650px] overflow-auto border border-slate-200 rounded-lg shadow-sm">
                             <table id="basket-monthly-table" class="w-full text-xs text-left text-slate-600 border-collapse sticky-table">
-                                <thead class="text-[11px] uppercase bg-slate-800 text-white font-bold sticky top-0 z-20">
+                                <thead class="text-[11px] uppercase font-bold sticky top-0 z-20">
                                     <tr>
-                                        <th rowspan="2" class="px-3 py-2.5 border border-slate-700 sticky-col-left-0 col-w-100 bg-slate-800 text-center">Kỳ Tháng</th>
-                                        <th colspan="3" class="px-3 py-1.5 border border-slate-700 text-center bg-blue-900/90 text-blue-100">TỔNG QUAN DOANH SỐ</th>
-                                        <th colspan="7" class="px-3 py-1.5 border border-slate-700 text-center bg-teal-900/90 text-teal-100">HIỆU QUẢ GIỎ HÀNG (ORDER BASKET)</th>
-                                        <th colspan="7" class="px-3 py-1.5 border border-slate-700 text-center bg-amber-900/90 text-amber-100">ĐỘ PHỦ OUTLET (OUTLET BREADTH)</th>
+                                        <th rowspan="2" class="px-3 py-2.5 border border-slate-700 sticky-col-left-0 col-w-100 text-center" style="background-color: #0f172a !important; color: #ffffff !important; font-weight: 900 !important;">KỲ THÁNG</th>
+                                        <th colspan="3" class="px-3 py-1.5 border border-slate-700 text-center" style="background-color: #1e3a8a !important; color: #ffffff !important; font-weight: 900 !important; letter-spacing: 0.5px !important;">TỔNG QUAN DOANH SỐ</th>
+                                        <th colspan="7" class="px-3 py-1.5 border border-slate-700 text-center" style="background-color: #064e3b !important; color: #ffffff !important; font-weight: 900 !important; letter-spacing: 0.5px !important;">HIỆU QUẢ GIỎ HÀNG (SKU/ORDER)</th>
+                                        <th colspan="7" class="px-3 py-1.5 border border-slate-700 text-center" style="background-color: #78350f !important; color: #ffffff !important; font-weight: 900 !important; letter-spacing: 0.5px !important;">ĐỘ PHỦ OUTLET (SKU/OUTLET)</th>
                                     </tr>
                                     <tr>
-                                        <th class="px-3 py-2 border border-slate-700 text-right bg-slate-800">Doanh Số (Tr)</th>
-                                        <th class="px-3 py-2 border border-slate-700 text-center bg-slate-800">Tổng Đơn</th>
-                                        <th class="px-3 py-2 border border-slate-700 text-right bg-slate-800">Drop Size (k)</th>
-                                        <th class="px-3 py-2 border border-slate-700 text-center bg-teal-950 font-black text-teal-300">SKU/Order</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 1 SKU</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 2 SKU</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 3 SKU</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 4 SKU</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 5+ SKU</th>
-                                        <th class="px-2.5 py-2 border border-slate-700 text-center bg-slate-800">Đơn 1 SKU</th>
-                                        <th class="px-3 py-2 border border-slate-700 text-center bg-slate-800">Tổng Outlet</th>
-                                        <th class="px-3 py-2 border border-slate-700 text-right bg-slate-800">DS TB/Shop (k)</th>
-                                        <th class="px-3 py-2 border border-slate-700 text-center bg-amber-950 font-black text-amber-300">SKU/Outlet</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 1 SKU</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 2 SKU</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 3 SKU</th>
-                                        <th class="px-2 py-2 border border-slate-700 text-center bg-slate-800">% 5+ SKU</th>
+                                        <th class="px-3 py-2 border border-slate-700 text-right" style="background-color: #1e293b !important; color: #ffffff !important; font-weight: 800 !important;">Doanh Số (Tr)</th>
+                                        <th class="px-3 py-2 border border-slate-700 text-center" style="background-color: #1e293b !important; color: #ffffff !important; font-weight: 800 !important;">Tổng Đơn</th>
+                                        <th class="px-3 py-2 border border-slate-700 text-right" style="background-color: #1e293b !important; color: #ffffff !important; font-weight: 800 !important;">Drop Size (k)</th>
+                                        <th class="px-3 py-2 border border-slate-700 text-center" style="background-color: #047857 !important; color: #fef08a !important; font-weight: 900 !important; font-size: 12px !important;">SKU/Order</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #065f46 !important; color: #ffffff !important; font-weight: 800 !important;">% 1 SKU</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #065f46 !important; color: #ffffff !important; font-weight: 800 !important;">% 2 SKU</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #065f46 !important; color: #ffffff !important; font-weight: 800 !important;">% 3 SKU</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #065f46 !important; color: #ffffff !important; font-weight: 800 !important;">% 4 SKU</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #065f46 !important; color: #ffffff !important; font-weight: 800 !important;">% 5+ SKU</th>
+                                        <th class="px-2.5 py-2 border border-slate-700 text-center" style="background-color: #065f46 !important; color: #ffffff !important; font-weight: 800 !important;">Đơn 1 SKU</th>
+                                        <th class="px-3 py-2 border border-slate-700 text-center" style="background-color: #1e293b !important; color: #ffffff !important; font-weight: 800 !important;">Tổng Outlet</th>
+                                        <th class="px-3 py-2 border border-slate-700 text-right" style="background-color: #1e293b !important; color: #ffffff !important; font-weight: 800 !important;">DS TB/Shop (k)</th>
+                                        <th class="px-3 py-2 border border-slate-700 text-center" style="background-color: #b45309 !important; color: #fef08a !important; font-weight: 900 !important; font-size: 12px !important;">SKU/Outlet</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #92400e !important; color: #ffffff !important; font-weight: 800 !important;">% 1 SKU</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #92400e !important; color: #ffffff !important; font-weight: 800 !important;">% 2 SKU</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #92400e !important; color: #ffffff !important; font-weight: 800 !important;">% 3 SKU</th>
+                                        <th class="px-2 py-2 border border-slate-700 text-center" style="background-color: #92400e !important; color: #ffffff !important; font-weight: 800 !important;">% 5+ SKU</th>
                                     </tr>
                                 </thead>
                                 <tbody id="basket-monthly-tbody" class="divide-y divide-slate-100">
@@ -3236,7 +3245,8 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 renderCharts();
             }
             if (tabId === 'basket') {
-                renderBasketReport();
+                if (typeof updateBasketFromGlobalFilters === 'function') updateBasketFromGlobalFilters();
+                else if (typeof renderBasketReport === 'function') renderBasketReport();
             }
         }
         
@@ -4131,6 +4141,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
         }
         function renderDashboard() {
             const data = database[getBaseGeoNode()];
+            if (typeof updateBasketFromGlobalFilters === "function") updateBasketFromGlobalFilters();
             if (!data) return;
             const activeMonths = allMonths.filter(m => selectedMonths.has(m));
             let selloutSum = 0;
@@ -5978,6 +5989,309 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
             renderBasketHierarchyTree();
         }
 
+        function updateBasketKpis() {
+            const allRows = skuBasketHierarchyRaw.filter(r => r[H_COL.period] === currentBasketPeriod);
+            if (allRows.length === 0) return;
+
+            const reg = (document.getElementById('filt-region') ? document.getElementById('filt-region').value : 'Tất cả');
+            const vung = (document.getElementById('filt-vung') ? document.getElementById('filt-vung').value : 'Tất cả');
+            const off = (document.getElementById('filt-office') ? document.getElementById('filt-office').value : 'Tất cả');
+            const npp = (document.getElementById('filt-npp') ? document.getElementById('filt-npp').value : 'Tất cả');
+
+            let targetNode = null;
+            let geoLabel = 'Toàn quốc';
+
+            if (npp !== 'Tất cả') {
+                targetNode = allRows.find(r => r[H_COL.level] === 4 && (r[H_COL.name].toLowerCase() === npp.toLowerCase() || (r[H_COL.npp] && r[H_COL.npp].toLowerCase() === npp.toLowerCase())));
+                if (targetNode) geoLabel = 'NPP: ' + targetNode[H_COL.name];
+            } else if (off !== 'Tất cả') {
+                targetNode = allRows.find(r => r[H_COL.level] === 3 && (r[H_COL.name].toLowerCase() === off.toLowerCase() || (r[H_COL.office] && r[H_COL.office].toLowerCase() === off.toLowerCase())));
+                if (targetNode) geoLabel = 'Office: ' + targetNode[H_COL.name];
+            } else if (vung !== 'Tất cả') {
+                targetNode = allRows.find(r => r[H_COL.level] === 2 && (r[H_COL.name].toLowerCase() === vung.toLowerCase() || (r[H_COL.vung] && r[H_COL.vung].toLowerCase() === vung.toLowerCase())));
+                if (targetNode) geoLabel = 'Vùng: ' + targetNode[H_COL.name];
+            } else if (reg !== 'Tất cả') {
+                targetNode = allRows.find(r => r[H_COL.level] === 1 && (r[H_COL.name].toLowerCase() === reg.toLowerCase() || (r[H_COL.region] && r[H_COL.region].toLowerCase() === reg.toLowerCase())));
+                if (targetNode) geoLabel = 'Miền: ' + targetNode[H_COL.name];
+            }
+            if (!targetNode) {
+                targetNode = allRows.find(r => r[H_COL.level] === 0);
+            }
+            if (!targetNode) {
+                const m = skuBasketMonthly.find(x => x.period_key === currentBasketPeriod);
+                if (m) {
+                    targetNode = {
+                        [H_COL.val]: m.sellout_val,
+                        [H_COL.orders]: m.total_orders,
+                        [H_COL.dropsize]: m.dropsize,
+                        [H_COL.sku_ord]: m.sku_per_order,
+                        [H_COL.p_o1]: m.pct_ord_1sku,
+                        [H_COL.o1]: m.ord_1sku,
+                        [H_COL.outlets]: m.total_outlets,
+                        [H_COL.val_out]: m.val_per_outlet,
+                        [H_COL.sku_out]: m.sku_per_outlet,
+                        [H_COL.p_a5]: m.pct_out_5plus_sku,
+                        [H_COL.a5]: m.out_5plus_sku
+                    };
+                }
+            }
+            if (!targetNode) return;
+
+            const selloutEl = document.getElementById('kpi-basket-sellout');
+            const selloutSubEl = document.getElementById('kpi-basket-sellout-sub');
+            const ordersEl = document.getElementById('kpi-basket-orders');
+            const dropsizeEl = document.getElementById('kpi-basket-dropsize');
+            const skuOrderEl = document.getElementById('kpi-basket-sku-order');
+            const ord1skuEl = document.getElementById('kpi-basket-ord-1sku');
+            const outletsEl = document.getElementById('kpi-basket-outlets');
+            const valOutletEl = document.getElementById('kpi-basket-val-outlet');
+            const skuOutletEl = document.getElementById('kpi-basket-sku-outlet');
+            const out5skuEl = document.getElementById('kpi-basket-out-5sku');
+
+            if (selloutEl) selloutEl.innerText = (targetNode[H_COL.val] / 1e6).toLocaleString('vi-VN', {maximumFractionDigits: 0}) + ' Tr';
+            if (selloutSubEl) selloutSubEl.innerText = 'Phạm vi: ' + geoLabel + ' (' + currentBasketPeriod + ')';
+            if (ordersEl) ordersEl.innerText = (targetNode[H_COL.orders] || 0).toLocaleString('vi-VN') + ' đơn';
+            if (dropsizeEl) dropsizeEl.innerText = 'Drop size: ' + Math.round(targetNode[H_COL.dropsize] || 0).toLocaleString('vi-VN') + ' đ';
+
+            if (skuOrderEl) {
+                const skuVal = targetNode[H_COL.sku_ord] || 0;
+                skuOrderEl.innerText = skuVal.toFixed(2);
+                if (skuVal >= 2.0) skuOrderEl.className = 'text-xl font-black text-teal-600';
+                else if (skuVal >= 1.8) skuOrderEl.className = 'text-xl font-black text-amber-600';
+                else skuOrderEl.className = 'text-xl font-black text-rose-600';
+            }
+
+            if (ord1skuEl) {
+                const p1 = targetNode[H_COL.p_o1] || 0;
+                const o1 = targetNode[H_COL.o1] || 0;
+                ord1skuEl.innerHTML = 'Đơn 1 SKU: <b class="' + (p1 > 50 ? 'text-rose-600 font-bold' : 'text-slate-700 font-bold') + '">' + p1.toFixed(1) + '%</b> (' + o1.toLocaleString('vi-VN') + ')';
+            }
+
+            if (outletsEl) outletsEl.innerText = (targetNode[H_COL.outlets] || 0).toLocaleString('vi-VN') + ' shop';
+            if (valOutletEl) valOutletEl.innerText = 'DS TB/Shop: ' + Math.round((targetNode[H_COL.val_out] || 0) / 1e3).toLocaleString('vi-VN') + 'k';
+
+            if (skuOutletEl) {
+                const outVal = targetNode[H_COL.sku_out] || 0;
+                skuOutletEl.innerText = outVal.toFixed(2);
+                if (outVal >= 3.0) skuOutletEl.className = 'text-xl font-black text-emerald-600';
+                else if (outVal >= 2.0) skuOutletEl.className = 'text-xl font-black text-sky-600';
+                else skuOutletEl.className = 'text-xl font-black text-slate-700';
+            }
+
+            if (out5skuEl) {
+                const p5 = targetNode[H_COL.p_a5] || 0;
+                const a5 = targetNode[H_COL.a5] || 0;
+                out5skuEl.innerHTML = 'Shop mua ≥5 SKU: <b class="text-amber-800 font-bold">' + p5.toFixed(1) + '%</b> (' + a5.toLocaleString('vi-VN') + ')';
+            }
+        }
+
+        function updateBasketFromGlobalFilters() {
+            if (typeof initBasketTab === 'function') initBasketTab();
+            // 1. Đồng bộ thời gian từ thanh chọn tháng phía trên
+            if (typeof allMonths !== 'undefined' && typeof selectedMonths !== 'undefined') {
+                const activeMonths = allMonths.filter(m => selectedMonths.has(m));
+                if (activeMonths.length > 0) {
+                    const lastM = activeMonths[activeMonths.length - 1];
+                    if (skuBasketMonthly.some(x => x.period_key === lastM) && lastM !== currentBasketPeriod) {
+                        currentBasketPeriod = lastM;
+                        const selPeriod = document.getElementById('basket-period-select');
+                        if (selPeriod) selPeriod.value = currentBasketPeriod;
+                    }
+                }
+            }
+            updateBasketKpis();
+            renderBasketHierarchyTree();
+        }
+
+        function renderBasketHierarchyTree() {
+            const tbody = document.getElementById('basket-tree-tbody');
+            const countIndicator = document.getElementById('basket-tree-count-indicator');
+            if (!tbody) return;
+
+            const allRows = skuBasketHierarchyRaw.filter(r => r[H_COL.period] === currentBasketPeriod);
+            if (allRows.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="18" class="p-8 text-center text-slate-400">Không có dữ liệu cho kỳ này.</td></tr>';
+                return;
+            }
+
+            const idMap = new Map();
+            const childrenMap = new Map();
+            allRows.forEach(r => {
+                idMap.set(r[H_COL.id], r);
+                const pid = r[H_COL.pid] || '';
+                if (!childrenMap.has(pid)) childrenMap.set(pid, []);
+                childrenMap.get(pid).push(r);
+            });
+
+            // Lấy Root Node dựa theo bộ lọc địa lý hiện tại
+            const reg = (document.getElementById('filt-region') ? document.getElementById('filt-region').value : 'Tất cả');
+            const vung = (document.getElementById('filt-vung') ? document.getElementById('filt-vung').value : 'Tất cả');
+            const off = (document.getElementById('filt-office') ? document.getElementById('filt-office').value : 'Tất cả');
+            const npp = (document.getElementById('filt-npp') ? document.getElementById('filt-npp').value : 'Tất cả');
+
+            let rootNodes = [];
+            if (npp !== 'Tất cả') {
+                rootNodes = allRows.filter(r => r[H_COL.level] === 4 && (r[H_COL.name].toLowerCase() === npp.toLowerCase() || (r[H_COL.npp] && r[H_COL.npp].toLowerCase() === npp.toLowerCase())));
+            } else if (off !== 'Tất cả') {
+                rootNodes = allRows.filter(r => r[H_COL.level] === 3 && (r[H_COL.name].toLowerCase() === off.toLowerCase() || (r[H_COL.office] && r[H_COL.office].toLowerCase() === off.toLowerCase())));
+            } else if (vung !== 'Tất cả') {
+                rootNodes = allRows.filter(r => r[H_COL.level] === 2 && (r[H_COL.name].toLowerCase() === vung.toLowerCase() || (r[H_COL.vung] && r[H_COL.vung].toLowerCase() === vung.toLowerCase())));
+            } else if (reg !== 'Tất cả') {
+                rootNodes = allRows.filter(r => r[H_COL.level] === 1 && (r[H_COL.name].toLowerCase() === reg.toLowerCase() || (r[H_COL.region] && r[H_COL.region].toLowerCase() === reg.toLowerCase())));
+            }
+            if (rootNodes.length === 0) {
+                rootNodes = allRows.filter(r => r[H_COL.level] === 0 || !r[H_COL.pid]);
+            }
+
+            // Đảm bảo nút root luôn mở
+            rootNodes.forEach(rn => basketExpandedNodes.add(rn[H_COL.id]));
+
+            // THUẬT TOÁN DFS: Duyệt cây để con xuất hiện NGAY LIỀN KỀ BÊN DƯỚI CHA
+            const orderedRows = [];
+            function traverseTree(node) {
+                orderedRows.push(node);
+                const nodeId = node[H_COL.id];
+                const kids = childrenMap.get(nodeId) || [];
+                kids.forEach(k => traverseTree(k));
+            }
+            rootNodes.forEach(rn => traverseTree(rn));
+
+            // Xử lý tìm kiếm
+            let matchedIds = new Set();
+            let parentChain = new Set();
+            if (basketSearchTerm) {
+                allRows.forEach(r => {
+                    const textContent = (r[H_COL.name] + ' ' + (r[H_COL.region] || '') + ' ' + (r[H_COL.vung] || '') + ' ' + (r[H_COL.office] || '') + ' ' + (r[H_COL.npp] || '') + ' ' + (r[H_COL.sr] || '')).toLowerCase();
+                    if (textContent.includes(basketSearchTerm)) {
+                        matchedIds.add(r[H_COL.id]);
+                        let currP = r[H_COL.pid];
+                        while (currP && idMap.has(currP)) {
+                            parentChain.add(currP);
+                            currP = idMap.get(currP)[H_COL.pid];
+                        }
+                    }
+                });
+            }
+
+            let visibleRowsCount = 0;
+            let html = '';
+            const rootLevel = rootNodes[0] ? rootNodes[0][H_COL.level] : 0;
+
+            orderedRows.forEach(r => {
+                const lvl = r[H_COL.level];
+                const id = r[H_COL.id];
+                const pid = r[H_COL.pid];
+                const name = r[H_COL.name];
+
+                let isVisible = false;
+                if (basketSearchTerm) {
+                    isVisible = matchedIds.has(id) || parentChain.has(id);
+                } else {
+                    if (rootNodes.some(rn => rn[H_COL.id] === id)) {
+                        isVisible = true;
+                    } else {
+                        let p = pid;
+                        let allParentsExpanded = true;
+                        while (p && idMap.has(p)) {
+                            if (!basketExpandedNodes.has(p)) {
+                                allParentsExpanded = false;
+                                break;
+                            }
+                            if (rootNodes.some(rn => rn[H_COL.id] === p)) break;
+                            p = idMap.get(p)[H_COL.pid];
+                        }
+                        isVisible = allParentsExpanded;
+                    }
+                }
+
+                if (!isVisible) return;
+                visibleRowsCount++;
+
+                const isExpanded = basketExpandedNodes.has(id) || (basketSearchTerm && parentChain.has(id));
+                const hasChildren = (childrenMap.get(id) || []).length > 0;
+                const isLeaf = !hasChildren || (lvl === 5);
+
+                let rowBg = 'bg-white';
+                let fontClass = 'text-slate-700';
+                let badgeLvl = '';
+                let indentPx = Math.max(0, lvl - rootLevel) * 18;
+
+                if (lvl === 0) {
+                    rowBg = 'bg-slate-900 text-white font-black';
+                    fontClass = 'text-white font-black';
+                    badgeLvl = '<span class="px-1.5 py-0.5 text-[9px] font-extrabold bg-blue-600 text-white rounded shadow-sm">TOÀN QUỐC</span>';
+                } else if (lvl === 1) {
+                    rowBg = 'bg-blue-50/90 font-bold border-t-2 border-blue-300';
+                    fontClass = 'text-blue-950 font-extrabold';
+                    badgeLvl = '<span class="px-1.5 py-0.5 text-[9px] font-bold bg-blue-200 text-blue-900 rounded">MIỀN</span>';
+                } else if (lvl === 2) {
+                    rowBg = 'bg-sky-50/70 font-semibold';
+                    fontClass = 'text-sky-950 font-bold';
+                    badgeLvl = '<span class="px-1.5 py-0.5 text-[9px] font-bold bg-sky-200 text-sky-800 rounded">VÙNG</span>';
+                } else if (lvl === 3) {
+                    rowBg = 'bg-emerald-50/40 font-medium';
+                    fontClass = 'text-emerald-950 font-semibold';
+                    badgeLvl = '<span class="px-1.5 py-0.5 text-[9px] font-bold bg-emerald-100 text-emerald-800 rounded">OFFICE</span>';
+                } else if (lvl === 4) {
+                    rowBg = 'hover:bg-amber-50/40';
+                    fontClass = 'text-slate-800 font-medium';
+                    badgeLvl = '<span class="px-1.5 py-0.5 text-[9px] font-normal bg-amber-100/90 text-amber-900 rounded">NPP</span>';
+                } else {
+                    rowBg = 'hover:bg-teal-50/30';
+                    fontClass = 'text-slate-600';
+                    badgeLvl = '<span class="text-slate-400 font-bold">•</span>';
+                }
+
+                let caret = '';
+                if (!isLeaf) {
+                    caret = '<button type="button" data-basket-id="' + id + '" onclick="event.stopPropagation(); toggleBasketNode(this.dataset.basketId)" class="w-4 h-4 inline-flex items-center justify-center rounded hover:bg-slate-300/60 text-slate-600 font-bold text-[10px] mr-1 focus:outline-none">' + (isExpanded ? '▼' : '▶') + '</button>';
+                } else {
+                    caret = '<span class="w-4 inline-block mr-1"></span>';
+                }
+
+                const skuOrd = r[H_COL.sku_ord];
+                const badgeOrd = skuOrd >= 2.0 ? 'bg-teal-100 text-teal-900 font-extrabold' : (skuOrd >= 1.7 ? 'bg-amber-100 text-amber-900 font-bold' : 'bg-rose-100 text-rose-900 font-black');
+                
+                const skuOut = r[H_COL.sku_out];
+                const badgeOut = skuOut >= 3.0 ? 'bg-emerald-100 text-emerald-900 font-extrabold' : (skuOut >= 2.0 ? 'bg-sky-100 text-sky-900 font-bold' : 'bg-slate-200 text-slate-800 font-bold');
+
+                const p1 = r[H_COL.p_o1];
+                const alert1 = (p1 > 50.0 && lvl >= 3) ? 'text-rose-600 font-black bg-rose-50' : (p1 > 50.0 ? 'text-rose-600 font-bold' : 'text-slate-700');
+
+                html += '<tr class="' + rowBg + ' border-b border-slate-100 transition cursor-pointer" data-basket-id="' + id + '" onclick="toggleBasketNode(this.dataset.basketId)">' +
+                    '<td class="py-2 pr-2 border border-slate-200 sticky-col-left-0 col-w-260 bg-inherit" style="padding-left: ' + (indentPx + 8) + 'px;">' +
+                        '<div class="flex items-center space-x-1 overflow-hidden whitespace-nowrap text-ellipsis">' +
+                            caret +
+                            badgeLvl +
+                            '<span class="' + fontClass + ' text-xs ml-1" title="' + name + '">' + name + '</span>' +
+                        '</div>' +
+                    '</td>' +
+                    '<td class="px-2.5 py-2 border border-slate-200 text-right font-medium">' + (r[H_COL.val]/1e6).toLocaleString('vi-VN', {maximumFractionDigits: 0}) + '</td>' +
+                    '<td class="px-2.5 py-2 border border-slate-200 text-center font-medium">' + r[H_COL.orders].toLocaleString('vi-VN') + '</td>' +
+                    '<td class="px-2.5 py-2 border border-slate-200 text-right">' + Math.round(r[H_COL.dropsize]/1e3).toLocaleString('vi-VN') + 'k</td>' +
+                    '<td class="px-2.5 py-2 border border-slate-200 text-center"><span class="px-2 py-0.5 rounded text-[11px] ' + badgeOrd + '">' + skuOrd.toFixed(2) + '</span></td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center ' + alert1 + '">' + p1.toFixed(1) + '%</td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center">' + r[H_COL.p_o2].toFixed(1) + '%</td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center">' + r[H_COL.p_o3].toFixed(1) + '%</td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center">' + r[H_COL.p_o4].toFixed(1) + '%</td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center font-semibold text-teal-800">' + r[H_COL.p_o5].toFixed(1) + '%</td>' +
+                    '<td class="px-2.5 py-2 border border-slate-200 text-center ' + (r[H_COL.o1] > 0 && lvl >= 3 ? 'text-rose-600 font-bold' : 'text-slate-500') + '">' + r[H_COL.o1].toLocaleString('vi-VN') + '</td>' +
+                    '<td class="px-2.5 py-2 border border-slate-200 text-center font-medium">' + r[H_COL.outlets].toLocaleString('vi-VN') + '</td>' +
+                    '<td class="px-2.5 py-2 border border-slate-200 text-right">' + Math.round(r[H_COL.val_out]/1e3).toLocaleString('vi-VN') + 'k</td>' +
+                    '<td class="px-2.5 py-2 border border-slate-200 text-center"><span class="px-2 py-0.5 rounded text-[11px] ' + badgeOut + '">' + skuOut.toFixed(2) + '</span></td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center text-slate-500">' + r[H_COL.p_a1].toFixed(1) + '%</td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center">' + r[H_COL.p_a2].toFixed(1) + '%</td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center">' + r[H_COL.p_a3].toFixed(1) + '%</td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center font-bold text-amber-800">' + r[H_COL.p_a5].toFixed(1) + '%</td>' +
+                '</tr>';
+            });
+
+            tbody.innerHTML = html;
+            if (countIndicator) {
+                countIndicator.innerText = 'Hiển thị ' + visibleRowsCount.toLocaleString('vi-VN') + ' / ' + allRows.length.toLocaleString('vi-VN') + ' dòng (Kỳ ' + currentBasketPeriod + ')';
+            }
+        }
+
         function toggleBasketNode(nodeId) {
             if (basketExpandedNodes.has(nodeId)) {
                 basketExpandedNodes.delete(nodeId);
@@ -5997,257 +6311,15 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
 
         function collapseAllBasketNodes() {
             basketExpandedNodes.clear();
-            basketExpandedNodes.add('NAT');
             renderBasketHierarchyTree();
         }
 
-        function updateBasketKpis() {
-            const m = skuBasketMonthly.find(x => x.period_key === currentBasketPeriod);
-            if (!m) return;
-            
-            document.getElementById('kpi-basket-sellout').innerText = (m.sellout_val / 1e6).toLocaleString('vi-VN', {maximumFractionDigits: 0}) + ' Tr';
-            document.getElementById('kpi-basket-orders').innerText = m.total_orders.toLocaleString('vi-VN') + ' đơn';
-            document.getElementById('kpi-basket-dropsize').innerText = 'Drop size: ' + Math.round(m.dropsize).toLocaleString('vi-VN') + ' đ';
-            
-            const skuOrdEl = document.getElementById('kpi-basket-sku-order');
-            skuOrdEl.innerText = m.sku_per_order.toFixed(2);
-            if (m.sku_per_order >= 2.0) skuOrdEl.className = 'text-xl font-black text-teal-600';
-            else if (m.sku_per_order >= 1.8) skuOrdEl.className = 'text-xl font-black text-amber-600';
-            else skuOrdEl.className = 'text-xl font-black text-rose-600';
-            
-            const p1 = m.pct_ord_1sku;
-            document.getElementById('kpi-basket-ord-1sku').innerHTML = 'Đơn 1 SKU: <b>' + p1.toFixed(1) + '%</b> (' + m.ord_1sku.toLocaleString('vi-VN') + ') ' + (p1 > 50 ? '⚠️' : '✅');
-            
-            document.getElementById('kpi-basket-outlets').innerText = m.total_outlets.toLocaleString('vi-VN') + ' shop';
-            document.getElementById('kpi-basket-val-outlet').innerText = 'DS TB/Shop: ' + Math.round(m.val_per_outlet / 1e3).toLocaleString('vi-VN') + 'k';
-            
-            const skuOutEl = document.getElementById('kpi-basket-sku-outlet');
-            skuOutEl.innerText = m.sku_per_outlet.toFixed(2);
-            document.getElementById('kpi-basket-out-5sku').innerText = 'Shop mua ≥5 SKU: ' + m.pct_out_5plus_sku.toFixed(1) + '% (' + m.out_5plus_sku.toLocaleString('vi-VN') + ')';
-        }
-
-        function renderBasketReport() {
-            initBasketTab();
-            updateBasketKpis();
-            renderBasketHierarchyTree();
-            renderBasketMonthlyTable();
-        }
-
-        function renderBasketMonthlyTable() {
-            const tbody = document.getElementById('basket-monthly-tbody');
-            const tfoot = document.getElementById('basket-monthly-tfoot');
-            if (!tbody || !tfoot) return;
-
-            let html = '';
-            let sumVal = 0, sumOrders = 0, sum1 = 0, sum2 = 0, sum3 = 0, sum4 = 0, sum5 = 0;
-            let sumOutlets = 0, sumOut1 = 0, sumOut2 = 0, sumOut3 = 0, sumOut4 = 0, sumOut5 = 0;
-            
-            skuBasketMonthly.forEach((m, idx) => {
-                sumVal += m.sellout_val;
-                sumOrders += m.total_orders;
-                sum1 += m.ord_1sku; sum2 += m.ord_2sku; sum3 += m.ord_3sku; sum4 += m.ord_4sku; sum5 += m.ord_5plus_sku;
-                sumOutlets += m.total_outlets;
-                sumOut1 += m.out_1sku; sumOut2 += m.out_2sku; sumOut3 += m.out_3sku; sumOut4 += m.out_4sku; sumOut5 += m.out_5plus_sku;
-
-                const isCur = m.period_key === currentBasketPeriod;
-                const rowBg = isCur ? 'bg-teal-50/70 font-semibold' : (idx % 2 === 1 ? 'bg-slate-50/50' : 'bg-white');
-                const badgeOrd = m.sku_per_order >= 2.0 ? 'bg-teal-100 text-teal-800' : (m.sku_per_order >= 1.8 ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-800');
-                const badgeOut = m.sku_per_outlet >= 3.0 ? 'bg-emerald-100 text-emerald-800' : (m.sku_per_outlet >= 2.2 ? 'bg-sky-100 text-sky-800' : 'bg-slate-100 text-slate-800');
-                const alert1 = m.pct_ord_1sku > 50 ? 'text-rose-600 font-bold' : 'text-slate-700';
-
-                html += '<tr class="' + rowBg + ' hover:bg-teal-50/40 transition">' +
-                    '<td class="px-3 py-2 border border-slate-200 text-center font-bold sticky-col-left-0 bg-inherit">' + m.period + '</td>' +
-                    '<td class="px-3 py-2 border border-slate-200 text-right font-medium">' + (m.sellout_val/1e6).toLocaleString('vi-VN', {maximumFractionDigits: 0}) + '</td>' +
-                    '<td class="px-3 py-2 border border-slate-200 text-center">' + m.total_orders.toLocaleString('vi-VN') + '</td>' +
-                    '<td class="px-3 py-2 border border-slate-200 text-right">' + Math.round(m.dropsize/1e3).toLocaleString('vi-VN') + 'k</td>' +
-                    '<td class="px-3 py-2 border border-slate-200 text-center"><span class="px-2 py-0.5 rounded text-[11px] font-black ' + badgeOrd + '">' + m.sku_per_order.toFixed(2) + '</span></td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center ' + alert1 + '">' + m.pct_ord_1sku.toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center">' + m.pct_ord_2sku.toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center">' + m.pct_ord_3sku.toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center">' + m.pct_ord_4sku.toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center font-semibold text-teal-700">' + m.pct_ord_5plus_sku.toFixed(1) + '%</td>' +
-                    '<td class="px-2.5 py-2 border border-slate-200 text-center text-slate-500">' + m.ord_1sku.toLocaleString('vi-VN') + '</td>' +
-                    '<td class="px-3 py-2 border border-slate-200 text-center font-medium">' + m.total_outlets.toLocaleString('vi-VN') + '</td>' +
-                    '<td class="px-3 py-2 border border-slate-200 text-right">' + Math.round(m.val_per_outlet/1e3).toLocaleString('vi-VN') + 'k</td>' +
-                    '<td class="px-3 py-2 border border-slate-200 text-center"><span class="px-2 py-0.5 rounded text-[11px] font-black ' + badgeOut + '">' + m.sku_per_outlet.toFixed(2) + '</span></td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center text-slate-500">' + m.pct_out_1sku.toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center">' + m.pct_out_2sku.toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center">' + m.pct_out_3sku.toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center font-bold text-amber-700">' + m.pct_out_5plus_sku.toFixed(1) + '%</td>' +
-                '</tr>';
-            });
-            tbody.innerHTML = html;
-
-            const n = skuBasketMonthly.length;
-            const avgDrop = sumOrders > 0 ? (sumVal / sumOrders) : 0;
-            const avgSkuOrd = (skuBasketMonthly.reduce((a, b) => a + b.sku_per_order, 0) / n).toFixed(2);
-            const avgSkuOut = (skuBasketMonthly.reduce((a, b) => a + b.sku_per_outlet, 0) / n).toFixed(2);
-            
-            tfoot.innerHTML = '<tr class="bg-slate-200 text-slate-900 font-bold border-t-2 border-slate-400">' +
-                '<td class="px-3 py-2.5 border border-slate-300 text-center sticky-col-left-0 bg-slate-200">TỔNG / TB</td>' +
-                '<td class="px-3 py-2.5 border border-slate-300 text-right">' + (sumVal/1e6).toLocaleString('vi-VN', {maximumFractionDigits: 0}) + '</td>' +
-                '<td class="px-3 py-2.5 border border-slate-300 text-center">' + sumOrders.toLocaleString('vi-VN') + '</td>' +
-                '<td class="px-3 py-2.5 border border-slate-300 text-right">' + Math.round(avgDrop/1e3).toLocaleString('vi-VN') + 'k</td>' +
-                '<td class="px-3 py-2.5 border border-slate-300 text-center"><span class="px-2 py-0.5 rounded text-[11px] font-black bg-teal-800 text-white">' + avgSkuOrd + '</span></td>' +
-                '<td class="px-2 py-2.5 border border-slate-300 text-center">' + (sum1*100/sumOrders).toFixed(1) + '%</td>' +
-                '<td class="px-2 py-2.5 border border-slate-300 text-center">' + (sum2*100/sumOrders).toFixed(1) + '%</td>' +
-                '<td class="px-2 py-2.5 border border-slate-300 text-center">' + (sum3*100/sumOrders).toFixed(1) + '%</td>' +
-                '<td class="px-2 py-2.5 border border-slate-300 text-center">' + (sum4*100/sumOrders).toFixed(1) + '%</td>' +
-                '<td class="px-2 py-2.5 border border-slate-300 text-center">' + (sum5*100/sumOrders).toFixed(1) + '%</td>' +
-                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + sum1.toLocaleString('vi-VN') + '</td>' +
-                '<td class="px-3 py-2.5 border border-slate-300 text-center">' + Math.round(sumOutlets/n).toLocaleString('vi-VN') + '</td>' +
-                '<td class="px-3 py-2.5 border border-slate-300 text-right">' + Math.round(sumVal/sumOutlets/1e3).toLocaleString('vi-VN') + 'k</td>' +
-                '<td class="px-3 py-2.5 border border-slate-300 text-center"><span class="px-2 py-0.5 rounded text-[11px] font-black bg-amber-800 text-white">' + avgSkuOut + '</span></td>' +
-                '<td class="px-2 py-2.5 border border-slate-300 text-center">' + (sumOut1*100/sumOutlets).toFixed(1) + '%</td>' +
-                '<td class="px-2 py-2.5 border border-slate-300 text-center">' + (sumOut2*100/sumOutlets).toFixed(1) + '%</td>' +
-                '<td class="px-2 py-2.5 border border-slate-300 text-center">' + (sumOut3*100/sumOutlets).toFixed(1) + '%</td>' +
-                '<td class="px-2 py-2.5 border border-slate-300 text-center">' + (sumOut5*100/sumOutlets).toFixed(1) + '%</td>' +
-            '</tr>';
-        }
-
-        function renderBasketHierarchyTree() {
-            const tbody = document.getElementById('basket-tree-tbody');
-            const countIndicator = document.getElementById('basket-tree-count-indicator');
-            if (!tbody) return;
-
-            const allRows = skuBasketHierarchyRaw.filter(r => r[H_COL.period] === currentBasketPeriod);
-            if (allRows.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="18" class="p-8 text-center text-slate-400">Không có dữ liệu cho kỳ này.</td></tr>';
-                return;
-            }
-
-            let matchedIds = new Set();
-            let parentChain = new Set();
-            const idMap = new Map();
-            allRows.forEach(r => idMap.set(r[H_COL.id], r));
-
-            if (basketSearchTerm) {
-                allRows.forEach(r => {
-                    const textContent = (r[H_COL.name] + ' ' + r[H_COL.region] + ' ' + r[H_COL.vung] + ' ' + r[H_COL.office] + ' ' + r[H_COL.npp] + ' ' + r[H_COL.sr]).toLowerCase();
-                    if (textContent.includes(basketSearchTerm)) {
-                        matchedIds.add(r[H_COL.id]);
-                        let currP = r[H_COL.pid];
-                        while (currP && idMap.has(currP)) {
-                            parentChain.add(currP);
-                            currP = idMap.get(currP)[H_COL.pid];
-                        }
-                    }
-                });
-            }
-
-            let visibleRowsCount = 0;
-            let html = '';
-
-            allRows.forEach(r => {
-                const lvl = r[H_COL.level];
-                const id = r[H_COL.id];
-                const pid = r[H_COL.pid];
-                const name = r[H_COL.name];
-
-                let isVisible = false;
-                if (basketSearchTerm) {
-                    isVisible = matchedIds.has(id) || parentChain.has(id);
-                } else {
-                    if (lvl === 0) {
-                        isVisible = true;
-                    } else {
-                        let p = pid;
-                        let allParentsExpanded = true;
-                        while (p && idMap.has(p)) {
-                            if (!basketExpandedNodes.has(p)) {
-                                allParentsExpanded = false;
-                                break;
-                            }
-                            p = idMap.get(p)[H_COL.pid];
-                        }
-                        isVisible = allParentsExpanded;
-                    }
-                }
-
-                if (!isVisible) return;
-                visibleRowsCount++;
-
-                const isExpanded = basketExpandedNodes.has(id) || (basketSearchTerm && parentChain.has(id));
-                const isLeaf = (lvl === 5);
-
-                let rowBg = 'bg-white';
-                let fontClass = 'text-slate-700';
-                let badgeLvl = '';
-                let indentPx = lvl * 18;
-
-                if (lvl === 0) {
-                    rowBg = 'bg-slate-800 text-white font-black';
-                    fontClass = 'text-white font-black';
-                    badgeLvl = '<span class="px-1.5 py-0.5 text-[9px] font-extrabold bg-blue-500 text-white rounded">TOÀN QUỐC</span>';
-                } else if (lvl === 1) {
-                    rowBg = 'bg-blue-50/80 font-bold border-t border-blue-200';
-                    fontClass = 'text-blue-900 font-bold';
-                    badgeLvl = '<span class="px-1.5 py-0.5 text-[9px] font-bold bg-blue-100 text-blue-700 rounded">MIỀN</span>';
-                } else if (lvl === 2) {
-                    rowBg = 'bg-sky-50/50 font-bold';
-                    fontClass = 'text-sky-900 font-bold';
-                    badgeLvl = '<span class="px-1.5 py-0.5 text-[9px] font-bold bg-sky-100 text-sky-700 rounded">VÙNG</span>';
-                } else if (lvl === 3) {
-                    rowBg = 'bg-emerald-50/40 font-semibold';
-                    fontClass = 'text-emerald-950 font-semibold';
-                    badgeLvl = '<span class="px-1.5 py-0.5 text-[9px] font-medium bg-emerald-100 text-emerald-800 rounded">OFFICE</span>';
-                } else if (lvl === 4) {
-                    rowBg = 'bg-amber-50/30';
-                    fontClass = 'text-slate-800 font-medium';
-                    badgeLvl = '<span class="px-1.5 py-0.5 text-[9px] font-normal bg-amber-100/80 text-amber-800 rounded">NPP</span>';
-                } else {
-                    rowBg = 'hover:bg-teal-50/30';
-                    fontClass = 'text-slate-600';
-                    badgeLvl = '<span class="text-slate-400">•</span>';
-                }
-
-                let caret = '';
-                if (!isLeaf) {
-                    caret = '<button type="button" data-basket-id="' + id + '" onclick="event.stopPropagation(); toggleBasketNode(this.dataset.basketId)" class="w-4 h-4 inline-flex items-center justify-center rounded hover:bg-slate-200/60 text-slate-500 font-bold text-[10px] mr-1 focus:outline-none">' + (isExpanded ? '▼' : '▶') + '</button>';
-                } else {
-                    caret = '<span class="w-4 inline-block mr-1"></span>';
-                }
-
-                const skuOrd = r[H_COL.sku_ord];
-                const badgeOrd = skuOrd >= 2.0 ? 'bg-teal-100 text-teal-800 font-bold' : (skuOrd >= 1.7 ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-800 font-bold');
-                
-                const skuOut = r[H_COL.sku_out];
-                const badgeOut = skuOut >= 3.0 ? 'bg-emerald-100 text-emerald-800 font-bold' : (skuOut >= 2.0 ? 'bg-sky-100 text-sky-800' : 'bg-slate-100 text-slate-700');
-
-                const p1 = r[H_COL.p_o1];
-                const alert1 = (p1 > 50.0 && lvl >= 3) ? 'text-rose-600 font-black' : (p1 > 50.0 ? 'text-rose-600 font-bold' : 'text-slate-700');
-
-                html += '<tr class="' + rowBg + ' border-b border-slate-100 transition cursor-pointer" data-basket-id="' + id + '" onclick="toggleBasketNode(this.dataset.basketId)">' +
-                    '<td class="py-2 pr-2 border border-slate-200 sticky-col-left-0 col-w-260 bg-inherit" style="padding-left: ' + (indentPx + 8) + 'px;">' +
-                        '<div class="flex items-center space-x-1 overflow-hidden whitespace-nowrap text-ellipsis">' +
-                            caret +
-                            badgeLvl +
-                            '<span class="' + fontClass + ' text-xs ml-1" title="' + name + '">' + name + '</span>' +
-                        '</div>' +
-                    '</td>' +
-                    '<td class="px-2.5 py-2 border border-slate-200 text-right font-medium">' + (r[H_COL.val]/1e6).toLocaleString('vi-VN', {maximumFractionDigits: 0}) + '</td>' +
-                    '<td class="px-2.5 py-2 border border-slate-200 text-center">' + r[H_COL.orders].toLocaleString('vi-VN') + '</td>' +
-                    '<td class="px-2.5 py-2 border border-slate-200 text-right">' + Math.round(r[H_COL.dropsize]/1e3).toLocaleString('vi-VN') + 'k</td>' +
-                    '<td class="px-2.5 py-2 border border-slate-200 text-center"><span class="px-2 py-0.5 rounded text-[11px] ' + badgeOrd + '">' + skuOrd.toFixed(2) + '</span></td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center ' + alert1 + '">' + p1.toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center">' + r[H_COL.p_o2].toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center">' + r[H_COL.p_o3].toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center">' + r[H_COL.p_o4].toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center font-semibold text-teal-700">' + r[H_COL.p_o5].toFixed(1) + '%</td>' +
-                    '<td class="px-2.5 py-2 border border-slate-200 text-center text-slate-500">' + r[H_COL.o1].toLocaleString('vi-VN') + '</td>' +
-                    '<td class="px-2.5 py-2 border border-slate-200 text-center font-medium">' + r[H_COL.outlets].toLocaleString('vi-VN') + '</td>' +
-                    '<td class="px-2.5 py-2 border border-slate-200 text-right">' + Math.round(r[H_COL.val_out]/1e3).toLocaleString('vi-VN') + 'k</td>' +
-                    '<td class="px-2.5 py-2 border border-slate-200 text-center"><span class="px-2 py-0.5 rounded text-[11px] ' + badgeOut + '">' + skuOut.toFixed(2) + '</span></td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center text-slate-500">' + r[H_COL.p_a1].toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center">' + r[H_COL.p_a2].toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center">' + r[H_COL.p_a3].toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center font-bold text-amber-700">' + r[H_COL.p_a5].toFixed(1) + '%</td>' +
-                '</tr>';
-            });
-
-            tbody.innerHTML = html;
-            if (countIndicator) {
-                countIndicator.innerText = 'Hiển thị ' + visibleRowsCount.toLocaleString('vi-VN') + ' / ' + allRows.length.toLocaleString('vi-VN') + ' dòng (Kỳ ' + currentBasketPeriod + ')';
+        function onBasketPeriodChange() {
+            const selectEl = document.getElementById('basket-period-select');
+            if (selectEl) {
+                currentBasketPeriod = selectEl.value;
+                updateBasketKpis();
+                renderBasketHierarchyTree();
             }
         }
 
