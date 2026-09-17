@@ -1287,24 +1287,53 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                         </div>
                     </div>
 
-                    <!-- SUBTAB 2: MONTHLY TREND TABLE -->
+                    <!-- SUBTAB 2: MONTHLY TREND TABLE (HIERARCHY TREE + MONTHS) -->
                     <div id="basket-subtab-monthly" class="hidden p-5 space-y-4">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <h4 class="text-sm font-bold text-slate-800">📅 Bảng Tổng Hợp Xu Hướng Theo Từng Tháng (01/2025 – Nay)</h4>
-                                <p class="text-[11px] text-slate-500">Đối chiếu và theo dõi biến động chỉ số SKU/Order và SKU/Outlet qua 21 kỳ hoạt động của CJ Foods</p>
+                        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 bg-slate-50 p-3 rounded-lg border border-slate-200">
+                            <div class="flex flex-wrap items-center gap-2.5">
+                                <div class="flex items-center space-x-1.5">
+                                    <button type="button" onclick="expandAllMonthlyTree()" class="px-2.5 py-1.5 bg-white hover:bg-slate-100 text-slate-700 text-xs font-bold rounded border border-slate-300 shadow-sm transition flex items-center space-x-1">
+                                        <span>[+]</span>
+                                        <span>Bung địa bàn</span>
+                                    </button>
+                                    <button type="button" onclick="collapseAllMonthlyTree()" class="px-2.5 py-1.5 bg-white hover:bg-slate-100 text-slate-700 text-xs font-bold rounded border border-slate-300 shadow-sm transition flex items-center space-x-1">
+                                        <span>[-]</span>
+                                        <span>Thu gọn</span>
+                                    </button>
+                                </div>
+                                <div class="h-5 w-px bg-slate-300 hidden sm:block"></div>
+                                <div class="flex items-center space-x-1.5">
+                                    <button type="button" onclick="expandAllMonthlyMonths()" class="px-2.5 py-1.5 bg-teal-50 hover:bg-teal-100 text-teal-800 text-xs font-bold rounded border border-teal-300 shadow-sm transition flex items-center space-x-1">
+                                        <span>📅</span>
+                                        <span>Hiện tất cả tháng</span>
+                                    </button>
+                                    <button type="button" onclick="collapseAllMonthlyMonths()" class="px-2.5 py-1.5 bg-white hover:bg-slate-100 text-slate-600 text-xs font-bold rounded border border-slate-300 shadow-sm transition flex items-center space-x-1">
+                                        <span>Ẩn các tháng</span>
+                                    </button>
+                                </div>
+                                <div class="h-5 w-px bg-slate-300 hidden sm:block"></div>
+                                <span id="basket-monthly-count-indicator" class="text-xs text-slate-500 font-semibold italic"></span>
                             </div>
-                            <button type="button" onclick="exportCurrentBasketTableToExcel('monthly')" class="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold rounded border border-slate-300 shadow-sm transition flex items-center space-x-1">
-                                <span>📥</span>
-                                <span>Xuất Excel Bảng Tháng</span>
-                            </button>
+                            <div class="flex items-center space-x-2">
+                                <div class="relative w-full sm:w-64">
+                                    <input type="text" id="basket-monthly-search-input" oninput="onBasketMonthlySearchInput()" placeholder="🔍 Tìm Đơn vị, Miền, Vùng, NPP..." class="w-full text-xs bg-white border border-slate-300 rounded-lg pl-3 pr-7 py-1.5 focus:outline-none focus:ring-2 focus:ring-teal-500 shadow-sm">
+                                    <button type="button" onclick="clearBasketMonthlySearch()" class="absolute right-2 top-1.5 text-slate-400 hover:text-slate-600 text-xs font-bold">✕</button>
+                                </div>
+                                <button type="button" onclick="exportCurrentBasketTableToExcel('monthly')" class="px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold rounded border border-slate-300 shadow-sm transition flex items-center space-x-1 whitespace-nowrap">
+                                    <span>📥</span>
+                                    <span>Xuất Excel</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-[11px] text-slate-500 flex items-center space-x-2">
+                            <span>💡 <b>Hướng dẫn:</b> Bấm <b>▶ / ▼</b> để bung/thu cấp địa bàn (Miền ➔ Vùng ➔ Office ➔ NPP). Bấm <b>📅 [Xem tháng]</b> tại mỗi đơn vị để bung/thu chuỗi 21 tháng của đơn vị đó.</span>
                         </div>
                         <div class="scroll-helper">Vuốt ngang để xem thêm ➡️</div>
                         <div class="pivot-scroll-container max-h-[650px] overflow-auto border border-slate-200 rounded-lg shadow-sm">
                             <table id="basket-monthly-table" class="w-full text-xs text-left text-slate-600 border-collapse sticky-table">
                                 <thead class="text-[11px] uppercase font-bold sticky top-0 z-20">
                                     <tr>
-                                        <th rowspan="2" class="px-3 py-2.5 border border-slate-700 sticky-col-left-0 col-w-100 text-center" style="background-color: #0f172a !important; color: #ffffff !important; font-weight: 900 !important;">KỲ THÁNG</th>
+                                        <th rowspan="2" class="px-3 py-2.5 border border-slate-700 sticky-col-left-0 col-w-280 text-center" style="background-color: #0f172a !important; color: #ffffff !important; font-weight: 900 !important;">CẤP BẬC / ĐƠN VỊ & KỲ THÁNG</th>
                                         <th colspan="3" class="px-3 py-1.5 border border-slate-700 text-center" style="background-color: #1e3a8a !important; color: #ffffff !important; font-weight: 900 !important; letter-spacing: 0.5px !important;">TỔNG QUAN DOANH SỐ</th>
                                         <th colspan="7" class="px-3 py-1.5 border border-slate-700 text-center" style="background-color: #064e3b !important; color: #ffffff !important; font-weight: 900 !important; letter-spacing: 0.5px !important;">HIỆU QUẢ GIỎ HÀNG (SKU/ORDER)</th>
                                         <th colspan="8" class="px-3 py-1.5 border border-slate-700 text-center" style="background-color: #78350f !important; color: #ffffff !important; font-weight: 900 !important; letter-spacing: 0.5px !important;">ĐỘ PHỦ OUTLET (SKU/OUTLET)</th>
@@ -1644,7 +1673,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
         }
 
         // User Authentication & Roles Database
-        const BASE_APP_USERS = [{"username": "admin", "password_hash": "7fa46e4b244194bbe522fe5ddf10b3eb51e35d504b0e909bf212723637f2240c", "full_name": "Quản Trị Viên (Admin)", "role": "admin", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "Longan987", "updated_at": "Wed Sep 16 2026 13:18:41 GMT+0700 (Giờ Đông Dương)"}, {"username": "asm_hcm", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Chung Thành", "role": "asm", "scope_level": "vung", "scope_value": "HCM", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 17:21:08 GMT+0700 (Giờ Đông Dương)"}, {"username": "kimseungjin", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Kim Seung Jin", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 15:13:18 GMT+0700 (Giờ Đông Dương)"}, {"username": "hailp", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Lê Phúc Hải", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": ""}, {"username": "tm", "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "full_name": "Trade MKT", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123", "updated_at": ""}, {"username": "asm_danang", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Quản Lý Vùng Đà Nẵng (Nguyễn Văn Lúa)", "role": "asm", "scope_level": "vung", "scope_value": "Da Nang", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "gsbh_dn1", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "GSBH Đà Nẵng 1 (Nguyễn Văn Lúa)", "role": "gsbh", "scope_level": "office", "scope_value": "D.Nang", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "npp_phuoctai", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "NPP Phước Tài Đà Nẵng", "role": "npp", "scope_level": "npp", "scope_value": "1033603", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "gtnorth", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Từ Ngọc Chương", "role": "rsm", "scope_level": "region", "scope_value": "MIỀN BẮC", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 17:21:08 GMT+0700 (Giờ Đông Dương)"}, {"username": "gtsouth", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Vacant", "role": "rsm", "scope_level": "region", "scope_value": "MIỀN NAM", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 15:58:22 GMT+0700 (Giờ Đông Dương)"}, {"username": "bong", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Nguyễn Thị Kim Bông", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": "Tue Sep 15 2026 11:46:33 GMT+0700 (Giờ Đông Dương)"}, {"username": "kam_cgv", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "KAM Cụm Rạp Chiếu Phim CGV Cinemas", "role": "kam", "scope_level": "account", "scope_value": "CGV", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "npp_toanthuy", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "NPP Toàn Thủy Cần Thơ", "role": "npp", "scope_level": "npp", "scope_value": "CÔNG TY TNHH TMDV TOÀN THỦY", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "lyntb", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Nguyễn Thị Bích Ly", "role": "bod", "scope_level": "all", "scope_value": "all", "is_active": 1, "raw_password": "123456", "updated_at": "Thu Sep 17 2026 11:27:52 GMT+0700 (Giờ Đông Dương)"}, {"username": "head_b2b", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Trưởng Kênh B2B / Food Service Toàn Quốc", "role": "head_channel", "scope_level": "all", "scope_value": "Kênh B2B", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Thu Sep 17 2026 11:27:52 GMT+0700 (Giờ Đông Dương)"}, {"username": "head_kr", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Trưởng Kênh Khách Hàn Quốc (KR)", "role": "head_channel", "scope_level": "all", "scope_value": "Kênh KR", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Thu Sep 17 2026 11:27:54 GMT+0700 (Giờ Đông Dương)"}, {"username": "kam_bachhoaxanh", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "KAM Chuỗi Siêu Thị Bách Hóa Xanh", "role": "kam", "scope_level": "chain", "scope_value": "BHX", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "tm_mt", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Trade MKT MT", "role": "viewer", "scope_level": "all", "scope_value": "all", "is_active": 1, "raw_password": "123456", "updated_at": "Thu Sep 17 2026 11:27:54 GMT+0700 (Giờ Đông Dương)"}];
+        const BASE_APP_USERS = [{"username": "admin", "password_hash": "7fa46e4b244194bbe522fe5ddf10b3eb51e35d504b0e909bf212723637f2240c", "full_name": "Quản Trị Viên (Admin)", "role": "admin", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "Longan987", "updated_at": "Wed Sep 16 2026 13:18:41 GMT+0700 (Giờ Đông Dương)"}, {"username": "asm_hcm", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Chung Thành", "role": "asm", "scope_level": "vung", "scope_value": "HCM", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 17:21:08 GMT+0700 (Giờ Đông Dương)"}, {"username": "kimseungjin", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Kim Seung Jin", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 15:13:18 GMT+0700 (Giờ Đông Dương)"}, {"username": "hailp", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Lê Phúc Hải", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": ""}, {"username": "tm", "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "full_name": "Trade MKT", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123", "updated_at": ""}, {"username": "asm_danang", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Quản Lý Vùng Đà Nẵng (Nguyễn Văn Lúa)", "role": "asm", "scope_level": "vung", "scope_value": "Da Nang", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "gsbh_dn1", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "GSBH Đà Nẵng 1 (Nguyễn Văn Lúa)", "role": "gsbh", "scope_level": "office", "scope_value": "D.Nang", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "npp_phuoctai", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "NPP Phước Tài Đà Nẵng", "role": "npp", "scope_level": "npp", "scope_value": "1033603", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "gtnorth", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Từ Ngọc Chương", "role": "rsm", "scope_level": "region", "scope_value": "MIỀN BẮC", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 17:21:08 GMT+0700 (Giờ Đông Dương)"}, {"username": "gtsouth", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Vacant", "role": "rsm", "scope_level": "region", "scope_value": "MIỀN NAM", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 15:58:22 GMT+0700 (Giờ Đông Dương)"}, {"username": "bong", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Nguyễn Thị Kim Bông", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": "Tue Sep 15 2026 11:46:33 GMT+0700 (Giờ Đông Dương)"}, {"username": "kam_cgv", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "KAM Cụm Rạp Chiếu Phim CGV Cinemas", "role": "kam", "scope_level": "account", "scope_value": "CGV", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "npp_toanthuy", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "NPP Toàn Thủy Cần Thơ", "role": "npp", "scope_level": "npp", "scope_value": "CÔNG TY TNHH TMDV TOÀN THỦY", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "lyntb", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Nguyễn Thị Bích Ly", "role": "bod", "scope_level": "all", "scope_value": "all", "is_active": 1, "raw_password": "123456", "updated_at": "Thu Sep 17 2026 13:20:34 GMT+0700 (Giờ Đông Dương)"}, {"username": "head_b2b", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Trưởng Kênh B2B / Food Service Toàn Quốc", "role": "head_channel", "scope_level": "all", "scope_value": "Kênh B2B", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Thu Sep 17 2026 13:20:35 GMT+0700 (Giờ Đông Dương)"}, {"username": "head_kr", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Trưởng Kênh Khách Hàn Quốc (KR)", "role": "head_channel", "scope_level": "all", "scope_value": "Kênh KR", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Thu Sep 17 2026 13:20:36 GMT+0700 (Giờ Đông Dương)"}, {"username": "kam_bachhoaxanh", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "KAM Chuỗi Siêu Thị Bách Hóa Xanh", "role": "kam", "scope_level": "chain", "scope_value": "BHX", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "tm_mt", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Trade MKT MT", "role": "viewer", "scope_level": "all", "scope_value": "all", "is_active": 1, "raw_password": "123456", "updated_at": "Thu Sep 17 2026 13:20:36 GMT+0700 (Giờ Đông Dương)"}];
         const GOOGLE_SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwK7qLxIDHg7fpXaxcCHyFTM_Oo0_3TrLVdBw3MP9kdvoPRxquuuGQurq25QGtt3Pj9gg/exec";
 
         async function syncToGoogleSheet(action, payload) {
@@ -5933,6 +5962,9 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
         var currentBasketPeriod = '2026-08';
         var basketSearchTerm = '';
         var basketExpandedNodes = new Set(['NAT', 'R_MIỀN BẮC', 'R_MIỀN NAM']);
+        var monthlyExpandedNodes = new Set(['NAT', 'R_MIỀN BẮC', 'R_MIỀN NAM']);
+        var monthlyExpandedMonths = new Set(['NAT']);
+        var basketMonthlySearchTerm = '';
 
         const H_COL = {
             period: 0, level: 1, id: 2, pid: 3, name: 4,
@@ -6585,251 +6617,589 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
             }
         }
 
+        function onBasketMonthlySearchInput() {
+            basketMonthlySearchTerm = (document.getElementById('basket-monthly-search-input').value || '').trim().toLowerCase();
+            renderBasketMonthlyTable();
+        }
+
+        function clearBasketMonthlySearch() {
+            const inp = document.getElementById('basket-monthly-search-input');
+            if (inp) inp.value = '';
+            basketMonthlySearchTerm = '';
+            renderBasketMonthlyTable();
+        }
+
+        function toggleMonthlyNode(nodeId) {
+            if (monthlyExpandedNodes.has(nodeId)) {
+                monthlyExpandedNodes.delete(nodeId);
+            } else {
+                monthlyExpandedNodes.add(nodeId);
+            }
+            renderBasketMonthlyTable();
+        }
+
+        function toggleMonthlyNodeMonths(nodeId) {
+            if (monthlyExpandedMonths.has(nodeId)) {
+                monthlyExpandedMonths.delete(nodeId);
+            } else {
+                monthlyExpandedMonths.add(nodeId);
+            }
+            renderBasketMonthlyTable();
+        }
+
+        function expandAllMonthlyTree() {
+            if (typeof skuBasketHierarchyRaw !== 'undefined') {
+                skuBasketHierarchyRaw.forEach(r => {
+                    if (r[H_COL.level] < 4) monthlyExpandedNodes.add(r[H_COL.id]);
+                });
+            }
+            renderBasketMonthlyTable();
+        }
+
+        function collapseAllMonthlyTree() {
+            monthlyExpandedNodes.clear();
+            monthlyExpandedNodes.add('NAT');
+            renderBasketMonthlyTable();
+        }
+
+        function expandAllMonthlyMonths() {
+            if (typeof skuBasketHierarchyRaw !== 'undefined') {
+                skuBasketHierarchyRaw.forEach(r => {
+                    monthlyExpandedMonths.add(r[H_COL.id]);
+                });
+            }
+            renderBasketMonthlyTable();
+        }
+
+        function collapseAllMonthlyMonths() {
+            monthlyExpandedMonths.clear();
+            renderBasketMonthlyTable();
+        }
+
         function renderBasketMonthlyTable() {
             const tbody = document.getElementById('basket-monthly-tbody');
             const tfoot = document.getElementById('basket-monthly-tfoot');
+            const countIndicator = document.getElementById('basket-monthly-count-indicator');
             if (!tbody || !tfoot) return;
 
+            if (typeof skuBasketHierarchyRaw === 'undefined' || !skuBasketHierarchyRaw.length) {
+                tbody.innerHTML = '<tr><td colspan="18" class="p-8 text-center text-slate-400">Đang tải dữ liệu...</td></tr>';
+                return;
+            }
+
             const pf = getBasketProductFilter();
+
+            // 1. Lập cấu trúc Cây Địa Bàn Duy Nhất & Gom dữ liệu theo tháng của từng node
+            const idMap = new Map();
+            const childrenMap = new Map();
+            const nodeMonthlyRecords = new Map();
+            const allPeriodsSet = new Set();
+
+            skuBasketHierarchyRaw.forEach(r => {
+                const id = r[H_COL.id];
+                const pid = r[H_COL.pid] || '';
+                const pKey = r[H_COL.period];
+                allPeriodsSet.add(pKey);
+
+                if (!idMap.has(id)) {
+                    idMap.set(id, {
+                        id: id,
+                        pid: pid,
+                        level: r[H_COL.level],
+                        name: r[H_COL.name],
+                        region: r[H_COL.region],
+                        vung: r[H_COL.vung],
+                        office: r[H_COL.office],
+                        npp: r[H_COL.npp],
+                        sr: r[H_COL.sr]
+                    });
+                    if (!childrenMap.has(pid)) childrenMap.set(pid, []);
+                    childrenMap.get(pid).push(id);
+                }
+
+                if (!nodeMonthlyRecords.has(id)) nodeMonthlyRecords.set(id, new Map());
+                nodeMonthlyRecords.get(id).set(pKey, r);
+            });
+
+            const sortedAllPeriods = Array.from(allPeriodsSet).sort();
+
+            // 2. KẾT NỐI BỘ LỌC SẢN PHẨM (NẾU CÓ CHỌN SẢN PHẨM)
+            let nodeMonthlyAggMap = null;
+            if (pf.isFiltered) {
+                nodeMonthlyAggMap = new Map(); // pKey -> Map(normKey -> agg)
+                
+                const officeToGeo = {};
+                for (const r in hierarchy) {
+                    for (const v in hierarchy[r]) {
+                        for (const o in hierarchy[r][v]) {
+                            officeToGeo[o] = { region: r, vung: v };
+                        }
+                    }
+                }
+
+                const matchingSkus = new Set();
+                for (const code in productCatalog) {
+                    const entry = productCatalog[code];
+                    if (pf.brand !== 'Tất cả' && entry.b !== pf.brand) continue;
+                    if (pf.cat !== 'Tất cả' && entry.c !== pf.cat) continue;
+                    if (pf.ph1 !== 'Tất cả' && entry.p !== pf.ph1) continue;
+                    if (pf.ph2 !== 'Tất cả' && entry.p2 !== pf.ph2) continue;
+                    if (pf.prod !== 'Tất cả' && entry.n !== pf.prod) continue;
+                    matchingSkus.add(code);
+                }
+
+                function addMonthAgg(pKey, k, s, o, a) {
+                    if (!k) return;
+                    const key = normText(k);
+                    if (!nodeMonthlyAggMap.has(pKey)) nodeMonthlyAggMap.set(pKey, new Map());
+                    const mPeriodMap = nodeMonthlyAggMap.get(pKey);
+                    if (!mPeriodMap.has(key)) {
+                        mPeriodMap.set(key, { sellout: 0, orders: 0, outlets: 0, maxAso: 0, skuOrders: 0, skuOutlets: 0 });
+                    }
+                    const cur = mPeriodMap.get(key);
+                    cur.sellout += s;
+                    cur.orders += o;
+                    cur.skuOrders += o;
+                    if (a > cur.maxAso) cur.maxAso = a;
+                    cur.outlets += a;
+                    cur.skuOutlets += a;
+                }
+
+                skuData.forEach(item => {
+                    if (!matchingSkus.has(item.c)) return;
+                    const ymKey = '20' + item.t.substr(0, 2) + '-' + item.t.substr(2, 2);
+                    const s = item.s || 0;
+                    const o = item.o || 0;
+                    const a = item.a || 0;
+                    const offName = officeList[item.g] || '';
+                    const nppName = (item.n >= 0 && nppList[item.n]) ? nppList[item.n] : '';
+                    const geoInfo = officeToGeo[offName];
+                    const vungName = geoInfo ? geoInfo.vung : '';
+                    const regName = geoInfo ? geoInfo.region : '';
+
+                    addMonthAgg(ymKey, 'nat', s, o, a);
+                    addMonthAgg(ymKey, 'toàn quốc', s, o, a);
+                    if (regName) addMonthAgg(ymKey, regName, s, o, a);
+                    if (vungName) addMonthAgg(ymKey, vungName, s, o, a);
+                    if (offName) addMonthAgg(ymKey, offName, s, o, a);
+                    if (nppName) addMonthAgg(ymKey, nppName, s, o, a);
+                });
+            }
+
+            // 3. Xác định Root Node theo bộ lọc địa lý hiện tại
             const reg = (document.getElementById('filt-region') ? document.getElementById('filt-region').value : 'Tất cả');
             const vung = (document.getElementById('filt-vung') ? document.getElementById('filt-vung').value : 'Tất cả');
             const off = (document.getElementById('filt-office') ? document.getElementById('filt-office').value : 'Tất cả');
             const npp = (document.getElementById('filt-npp') ? document.getElementById('filt-npp').value : 'Tất cả');
 
-            let displayRows = [];
-            let isFiltered = false;
-            let filterScopeName = 'Toàn quốc';
+            const regNorm = normText(reg);
+            const vungNorm = normText(vung);
+            const offNorm = normText(off);
+            const nppNorm = normText(npp);
 
-            if (pf.isFiltered) {
-                // KẾT NỐI BỘ LỌC SẢN PHẨM VÀO BẢNG 2
-                isFiltered = true;
-                const geoBase = getBaseGeoNode();
-                const data = database[geoBase];
-                filterScopeName = getActiveGeoNode() + ' - ' + pf.tag;
-                if (data) {
-                    const pivot = getActivePivot(data, pf.brand, pf.cat, pf.ph1, pf.ph2, pf.prod);
-                    const sortedPeriods = skuBasketMonthly.map(x => x.period_key);
-                    displayRows = sortedPeriods.map(pKey => {
-                        const ymParts = pKey.split('-');
-                        const periodStr = ymParts.length === 2 ? (ymParts[1] + '/' + ymParts[0]) : pKey;
-                        const val = pivot.Sellout[pKey] || 0;
-                        const orders = pivot['#Order'][pKey] || 0;
-                        const dropsize = pivot.Dropsize[pKey] || 0;
-                        const outlets = pivot.ASO[pKey] || 0;
-                        const val_out = pivot.VPO[pKey] || 0;
-                        const sku_ord = pf.prod !== 'Tất cả' ? (orders > 0 ? 1.0 : 0) : (pivot['SKU per Order'][pKey] || (orders > 0 ? 1.0 : 0));
-                        const sku_out = pf.prod !== 'Tất cả' ? (outlets > 0 ? 1.0 : 0) : (pivot['SKU per Outlet'][pKey] || (outlets > 0 ? 1.0 : 0));
+            let rootNodes = [];
+            const allNodesList = Array.from(idMap.values());
 
-                        let p_o1 = 0, p_o2 = 0, p_o3 = 0, p_o4 = 0, p_o5 = 0, o1 = 0, o2 = 0, o3 = 0, o4 = 0, o5 = 0;
-                        let p_a1 = 0, p_a2 = 0, p_a3 = 0, p_a4 = 0, p_a5 = 0, a1 = 0, a2 = 0, a3 = 0, a4 = 0, a5 = 0;
+            if (npp !== 'Tất cả') {
+                rootNodes = allNodesList.filter(r => r.level === 4 && (normText(r.name) === nppNorm || normText(r.npp) === nppNorm));
+            } else if (off !== 'Tất cả') {
+                rootNodes = allNodesList.filter(r => r.level === 3 && (normText(r.name) === offNorm || normText(r.office) === offNorm));
+            } else if (vung !== 'Tất cả') {
+                rootNodes = allNodesList.filter(r => r.level === 2 && (normText(r.name) === vungNorm || normText(r.vung) === vungNorm));
+            } else if (reg !== 'Tất cả') {
+                rootNodes = allNodesList.filter(r => r.level === 1 && (normText(r.name) === regNorm || normText(r.region) === regNorm));
+            }
+            if (rootNodes.length === 0) {
+                rootNodes = allNodesList.filter(r => r.level === 0 || !r.pid);
+            }
 
-                        if (orders > 0) {
-                            if (pf.prod !== 'Tất cả' || sku_ord <= 1.05) {
-                                p_o1 = 100.0; o1 = orders;
-                            } else {
-                                const lam = Math.max(0.1, sku_ord - 1.0);
-                                const prob0 = Math.exp(-lam);
-                                const prob1 = prob0 * lam;
-                                const prob2 = (prob1 * lam) / 2;
-                                const prob3 = (prob2 * lam) / 3;
-                                const prob4 = Math.max(0, 1 - (prob0 + prob1 + prob2 + prob3));
-                                p_o1 = prob0 * 100; p_o2 = prob1 * 100; p_o3 = prob2 * 100; p_o4 = prob3 * 100; p_o5 = prob4 * 100;
-                                o1 = Math.round(orders * prob0);
-                                o2 = Math.round(orders * prob1);
-                                o3 = Math.round(orders * prob2);
-                                o4 = Math.round(orders * prob3);
-                                o5 = orders - (o1 + o2 + o3 + o4);
-                            }
-                        }
+            rootNodes.forEach(rn => monthlyExpandedNodes.add(rn.id));
 
-                        if (outlets > 0) {
-                            if (pf.prod !== 'Tất cả' || sku_out <= 1.05) {
-                                p_a1 = 100.0; a1 = outlets;
-                            } else {
-                                const lamOut = Math.max(0.1, sku_out - 1.0);
-                                const po0 = Math.exp(-lamOut);
-                                const po1 = po0 * lamOut;
-                                const po2 = (po1 * lamOut) / 2;
-                                const po3 = (po2 * lamOut) / 3;
-                                const po4 = Math.max(0, 1 - (po0 + po1 + po2 + po3));
-                                p_a1 = po0 * 100; p_a2 = po1 * 100; p_a3 = po2 * 100; p_a4 = po3 * 100; p_a5 = po4 * 100;
-                                a1 = Math.round(outlets * po0);
-                                a2 = Math.round(outlets * po1);
-                                a3 = Math.round(outlets * po2);
-                                a4 = Math.round(outlets * po3);
-                                a5 = outlets - (a1 + a2 + a3 + a4);
-                            }
-                        }
-
-                        return {
-                            period: periodStr,
-                            period_key: pKey,
-                            sellout_val: val,
-                            total_orders: orders,
-                            dropsize: dropsize,
-                            sku_per_order: sku_ord,
-                            ord_1sku: o1, ord_2sku: o2, ord_3sku: o3, ord_4sku: o4, ord_5plus_sku: o5,
-                            pct_ord_1sku: p_o1, pct_ord_2sku: p_o2, pct_ord_3sku: p_o3, pct_ord_4sku: p_o4, pct_ord_5plus_sku: p_o5,
-                            total_outlets: outlets,
-                            val_per_outlet: val_out,
-                            sku_per_outlet: sku_out,
-                            out_1sku: a1, out_2sku: a2, out_3sku: a3, out_4sku: a4, out_5plus_sku: a5,
-                            pct_out_1sku: p_a1, pct_out_2sku: p_a2, pct_out_3sku: p_a3, pct_out_4sku: p_a4, pct_out_5plus_sku: p_a5
-                        };
-                    });
-                }
-            } else if (npp !== 'Tất cả' || off !== 'Tất cả' || vung !== 'Tất cả' || reg !== 'Tất cả') {
-                isFiltered = true;
-                const regNorm = normText(reg);
-                const vungNorm = normText(vung);
-                const offNorm = normText(off);
-                const nppNorm = normText(npp);
-
-                const periodsMap = new Map();
-                skuBasketHierarchyRaw.forEach(r => {
-                    const pKey = r[H_COL.period];
-                    let match = false;
-                    if (npp !== 'Tất cả' && r[H_COL.level] === 4) {
-                        if (normText(r[H_COL.name]) === nppNorm || normText(r[H_COL.npp]) === nppNorm) match = true;
-                    } else if (off !== 'Tất cả' && r[H_COL.level] === 3) {
-                        if (normText(r[H_COL.name]) === offNorm || normText(r[H_COL.office]) === offNorm) match = true;
-                    } else if (vung !== 'Tất cả' && r[H_COL.level] === 2) {
-                        if (normText(r[H_COL.name]) === vungNorm || normText(r[H_COL.vung]) === vungNorm) match = true;
-                    } else if (reg !== 'Tất cả' && r[H_COL.level] === 1) {
-                        if (normText(r[H_COL.name]) === regNorm || normText(r[H_COL.region]) === regNorm) match = true;
+            // 4. DFS Cây địa bàn để các đơn vị con xuất hiện ngay bên dưới cha
+            const orderedGeoNodes = [];
+            function traverseGeo(node) {
+                orderedGeoNodes.push(node);
+                const kids = childrenMap.get(node.id) || [];
+                kids.forEach(kidId => {
+                    if (idMap.has(kidId)) {
+                        traverseGeo(idMap.get(kidId));
                     }
-                    if (match && !periodsMap.has(pKey)) {
-                        periodsMap.set(pKey, r);
-                        if (!filterScopeName || filterScopeName === 'Toàn quốc') {
-                            filterScopeName = r[H_COL.name];
+                });
+            }
+            rootNodes.forEach(rn => traverseGeo(rn));
+
+            // 5. Xử lý tìm kiếm địa bàn
+            let matchedIds = new Set();
+            let parentChain = new Set();
+            if (basketMonthlySearchTerm) {
+                allNodesList.forEach(r => {
+                    const textContent = (r.name + ' ' + (r.region || '') + ' ' + (r.vung || '') + ' ' + (r.office || '') + ' ' + (r.npp || '')).toLowerCase();
+                    if (textContent.includes(basketMonthlySearchTerm)) {
+                        matchedIds.add(r.id);
+                        let currP = r.pid;
+                        while (currP && idMap.has(currP)) {
+                            parentChain.add(currP);
+                            currP = idMap.get(currP).pid;
                         }
                     }
                 });
+            }
 
-                if (periodsMap.size > 0) {
-                    const sortedPeriods = Array.from(periodsMap.keys()).sort();
-                    displayRows = sortedPeriods.map(pKey => {
-                        const r = periodsMap.get(pKey);
+            // 6. Hàm helper tính toán chỉ số cho một bản ghi tháng
+            function extractRecordStats(r, node, pKey) {
+                let val = r ? r[H_COL.val] : 0;
+                let orders = r ? r[H_COL.orders] : 0;
+                let dropsize = r ? r[H_COL.dropsize] : 0;
+                let skuOrd = r ? r[H_COL.sku_ord] : 0;
+                let p1 = r ? r[H_COL.p_o1] : 0;
+                let p2 = r ? r[H_COL.p_o2] : 0;
+                let p3 = r ? r[H_COL.p_o3] : 0;
+                let p4 = r ? r[H_COL.p_o4] : 0;
+                let p5 = r ? r[H_COL.p_o5] : 0;
+                let o1 = r ? r[H_COL.o1] : 0;
+                let outlets = r ? r[H_COL.outlets] : 0;
+                let valOut = r ? r[H_COL.val_out] : 0;
+                let skuOut = r ? r[H_COL.sku_out] : 0;
+                let pa1 = r ? r[H_COL.p_a1] : 0;
+                let pa2 = r ? r[H_COL.p_a2] : 0;
+                let pa3 = r ? r[H_COL.p_a3] : 0;
+                let pa4 = r ? r[H_COL.p_a4] : 0;
+                let pa5 = r ? r[H_COL.p_a5] : 0;
+
+                if (pf.isFiltered && nodeMonthlyAggMap && nodeMonthlyAggMap.has(pKey)) {
+                    const mPeriodMap = nodeMonthlyAggMap.get(pKey);
+                    let agg = null;
+                    const lvl = node.level;
+                    if (lvl === 0) agg = mPeriodMap.get('nat') || mPeriodMap.get('toàn quốc');
+                    else if (lvl === 1) agg = mPeriodMap.get(normText(node.name)) || mPeriodMap.get(normText(node.region));
+                    else if (lvl === 2) agg = mPeriodMap.get(normText(node.name)) || mPeriodMap.get(normText(node.vung));
+                    else if (lvl === 3) agg = mPeriodMap.get(normText(node.name)) || mPeriodMap.get(normText(node.office));
+                    else if (lvl === 4) agg = mPeriodMap.get(normText(node.name)) || mPeriodMap.get(normText(node.npp));
+
+                    if (agg && (agg.sellout > 0 || agg.orders > 0)) {
+                        val = agg.sellout;
+                        orders = Math.round(agg.orders * 0.85) || 1;
+                        dropsize = orders > 0 ? val / orders : 0;
+                        outlets = pf.prod !== 'Tất cả' ? agg.maxAso : Math.max(agg.maxAso, Math.round(agg.outlets * 0.75));
+                        valOut = outlets > 0 ? val / outlets : 0;
+                        skuOrd = pf.prod !== 'Tất cả' ? 1.0 : Math.max(1.0, (orders > 0 ? agg.skuOrders / orders : 1.0));
+                        skuOut = pf.prod !== 'Tất cả' ? 1.0 : Math.max(1.0, (outlets > 0 ? agg.skuOutlets / outlets : 1.0));
+
+                        if (pf.prod !== 'Tất cả' || skuOrd <= 1.05) {
+                            p1 = 100.0; p2 = 0; p3 = 0; p4 = 0; p5 = 0; o1 = orders;
+                        } else {
+                            const lam = Math.max(0.1, skuOrd - 1.0);
+                            const pr0 = Math.exp(-lam);
+                            const pr1 = pr0 * lam;
+                            const pr2 = (pr1 * lam) / 2;
+                            const pr3 = (pr2 * lam) / 3;
+                            const pr4 = Math.max(0, 1 - (pr0 + pr1 + pr2 + pr3));
+                            p1 = pr0 * 100; p2 = pr1 * 100; p3 = pr2 * 100; p4 = pr3 * 100; p5 = pr4 * 100;
+                            o1 = Math.round(orders * pr0);
+                        }
+
+                        if (pf.prod !== 'Tất cả' || skuOut <= 1.05) {
+                            pa1 = 100.0; pa2 = 0; pa3 = 0; pa4 = 0; pa5 = 0;
+                        } else {
+                            const lamOut = Math.max(0.1, skuOut - 1.0);
+                            const po0 = Math.exp(-lamOut);
+                            const po1 = po0 * lamOut;
+                            const po2 = (po1 * lamOut) / 2;
+                            const po3 = (po2 * lamOut) / 3;
+                            const po4 = Math.max(0, 1 - (po0 + po1 + po2 + po3));
+                            pa1 = po0 * 100; pa2 = po1 * 100; pa3 = po2 * 100; pa4 = po3 * 100; pa5 = po4 * 100;
+                        }
+                    }
+                }
+
+                return {
+                    val, orders, dropsize, skuOrd,
+                    p1, p2, p3, p4, p5, o1,
+                    outlets, valOut, skuOut,
+                    pa1, pa2, pa3, pa4, pa5
+                };
+            }
+
+            // 7. Render từng node địa bàn và các tháng con
+            let visibleGeoCount = 0;
+            let totalRenderedRows = 0;
+            let html = '';
+            const rootLevel = rootNodes[0] ? rootNodes[0].level : 0;
+
+            // Bộ tích lũy toàn cục cho TFOOT
+            let grandVal = 0, grandOrders = 0, grandOutlets = 0;
+            let grandO1 = 0, grandO2 = 0, grandO3 = 0, grandO4 = 0, grandO5 = 0;
+            let grandA1 = 0, grandA2 = 0, grandA3 = 0, grandA4 = 0, grandA5 = 0;
+
+            orderedGeoNodes.forEach(node => {
+                const id = node.id;
+                const pid = node.pid;
+                const lvl = node.level;
+
+                let isVisible = false;
+                if (basketMonthlySearchTerm) {
+                    isVisible = matchedIds.has(id) || parentChain.has(id);
+                } else {
+                    if (rootNodes.some(rn => rn.id === id)) {
+                        isVisible = true;
+                    } else {
+                        let p = pid;
+                        let allParentsExpanded = true;
+                        while (p && idMap.has(p)) {
+                            if (!monthlyExpandedNodes.has(p)) {
+                                allParentsExpanded = false;
+                                break;
+                            }
+                            if (rootNodes.some(rn => rn.id === p)) break;
+                            p = idMap.get(p).pid;
+                        }
+                        isVisible = allParentsExpanded;
+                    }
+                }
+
+                if (!isVisible) return;
+                visibleGeoCount++;
+
+                const isExpanded = monthlyExpandedNodes.has(id) || (basketMonthlySearchTerm && parentChain.has(id));
+                const isMonthsOpen = monthlyExpandedMonths.has(id);
+                const hasChildren = (childrenMap.get(id) || []).length > 0;
+                const isLeaf = !hasChildren || (lvl === 5);
+
+                const mRecordsMap = nodeMonthlyRecords.get(id) || new Map();
+                const nodePeriods = sortedAllPeriods.filter(p => mRecordsMap.has(p));
+                const totalMonthsCount = nodePeriods.length;
+
+                // Tính tổng hợp cả chuỗi tháng của node này
+                let sumVal = 0, sumOrders = 0, sumOutlets = 0;
+                let sumO1 = 0, sumO2 = 0, sumO3 = 0, sumO4 = 0, sumO5 = 0;
+                let sumA1 = 0, sumA2 = 0, sumA3 = 0, sumA4 = 0, sumA5 = 0;
+                let weightedSkuOrd = 0, weightedSkuOut = 0;
+                let monthStatsList = [];
+
+                nodePeriods.forEach(pKey => {
+                    const st = extractRecordStats(mRecordsMap.get(pKey), node, pKey);
+                    monthStatsList.push({ pKey, st });
+
+                    sumVal += st.val;
+                    sumOrders += st.orders;
+                    sumOutlets += st.outlets;
+                    sumO1 += (st.o1 || 0);
+                    sumO2 += Math.round(st.orders * st.p2 / 100);
+                    sumO3 += Math.round(st.orders * st.p3 / 100);
+                    sumO4 += Math.round(st.orders * st.p4 / 100);
+                    sumO5 += Math.round(st.orders * st.p5 / 100);
+
+                    sumA1 += Math.round(st.outlets * st.pa1 / 100);
+                    sumA2 += Math.round(st.outlets * st.pa2 / 100);
+                    sumA3 += Math.round(st.outlets * st.pa3 / 100);
+                    sumA4 += Math.round(st.outlets * st.pa4 / 100);
+                    sumA5 += Math.round(st.outlets * st.pa5 / 100);
+
+                    weightedSkuOrd += st.skuOrd * st.orders;
+                    weightedSkuOut += st.skuOut * st.outlets;
+                });
+
+                if (rootNodes.some(rn => rn.id === id)) {
+                    grandVal += sumVal;
+                    grandOrders += sumOrders;
+                    grandOutlets += sumOutlets;
+                    grandO1 += sumO1; grandO2 += sumO2; grandO3 += sumO3; grandO4 += sumO4; grandO5 += sumO5;
+                    grandA1 += sumA1; grandA2 += sumA2; grandA3 += sumA3; grandA4 += sumA4; grandA5 += sumA5;
+                }
+
+                const nMonths = totalMonthsCount || 1;
+                const nodeDrop = sumOrders > 0 ? (sumVal / sumOrders) : 0;
+                const nodeSkuOrd = sumOrders > 0 ? (weightedSkuOrd / sumOrders) : 0;
+                const nodeAvgOutlets = Math.round(sumOutlets / nMonths);
+                const nodeValOut = sumOutlets > 0 ? (sumVal / sumOutlets) : 0;
+                const nodeSkuOut = sumOutlets > 0 ? (weightedSkuOut / sumOutlets) : 0;
+
+                const pctO1 = sumOrders > 0 ? (sumO1 * 100 / sumOrders) : 0;
+                const pctO2 = sumOrders > 0 ? (sumO2 * 100 / sumOrders) : 0;
+                const pctO3 = sumOrders > 0 ? (sumO3 * 100 / sumOrders) : 0;
+                const pctO4 = sumOrders > 0 ? (sumO4 * 100 / sumOrders) : 0;
+                const pctO5 = sumOrders > 0 ? (sumO5 * 100 / sumOrders) : 0;
+
+                const pctA1 = sumOutlets > 0 ? (sumA1 * 100 / sumOutlets) : 0;
+                const pctA2 = sumOutlets > 0 ? (sumA2 * 100 / sumOutlets) : 0;
+                const pctA3 = sumOutlets > 0 ? (sumA3 * 100 / sumOutlets) : 0;
+                const pctA4 = sumOutlets > 0 ? (sumA4 * 100 / sumOutlets) : 0;
+                const pctA5 = sumOutlets > 0 ? (sumA5 * 100 / sumOutlets) : 0;
+
+                // Màu sắc & định dạng theo cấp bậc
+                let rowBg = 'bg-white';
+                let fontClass = 'text-slate-700';
+                let badgeLvl = '';
+                let indentPx = Math.max(0, lvl - rootLevel) * 18;
+
+                if (lvl === 0) {
+                    rowBg = 'bg-slate-900 text-white font-black';
+                    fontClass = 'text-white font-black';
+                    badgeLvl = '<span class="px-1.5 py-0.5 text-[9px] font-extrabold bg-blue-600 text-white rounded shadow-sm">TOÀN QUỐC</span>';
+                } else if (lvl === 1) {
+                    rowBg = 'bg-blue-50/90 font-bold border-t-2 border-blue-300';
+                    fontClass = 'text-blue-950 font-extrabold';
+                    badgeLvl = '<span class="px-1.5 py-0.5 text-[9px] font-bold bg-blue-200 text-blue-900 rounded">MIỀN</span>';
+                } else if (lvl === 2) {
+                    rowBg = 'bg-sky-50/70 font-semibold';
+                    fontClass = 'text-sky-950 font-bold';
+                    badgeLvl = '<span class="px-1.5 py-0.5 text-[9px] font-bold bg-sky-200 text-sky-800 rounded">VÙNG</span>';
+                } else if (lvl === 3) {
+                    rowBg = 'bg-emerald-50/40 font-medium';
+                    fontClass = 'text-emerald-950 font-semibold';
+                    badgeLvl = '<span class="px-1.5 py-0.5 text-[9px] font-bold bg-emerald-100 text-emerald-800 rounded">OFFICE</span>';
+                } else if (lvl === 4) {
+                    rowBg = 'hover:bg-amber-50/40';
+                    fontClass = 'text-slate-800 font-medium';
+                    badgeLvl = '<span class="px-1.5 py-0.5 text-[9px] font-normal bg-amber-100/90 text-amber-900 rounded">NPP</span>';
+                } else {
+                    rowBg = 'hover:bg-teal-50/30';
+                    fontClass = 'text-slate-600';
+                    badgeLvl = '<span class="text-slate-400 font-bold">•</span>';
+                }
+
+                let caret = '';
+                if (!isLeaf) {
+                    caret = '<button type="button" data-mid="' + id + '" onclick="event.stopPropagation(); toggleMonthlyNode(this.dataset.mid)" class="w-4 h-4 inline-flex items-center justify-center rounded hover:bg-slate-300/60 text-slate-600 font-bold text-[10px] mr-1 focus:outline-none">' + (isExpanded ? '▼' : '▶') + '</button>';
+                } else {
+                    caret = '<span class="w-4 inline-block mr-1"></span>';
+                }
+
+                let monthBtn = '';
+                if (totalMonthsCount > 0) {
+                    monthBtn = '<button type="button" data-mid="' + id + '" onclick="event.stopPropagation(); toggleMonthlyNodeMonths(this.dataset.mid)" class="ml-2 px-1.5 py-0.5 text-[10px] font-bold rounded border transition select-none ' + (isMonthsOpen ? 'bg-teal-600 text-white border-teal-700 shadow-sm' : 'bg-white hover:bg-teal-50 text-teal-800 border-teal-300') + '">📅 ' + (isMonthsOpen ? 'Ẩn tháng ▲' : totalMonthsCount + ' tháng ▼') + '</button>';
+                }
+
+                const badgeOrd = nodeSkuOrd >= 2.0 ? 'bg-teal-100 text-teal-900 font-black' : (nodeSkuOrd >= 1.8 ? 'bg-amber-100 text-amber-900 font-bold' : 'bg-rose-100 text-rose-900 font-bold');
+                const badgeOut = nodeSkuOut >= 3.0 ? 'bg-emerald-100 text-emerald-900 font-black' : (nodeSkuOut >= 2.2 ? 'bg-sky-100 text-sky-900 font-bold' : 'bg-slate-200 text-slate-800 font-bold');
+                const alert1 = pctO1 > 50 ? 'text-rose-600 font-bold' : 'text-slate-700';
+
+                // DÒNG CẤP ĐỊA BÀN (TỔNG HỢP GIAI ĐOẠN)
+                totalRenderedRows++;
+                html += '<tr class="' + rowBg + ' border-b border-slate-200/80 transition cursor-pointer hover:bg-slate-100/70" data-mid="' + id + '" onclick="toggleMonthlyNodeMonths(this.dataset.mid)">' +
+                    '<td class="px-2.5 py-2 border border-slate-200 sticky-col-left-0 bg-inherit whitespace-nowrap">' +
+                        '<div class="flex items-center" style="padding-left: ' + indentPx + 'px">' +
+                            caret +
+                            '<span class="mr-1.5">' + badgeLvl + '</span>' +
+                            '<span class="' + fontClass + ' truncate max-w-[190px]" title="' + node.name + '">' + node.name + '</span>' +
+                            monthBtn +
+                        '</div>' +
+                    '</td>' +
+                    '<td class="px-3 py-2 border border-slate-200 text-right font-bold">' + (sumVal/1e6).toLocaleString('vi-VN', {maximumFractionDigits: 0}) + '</td>' +
+                    '<td class="px-3 py-2 border border-slate-200 text-center font-semibold">' + sumOrders.toLocaleString('vi-VN') + '</td>' +
+                    '<td class="px-3 py-2 border border-slate-200 text-right">' + Math.round(nodeDrop/1e3).toLocaleString('vi-VN') + 'k</td>' +
+                    '<td class="px-3 py-2 border border-slate-200 text-center"><span class="px-2 py-0.5 rounded text-[11px] ' + badgeOrd + '">' + nodeSkuOrd.toFixed(2) + '</span></td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center ' + alert1 + '">' + pctO1.toFixed(1) + '%</td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center">' + pctO2.toFixed(1) + '%</td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center">' + pctO3.toFixed(1) + '%</td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center">' + pctO4.toFixed(1) + '%</td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center font-bold text-teal-800">' + pctO5.toFixed(1) + '%</td>' +
+                    '<td class="px-2.5 py-2 border border-slate-200 text-center text-slate-500">' + sumO1.toLocaleString('vi-VN') + '</td>' +
+                    '<td class="px-3 py-2 border border-slate-200 text-center font-medium">' + nodeAvgOutlets.toLocaleString('vi-VN') + '</td>' +
+                    '<td class="px-3 py-2 border border-slate-200 text-right">' + Math.round(nodeValOut/1e3).toLocaleString('vi-VN') + 'k</td>' +
+                    '<td class="px-3 py-2 border border-slate-200 text-center"><span class="px-2 py-0.5 rounded text-[11px] ' + badgeOut + '">' + nodeSkuOut.toFixed(2) + '</span></td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center text-slate-500">' + pctA1.toFixed(1) + '%</td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center">' + pctA2.toFixed(1) + '%</td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center">' + pctA3.toFixed(1) + '%</td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center">' + pctA4.toFixed(1) + '%</td>' +
+                    '<td class="px-2 py-2 border border-slate-200 text-center font-bold text-amber-800">' + pctA5.toFixed(1) + '%</td>' +
+                '</tr>';
+
+                // DÒNG THÁNG CON CỦA NODE ĐỊA BÀN NÀY
+                if (isMonthsOpen) {
+                    monthStatsList.forEach(mItem => {
+                        const pKey = mItem.pKey;
+                        const st = mItem.st;
                         const ymParts = pKey.split('-');
-                        const periodStr = ymParts.length === 2 ? (ymParts[1] + '/' + ymParts[0]) : pKey;
-                        return {
-                            period: periodStr,
-                            period_key: pKey,
-                            sellout_val: r[H_COL.val],
-                            total_orders: r[H_COL.orders],
-                            dropsize: r[H_COL.dropsize],
-                            sku_per_order: r[H_COL.sku_ord],
-                            ord_1sku: r[H_COL.o1],
-                            ord_2sku: r[H_COL.o2],
-                            ord_3sku: r[H_COL.o3],
-                            ord_4sku: r[H_COL.o4],
-                            ord_5plus_sku: r[H_COL.o5],
-                            pct_ord_1sku: r[H_COL.p_o1],
-                            pct_ord_2sku: r[H_COL.p_o2],
-                            pct_ord_3sku: r[H_COL.p_o3],
-                            pct_ord_4sku: r[H_COL.p_o4],
-                            pct_ord_5plus_sku: r[H_COL.p_o5],
-                            total_outlets: r[H_COL.outlets],
-                            val_per_outlet: r[H_COL.val_out],
-                            sku_per_outlet: r[H_COL.sku_out],
-                            out_1sku: r[H_COL.a1],
-                            out_2sku: r[H_COL.a2],
-                            out_3sku: r[H_COL.a3],
-                            out_4sku: r[H_COL.a4],
-                            out_5plus_sku: r[H_COL.a5],
-                            pct_out_1sku: r[H_COL.p_a1],
-                            pct_out_2sku: r[H_COL.p_a2],
-                            pct_out_3sku: r[H_COL.p_a3],
-                            pct_out_4sku: r[H_COL.p_a4],
-                            pct_out_5plus_sku: r[H_COL.p_a5]
-                        };
+                        const periodLabel = ymParts.length === 2 ? (ymParts[1] + '/' + ymParts[0]) : pKey;
+                        const isCur = (pKey === currentBasketPeriod);
+
+                        const mBadgeOrd = st.skuOrd >= 2.0 ? 'bg-teal-100 text-teal-900 font-bold' : (st.skuOrd >= 1.8 ? 'bg-amber-100 text-amber-900 font-semibold' : 'bg-rose-100 text-rose-900 font-semibold');
+                        const mBadgeOut = st.skuOut >= 3.0 ? 'bg-emerald-100 text-emerald-900 font-bold' : (st.skuOut >= 2.2 ? 'bg-sky-100 text-sky-900 font-semibold' : 'bg-slate-200 text-slate-700');
+                        const mAlert1 = st.p1 > 50 ? 'text-rose-600 font-semibold' : 'text-slate-600';
+
+                        totalRenderedRows++;
+                        html += '<tr class="' + (isCur ? 'bg-teal-100/70 font-semibold' : 'bg-teal-50/35') + ' hover:bg-teal-100/50 border-b border-teal-100 transition" data-period="' + pKey + '" onclick="selectBasketMonthlyPeriod(this.dataset.period)">' +
+                            '<td class="px-2.5 py-1.5 border border-slate-200 sticky-col-left-0 bg-inherit whitespace-nowrap">' +
+                                '<div class="flex items-center" style="padding-left: ' + (indentPx + 24) + 'px">' +
+                                    '<span class="text-teal-600 text-[10px] mr-1.5">📅</span>' +
+                                    '<span class="text-teal-950 font-bold text-[11px]">Tháng ' + periodLabel + '</span>' +
+                                    (isCur ? ' <span class="ml-2 px-1.5 py-0.2 bg-teal-600 text-white rounded text-[9px] font-black">HIỆN TẠI</span>' : '') +
+                                '</div>' +
+                            '</td>' +
+                            '<td class="px-3 py-1.5 border border-slate-200 text-right font-medium">' + (st.val/1e6).toLocaleString('vi-VN', {maximumFractionDigits: 0}) + '</td>' +
+                            '<td class="px-3 py-1.5 border border-slate-200 text-center">' + st.orders.toLocaleString('vi-VN') + '</td>' +
+                            '<td class="px-3 py-1.5 border border-slate-200 text-right">' + Math.round(st.dropsize/1e3).toLocaleString('vi-VN') + 'k</td>' +
+                            '<td class="px-3 py-1.5 border border-slate-200 text-center"><span class="px-1.5 py-0.2 rounded text-[10px] ' + mBadgeOrd + '">' + st.skuOrd.toFixed(2) + '</span></td>' +
+                            '<td class="px-2 py-1.5 border border-slate-200 text-center ' + mAlert1 + '">' + st.p1.toFixed(1) + '%</td>' +
+                            '<td class="px-2 py-1.5 border border-slate-200 text-center">' + st.p2.toFixed(1) + '%</td>' +
+                            '<td class="px-2 py-1.5 border border-slate-200 text-center">' + st.p3.toFixed(1) + '%</td>' +
+                            '<td class="px-2 py-1.5 border border-slate-200 text-center">' + st.p4.toFixed(1) + '%</td>' +
+                            '<td class="px-2 py-1.5 border border-slate-200 text-center text-teal-800 font-semibold">' + st.p5.toFixed(1) + '%</td>' +
+                            '<td class="px-2.5 py-1.5 border border-slate-200 text-center text-slate-500">' + (st.o1 || 0).toLocaleString('vi-VN') + '</td>' +
+                            '<td class="px-3 py-1.5 border border-slate-200 text-center font-medium">' + st.outlets.toLocaleString('vi-VN') + '</td>' +
+                            '<td class="px-3 py-1.5 border border-slate-200 text-right">' + Math.round(st.valOut/1e3).toLocaleString('vi-VN') + 'k</td>' +
+                            '<td class="px-3 py-1.5 border border-slate-200 text-center"><span class="px-1.5 py-0.2 rounded text-[10px] ' + mBadgeOut + '">' + st.skuOut.toFixed(2) + '</span></td>' +
+                            '<td class="px-2 py-1.5 border border-slate-200 text-center text-slate-500">' + st.pa1.toFixed(1) + '%</td>' +
+                            '<td class="px-2 py-1.5 border border-slate-200 text-center">' + st.pa2.toFixed(1) + '%</td>' +
+                            '<td class="px-2 py-1.5 border border-slate-200 text-center">' + st.pa3.toFixed(1) + '%</td>' +
+                            '<td class="px-2 py-1.5 border border-slate-200 text-center">' + st.pa4.toFixed(1) + '%</td>' +
+                            '<td class="px-2 py-1.5 border border-slate-200 text-center font-bold text-amber-800">' + st.pa5.toFixed(1) + '%</td>' +
+                        '</tr>';
                     });
                 }
-            }
-
-            if (!isFiltered || displayRows.length === 0) {
-                displayRows = skuBasketMonthly;
-                filterScopeName = 'Toàn quốc';
-            }
-
-            let html = '';
-            let sumVal = 0, sumOrders = 0, sum1 = 0, sum2 = 0, sum3 = 0, sum4 = 0, sum5 = 0;
-            let sumOutlets = 0, sumOut1 = 0, sumOut2 = 0, sumOut3 = 0, sumOut4 = 0, sumOut5 = 0;
-
-            displayRows.forEach((m, idx) => {
-                sumVal += m.sellout_val || 0;
-                sumOrders += m.total_orders || 0;
-                sum1 += m.ord_1sku || 0;
-                sum2 += m.ord_2sku || 0;
-                sum3 += m.ord_3sku || 0;
-                sum4 += m.ord_4sku || 0;
-                sum5 += m.ord_5plus_sku || 0;
-                sumOutlets += m.total_outlets || 0;
-                sumOut1 += m.out_1sku || 0;
-                sumOut2 += m.out_2sku || 0;
-                sumOut3 += m.out_3sku || 0;
-                sumOut4 += m.out_4sku || 0;
-                sumOut5 += m.out_5plus_sku || 0;
-
-                const isCur = m.period_key === currentBasketPeriod;
-                const rowBg = isCur ? 'bg-teal-50/80 font-bold border-l-4 border-teal-600' : (idx % 2 === 1 ? 'bg-slate-50/60' : 'bg-white');
-                const badgeOrd = (m.sku_per_order || 0) >= 2.0 ? 'bg-teal-100 text-teal-900 font-black' : ((m.sku_per_order || 0) >= 1.8 ? 'bg-amber-100 text-amber-900 font-bold' : 'bg-rose-100 text-rose-900 font-bold');
-                const badgeOut = (m.sku_per_outlet || 0) >= 3.0 ? 'bg-emerald-100 text-emerald-900 font-black' : ((m.sku_per_outlet || 0) >= 2.2 ? 'bg-sky-100 text-sky-900 font-bold' : 'bg-slate-200 text-slate-800 font-bold');
-                const alert1 = (m.pct_ord_1sku || 0) > 50 ? 'text-rose-600 font-bold' : 'text-slate-700';
-
-                html += '<tr class="' + rowBg + ' hover:bg-teal-50/50 transition cursor-pointer" data-period="' + m.period_key + '" onclick="selectBasketMonthlyPeriod(this.dataset.period)">' +
-                    '<td class="px-3 py-2 border border-slate-200 text-center font-bold sticky-col-left-0 bg-inherit">' +
-                        m.period + (isCur ? ' <span class="text-teal-600 font-black">●</span>' : '') +
-                    '</td>' +
-                    '<td class="px-3 py-2 border border-slate-200 text-right font-medium">' + ((m.sellout_val || 0)/1e6).toLocaleString('vi-VN', {maximumFractionDigits: 0}) + '</td>' +
-                    '<td class="px-3 py-2 border border-slate-200 text-center">' + (m.total_orders || 0).toLocaleString('vi-VN') + '</td>' +
-                    '<td class="px-3 py-2 border border-slate-200 text-right">' + Math.round((m.dropsize || 0)/1e3).toLocaleString('vi-VN') + 'k</td>' +
-                    '<td class="px-3 py-2 border border-slate-200 text-center"><span class="px-2 py-0.5 rounded text-[11px] ' + badgeOrd + '">' + (m.sku_per_order || 0).toFixed(2) + '</span></td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center ' + alert1 + '">' + (m.pct_ord_1sku || 0).toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center">' + (m.pct_ord_2sku || 0).toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center">' + (m.pct_ord_3sku || 0).toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center">' + (m.pct_ord_4sku || 0).toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center font-semibold text-teal-800">' + (m.pct_ord_5plus_sku || 0).toFixed(1) + '%</td>' +
-                    '<td class="px-2.5 py-2 border border-slate-200 text-center text-slate-500">' + (m.ord_1sku || 0).toLocaleString('vi-VN') + '</td>' +
-                    '<td class="px-3 py-2 border border-slate-200 text-center font-medium">' + (m.total_outlets || 0).toLocaleString('vi-VN') + '</td>' +
-                    '<td class="px-3 py-2 border border-slate-200 text-right">' + Math.round((m.val_per_outlet || 0)/1e3).toLocaleString('vi-VN') + 'k</td>' +
-                    '<td class="px-3 py-2 border border-slate-200 text-center"><span class="px-2 py-0.5 rounded text-[11px] ' + badgeOut + '">' + (m.sku_per_outlet || 0).toFixed(2) + '</span></td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center text-slate-500">' + (m.pct_out_1sku || 0).toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center">' + (m.pct_out_2sku || 0).toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center">' + (m.pct_out_3sku || 0).toFixed(1) + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center">' + (m.pct_out_4sku !== undefined ? m.pct_out_4sku.toFixed(1) : '0.0') + '%</td>' +
-                    '<td class="px-2 py-2 border border-slate-200 text-center font-bold text-amber-800">' + (m.pct_out_5plus_sku || 0).toFixed(1) + '%</td>' +
-                '</tr>';
             });
+
             tbody.innerHTML = html;
 
-            const n = displayRows.length || 1;
-            const avgDrop = sumOrders > 0 ? (sumVal / sumOrders) : 0;
-            const avgSkuOrd = (displayRows.reduce((a, b) => a + (b.sku_per_order || 0), 0) / n).toFixed(2);
-            const avgSkuOut = (displayRows.reduce((a, b) => a + (b.sku_per_outlet || 0), 0) / n).toFixed(2);
-            const avgValOutlet = sumOutlets > 0 ? Math.round(sumVal / sumOutlets / 1e3) : 0;
+            // 8. HÀNG TFOOT (TỔNG HỢP TOÀN BỘ PHẠM VI HIỂN THỊ)
+            const grandDrop = grandOrders > 0 ? (grandVal / grandOrders) : 0;
+            const grandValOutlet = grandOutlets > 0 ? Math.round(grandVal / grandOutlets / 1e3) : 0;
+            const grandPctO1 = grandOrders > 0 ? (grandO1 * 100 / grandOrders) : 0;
+            const grandPctO2 = grandOrders > 0 ? (grandO2 * 100 / grandOrders) : 0;
+            const grandPctO3 = grandOrders > 0 ? (grandO3 * 100 / grandOrders) : 0;
+            const grandPctO4 = grandOrders > 0 ? (grandO4 * 100 / grandOrders) : 0;
+            const grandPctO5 = grandOrders > 0 ? (grandO5 * 100 / grandOrders) : 0;
+
+            const grandPctA1 = grandOutlets > 0 ? (grandA1 * 100 / grandOutlets) : 0;
+            const grandPctA2 = grandOutlets > 0 ? (grandA2 * 100 / grandOutlets) : 0;
+            const grandPctA3 = grandOutlets > 0 ? (grandA3 * 100 / grandOutlets) : 0;
+            const grandPctA4 = grandOutlets > 0 ? (grandA4 * 100 / grandOutlets) : 0;
+            const grandPctA5 = grandOutlets > 0 ? (grandA5 * 100 / grandOutlets) : 0;
+
+            const grandSkuOrd = grandOrders > 0 ? ((grandO1*1 + grandO2*2 + grandO3*3 + grandO4*4 + grandO5*5.5) / grandOrders).toFixed(2) : '0.00';
+            const grandSkuOut = grandOutlets > 0 ? ((grandA1*1 + grandA2*2 + grandA3*3 + grandA4*4 + grandA5*5.5) / grandOutlets).toFixed(2) : '0.00';
 
             tfoot.innerHTML = '<tr class="bg-slate-200 text-slate-900 font-bold border-t-2 border-slate-400">' +
-                '<td class="px-3 py-2.5 border border-slate-300 text-center sticky-col-left-0 bg-slate-200" title="' + filterScopeName + '">TỔNG / TB</td>' +
-                '<td class="px-3 py-2.5 border border-slate-300 text-right">' + (sumVal/1e6).toLocaleString('vi-VN', {maximumFractionDigits: 0}) + '</td>' +
-                '<td class="px-3 py-2.5 border border-slate-300 text-center">' + sumOrders.toLocaleString('vi-VN') + '</td>' +
-                '<td class="px-3 py-2.5 border border-slate-300 text-right">' + Math.round(avgDrop/1e3).toLocaleString('vi-VN') + 'k</td>' +
-                '<td class="px-3 py-2.5 border border-slate-300 text-center"><span class="px-2 py-0.5 rounded text-[11px] font-black bg-teal-800 text-white">' + avgSkuOrd + '</span></td>' +
-                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + (sumOrders > 0 ? (sum1*100/sumOrders).toFixed(1) : '0.0') + '%</td>' +
-                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + (sumOrders > 0 ? (sum2*100/sumOrders).toFixed(1) : '0.0') + '%</td>' +
-                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + (sumOrders > 0 ? (sum3*100/sumOrders).toFixed(1) : '0.0') + '%</td>' +
-                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + (sumOrders > 0 ? (sum4*100/sumOrders).toFixed(1) : '0.0') + '%</td>' +
-                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + (sumOrders > 0 ? (sum5*100/sumOrders).toFixed(1) : '0.0') + '%</td>' +
-                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + sum1.toLocaleString('vi-VN') + '</td>' +
-                '<td class="px-3 py-2.5 border border-slate-300 text-center">' + Math.round(sumOutlets/n).toLocaleString('vi-VN') + '</td>' +
-                '<td class="px-3 py-2.5 border border-slate-300 text-right">' + avgValOutlet.toLocaleString('vi-VN') + 'k</td>' +
-                '<td class="px-3 py-2.5 border border-slate-300 text-center"><span class="px-2 py-0.5 rounded text-[11px] font-black bg-amber-800 text-white">' + avgSkuOut + '</span></td>' +
-                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + (sumOutlets > 0 ? (sumOut1*100/sumOutlets).toFixed(1) : '0.0') + '%</td>' +
-                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + (sumOutlets > 0 ? (sumOut2*100/sumOutlets).toFixed(1) : '0.0') + '%</td>' +
-                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + (sumOutlets > 0 ? (sumOut3*100/sumOutlets).toFixed(1) : '0.0') + '%</td>' +
-                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + (sumOutlets > 0 ? (sumOut4*100/sumOutlets).toFixed(1) : '0.0') + '%</td>' +
-                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + (sumOutlets > 0 ? (sumOut5*100/sumOutlets).toFixed(1) : '0.0') + '%</td>' +
+                '<td class="px-3 py-2.5 border border-slate-300 text-center sticky-col-left-0 bg-slate-200">TỔNG TOÀN CỤC</td>' +
+                '<td class="px-3 py-2.5 border border-slate-300 text-right">' + (grandVal/1e6).toLocaleString('vi-VN', {maximumFractionDigits: 0}) + '</td>' +
+                '<td class="px-3 py-2.5 border border-slate-300 text-center">' + grandOrders.toLocaleString('vi-VN') + '</td>' +
+                '<td class="px-3 py-2.5 border border-slate-300 text-right">' + Math.round(grandDrop/1e3).toLocaleString('vi-VN') + 'k</td>' +
+                '<td class="px-3 py-2.5 border border-slate-300 text-center"><span class="px-2 py-0.5 rounded text-[11px] font-black bg-teal-800 text-white">' + grandSkuOrd + '</span></td>' +
+                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + grandPctO1.toFixed(1) + '%</td>' +
+                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + grandPctO2.toFixed(1) + '%</td>' +
+                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + grandPctO3.toFixed(1) + '%</td>' +
+                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + grandPctO4.toFixed(1) + '%</td>' +
+                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + grandPctO5.toFixed(1) + '%</td>' +
+                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + grandO1.toLocaleString('vi-VN') + '</td>' +
+                '<td class="px-3 py-2.5 border border-slate-300 text-center">' + Math.round(grandOutlets / (sortedAllPeriods.length || 1)).toLocaleString('vi-VN') + '</td>' +
+                '<td class="px-3 py-2.5 border border-slate-300 text-right">' + grandValOutlet.toLocaleString('vi-VN') + 'k</td>' +
+                '<td class="px-3 py-2.5 border border-slate-300 text-center"><span class="px-2 py-0.5 rounded text-[11px] font-black bg-amber-800 text-white">' + grandSkuOut + '</span></td>' +
+                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + grandPctA1.toFixed(1) + '%</td>' +
+                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + grandPctA2.toFixed(1) + '%</td>' +
+                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + grandPctA3.toFixed(1) + '%</td>' +
+                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + grandPctA4.toFixed(1) + '%</td>' +
+                '<td class="px-2.5 py-2.5 border border-slate-300 text-center">' + grandPctA5.toFixed(1) + '%</td>' +
             '</tr>';
+
+            // 9. Cập nhật chỉ báo đếm dòng
+            if (countIndicator) {
+                let indText = 'Hiển thị ' + visibleGeoCount.toLocaleString('vi-VN') + ' đơn vị (' + totalRenderedRows.toLocaleString('vi-VN') + ' dòng gồm tháng)';
+                if (pf.isFiltered) {
+                    indText += ' • Lọc: [' + pf.tag + ']';
+                }
+                countIndicator.innerText = indText;
+            }
         }
 
         function selectBasketMonthlyPeriod(periodKey) {
