@@ -1151,79 +1151,6 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
 
             <!-- TAB 6: HIỆU QUẢ GIỎ HÀNG & OUTLET (SKU/ORDER & SKU/OUTLET) -->
             <div id="tab-content-basket" class="hidden space-y-5">
-                <!-- Header Banner -->
-                <div class="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 p-6 rounded-xl border border-teal-800/40 shadow-lg text-white flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
-                    <div>
-                        <div class="flex items-center space-x-2 mb-1">
-                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-teal-500/20 text-teal-300 border border-teal-500/40">FMCG Route-to-Market</span>
-                            <span class="text-xs text-slate-400 font-medium">Báo cáo Phân tích Hiệu suất Đơn hàng & Outlet</span>
-                        </div>
-                        <h2 class="text-lg md:text-xl font-black tracking-tight flex items-center space-x-2">
-                            <span>🛒</span>
-                            <span>BÁO CÁO HIỆU SUẤT ĐƠN HÀNG (SKU/ORDER & SKU/OUTLET)</span>
-                        </h2>
-                        <p class="text-xs text-slate-300 mt-1 max-w-2xl">
-                            Phân tích phân bổ đơn hàng theo số SKU (1, 2, 3, 4, 5+ SKU), tối ưu hóa Drop Size và giám sát độ bao phủ danh mục tại từng điểm bán từ Toàn quốc xuống từng NVBH.
-                        </p>
-                    </div>
-                    <div class="flex flex-wrap items-center gap-2">
-                        <a href="Bao_Cao_Hieu_Qua_Don_Hang_Va_Outlet_SKU.xlsx" download class="inline-flex items-center space-x-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold shadow-md hover:shadow-lg transition border border-emerald-400">
-                            <span>📥</span>
-                            <span>Tải File Excel Báo Cáo (.xlsx)</span>
-                        </a>
-                        <button type="button" onclick="exportCurrentBasketTableToExcel()" class="inline-flex items-center space-x-2 px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 text-teal-300 rounded-lg text-xs font-semibold border border-teal-700/50 transition">
-                            <span>📊</span>
-                            <span>Xuất Excel Đang Xem</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- KPI Dynamic Metric Cards -->
-                <div class="grid grid-cols-2 lg:grid-cols-5 gap-3.5">
-                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
-                        <div class="flex items-center justify-between text-slate-500 mb-1">
-                            <span class="text-[11px] font-bold uppercase tracking-wider">Doanh Số Sell-out</span>
-                            <span class="p-1.5 rounded-lg bg-blue-50 text-blue-600 text-xs">💰</span>
-                        </div>
-                        <div id="kpi-basket-sellout" class="text-lg font-black text-slate-800">--</div>
-                        <div class="text-[10px] text-slate-400 mt-1" id="kpi-basket-sellout-sub">Doanh thu phát sinh thực tế</div>
-                    </div>
-                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
-                        <div class="flex items-center justify-between text-slate-500 mb-1">
-                            <span class="text-[11px] font-bold uppercase tracking-wider">Đơn Hàng & Drop Size</span>
-                            <span class="p-1.5 rounded-lg bg-sky-50 text-sky-600 text-xs">📦</span>
-                        </div>
-                        <div id="kpi-basket-orders" class="text-lg font-black text-slate-800">--</div>
-                        <div class="text-[10px] text-slate-500 mt-1 font-semibold" id="kpi-basket-dropsize">Drop size: --</div>
-                    </div>
-                    <div class="bg-white p-4 rounded-xl border border-teal-200 shadow-sm bg-gradient-to-br from-white to-teal-50/40 flex flex-col justify-between">
-                        <div class="flex items-center justify-between text-slate-500 mb-1">
-                            <span class="text-[11px] font-bold uppercase tracking-wider text-teal-800">SKU / Order</span>
-                            <span class="p-1.5 rounded-lg bg-teal-100 text-teal-700 text-xs font-black">🎯</span>
-                        </div>
-                        <div id="kpi-basket-sku-order" class="text-xl font-black text-teal-700">--</div>
-                        <div class="text-[10px] text-slate-500 mt-1 flex items-center space-x-1" id="kpi-basket-ord-1sku">
-                            <span>Đơn 1 SKU: --</span>
-                        </div>
-                    </div>
-                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
-                        <div class="flex items-center justify-between text-slate-500 mb-1">
-                            <span class="text-[11px] font-bold uppercase tracking-wider">Active Outlets</span>
-                            <span class="p-1.5 rounded-lg bg-amber-50 text-amber-600 text-xs">🏪</span>
-                        </div>
-                        <div id="kpi-basket-outlets" class="text-lg font-black text-slate-800">--</div>
-                        <div class="text-[10px] text-slate-500 mt-1 font-semibold" id="kpi-basket-val-outlet">DS TB/Shop: --</div>
-                    </div>
-                    <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-sm bg-gradient-to-br from-white to-amber-50/40 flex flex-col justify-between">
-                        <div class="flex items-center justify-between text-slate-500 mb-1">
-                            <span class="text-[11px] font-bold uppercase tracking-wider text-amber-800">SKU / Outlet</span>
-                            <span class="p-1.5 rounded-lg bg-amber-100 text-amber-700 text-xs font-black">📈</span>
-                        </div>
-                        <div id="kpi-basket-sku-outlet" class="text-xl font-black text-amber-700">--</div>
-                        <div class="text-[10px] text-slate-500 mt-1" id="kpi-basket-out-5sku">Shop mua ≥5 SKU: --</div>
-                    </div>
-                </div>
-
                 <!-- Product Filter Linking Alert Banner -->
                 <div id="basket-product-filter-alert" class="hidden mb-3.5 p-3.5 bg-gradient-to-r from-blue-50 via-sky-50 to-indigo-50 border border-blue-200 rounded-xl shadow-xs flex flex-wrap items-center justify-between gap-2.5 transition-all">
                     <div class="flex items-center space-x-3">
@@ -1244,15 +1171,23 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
 
                 <!-- Subtab Navigation: Table 1 (Tree Hierarchy) & Table 2 (Monthly Trend) -->
                 <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                    <div class="flex border-b border-slate-200 bg-slate-50 px-4 pt-3 space-x-4">
-                        <button id="basket-subtab-btn-tree" onclick="switchBasketSubtab('tree')" class="pb-3 px-3 text-xs font-extrabold border-b-2 border-teal-600 text-teal-700 flex items-center space-x-1.5 transition">
-                            <span>🌳</span>
-                            <span>BẢNG 1: PHÂN CẤP BUNG / THU (MIỀN ➔ VÙNG ➔ OFFICE ➔ NPP ➔ NVBH)</span>
-                        </button>
-                        <button id="basket-subtab-btn-monthly" onclick="switchBasketSubtab('monthly')" class="pb-3 px-3 text-xs font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-800 hover:border-slate-300 flex items-center space-x-1.5 transition">
-                            <span>📅</span>
-                            <span>BẢNG 2: XU HƯỚNG TỔNG HỢP THEO TỪNG THÁNG (2025 - 2026)</span>
-                        </button>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-slate-200 bg-slate-50 px-4 py-2.5 gap-2.5">
+                        <div class="flex items-center space-x-3 overflow-x-auto">
+                            <button id="basket-subtab-btn-tree" onclick="switchBasketSubtab('tree')" class="pb-2 px-3 text-xs font-extrabold border-b-2 border-teal-600 text-teal-700 flex items-center space-x-1.5 transition whitespace-nowrap">
+                                <span>🌳</span>
+                                <span>BẢNG 1: PHÂN CẤP BUNG / THU (MIỀN ➔ VÙNG ➔ OFFICE ➔ NPP ➔ NVBH)</span>
+                            </button>
+                            <button id="basket-subtab-btn-monthly" onclick="switchBasketSubtab('monthly')" class="pb-2 px-3 text-xs font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-800 hover:border-slate-300 flex items-center space-x-1.5 transition whitespace-nowrap">
+                                <span>📅</span>
+                                <span>BẢNG 2: XU HƯỚNG TỔNG HỢP THEO TỪNG THÁNG (2025 - 2026)</span>
+                            </button>
+                        </div>
+                        <div class="flex items-center space-x-2 shrink-0">
+                            <a href="Bao_Cao_Hieu_Qua_Don_Hang_Va_Outlet_SKU.xlsx" download class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow-sm transition border border-emerald-500">
+                                <span>📥</span>
+                                <span>Tải File Excel Báo Cáo (.xlsx)</span>
+                            </a>
+                        </div>
                     </div>
 
                     <!-- SUBTAB 1: TREE TABLE BUNG / THU -->
@@ -1714,7 +1649,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
         }
 
         // User Authentication & Roles Database
-        const BASE_APP_USERS = [{"username": "admin", "password_hash": "7fa46e4b244194bbe522fe5ddf10b3eb51e35d504b0e909bf212723637f2240c", "full_name": "Quản Trị Viên (Admin)", "role": "admin", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "Longan987", "updated_at": "Wed Sep 16 2026 13:18:41 GMT+0700 (Giờ Đông Dương)"}, {"username": "asm_hcm", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Chung Thành", "role": "asm", "scope_level": "vung", "scope_value": "HCM", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 17:21:08 GMT+0700 (Giờ Đông Dương)"}, {"username": "kimseungjin", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Kim Seung Jin", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 15:13:18 GMT+0700 (Giờ Đông Dương)"}, {"username": "hailp", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Lê Phúc Hải", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": ""}, {"username": "tm", "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "full_name": "Trade MKT", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123", "updated_at": ""}, {"username": "asm_danang", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Quản Lý Vùng Đà Nẵng (Nguyễn Văn Lúa)", "role": "asm", "scope_level": "vung", "scope_value": "Da Nang", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "gsbh_dn1", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "GSBH Đà Nẵng 1 (Nguyễn Văn Lúa)", "role": "gsbh", "scope_level": "office", "scope_value": "D.Nang", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "npp_phuoctai", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "NPP Phước Tài Đà Nẵng", "role": "npp", "scope_level": "npp", "scope_value": "1033603", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "gtnorth", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Từ Ngọc Chương", "role": "rsm", "scope_level": "region", "scope_value": "MIỀN BẮC", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 17:21:08 GMT+0700 (Giờ Đông Dương)"}, {"username": "gtsouth", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Vacant", "role": "rsm", "scope_level": "region", "scope_value": "MIỀN NAM", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 15:58:22 GMT+0700 (Giờ Đông Dương)"}, {"username": "bong", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Nguyễn Thị Kim Bông", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": "Tue Sep 15 2026 11:46:33 GMT+0700 (Giờ Đông Dương)"}, {"username": "kam_cgv", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "KAM Cụm Rạp Chiếu Phim CGV Cinemas", "role": "kam", "scope_level": "account", "scope_value": "CGV", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "npp_toanthuy", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "NPP Toàn Thủy Cần Thơ", "role": "npp", "scope_level": "npp", "scope_value": "CÔNG TY TNHH TMDV TOÀN THỦY", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "lyntb", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Nguyễn Thị Bích Ly", "role": "bod", "scope_level": "all", "scope_value": "all", "is_active": 1, "raw_password": "123456", "updated_at": "Thu Sep 17 2026 13:54:08 GMT+0700 (Giờ Đông Dương)"}, {"username": "head_b2b", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Trưởng Kênh B2B / Food Service Toàn Quốc", "role": "head_channel", "scope_level": "all", "scope_value": "Kênh B2B", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Thu Sep 17 2026 13:54:09 GMT+0700 (Giờ Đông Dương)"}, {"username": "head_kr", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Trưởng Kênh Khách Hàn Quốc (KR)", "role": "head_channel", "scope_level": "all", "scope_value": "Kênh KR", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Thu Sep 17 2026 13:54:09 GMT+0700 (Giờ Đông Dương)"}, {"username": "kam_bachhoaxanh", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "KAM Chuỗi Siêu Thị Bách Hóa Xanh", "role": "kam", "scope_level": "chain", "scope_value": "BHX", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "tm_mt", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Trade MKT MT", "role": "viewer", "scope_level": "all", "scope_value": "all", "is_active": 1, "raw_password": "123456", "updated_at": "Thu Sep 17 2026 13:54:10 GMT+0700 (Giờ Đông Dương)"}];
+        const BASE_APP_USERS = [{"username": "admin", "password_hash": "7fa46e4b244194bbe522fe5ddf10b3eb51e35d504b0e909bf212723637f2240c", "full_name": "Quản Trị Viên (Admin)", "role": "admin", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "Longan987", "updated_at": "Wed Sep 16 2026 13:18:41 GMT+0700 (Giờ Đông Dương)"}, {"username": "asm_hcm", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Chung Thành", "role": "asm", "scope_level": "vung", "scope_value": "HCM", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 17:21:08 GMT+0700 (Giờ Đông Dương)"}, {"username": "kimseungjin", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Kim Seung Jin", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 15:13:18 GMT+0700 (Giờ Đông Dương)"}, {"username": "hailp", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Lê Phúc Hải", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": ""}, {"username": "tm", "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "full_name": "Trade MKT", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123", "updated_at": ""}, {"username": "asm_danang", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Quản Lý Vùng Đà Nẵng (Nguyễn Văn Lúa)", "role": "asm", "scope_level": "vung", "scope_value": "Da Nang", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "gsbh_dn1", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "GSBH Đà Nẵng 1 (Nguyễn Văn Lúa)", "role": "gsbh", "scope_level": "office", "scope_value": "D.Nang", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "npp_phuoctai", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "NPP Phước Tài Đà Nẵng", "role": "npp", "scope_level": "npp", "scope_value": "1033603", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "gtnorth", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Từ Ngọc Chương", "role": "rsm", "scope_level": "region", "scope_value": "MIỀN BẮC", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 17:21:08 GMT+0700 (Giờ Đông Dương)"}, {"username": "gtsouth", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Vacant", "role": "rsm", "scope_level": "region", "scope_value": "MIỀN NAM", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 15:58:22 GMT+0700 (Giờ Đông Dương)"}, {"username": "bong", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Nguyễn Thị Kim Bông", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": "Tue Sep 15 2026 11:46:33 GMT+0700 (Giờ Đông Dương)"}, {"username": "kam_cgv", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "KAM Cụm Rạp Chiếu Phim CGV Cinemas", "role": "kam", "scope_level": "account", "scope_value": "CGV", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "npp_toanthuy", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "NPP Toàn Thủy Cần Thơ", "role": "npp", "scope_level": "npp", "scope_value": "CÔNG TY TNHH TMDV TOÀN THỦY", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "lyntb", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Nguyễn Thị Bích Ly", "role": "bod", "scope_level": "all", "scope_value": "all", "is_active": 1, "raw_password": "123456", "updated_at": "Thu Sep 17 2026 14:29:34 GMT+0700 (Giờ Đông Dương)"}, {"username": "head_b2b", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Trưởng Kênh B2B / Food Service Toàn Quốc", "role": "head_channel", "scope_level": "all", "scope_value": "Kênh B2B", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Thu Sep 17 2026 14:29:34 GMT+0700 (Giờ Đông Dương)"}, {"username": "head_kr", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Trưởng Kênh Khách Hàn Quốc (KR)", "role": "head_channel", "scope_level": "all", "scope_value": "Kênh KR", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Thu Sep 17 2026 14:29:35 GMT+0700 (Giờ Đông Dương)"}, {"username": "kam_bachhoaxanh", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "KAM Chuỗi Siêu Thị Bách Hóa Xanh", "role": "kam", "scope_level": "chain", "scope_value": "BHX", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "tm_mt", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Trade MKT MT", "role": "viewer", "scope_level": "all", "scope_value": "all", "is_active": 1, "raw_password": "123456", "updated_at": "Thu Sep 17 2026 14:29:37 GMT+0700 (Giờ Đông Dương)"}];
         const GOOGLE_SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwK7qLxIDHg7fpXaxcCHyFTM_Oo0_3TrLVdBw3MP9kdvoPRxquuuGQurq25QGtt3Pj9gg/exec";
 
         async function syncToGoogleSheet(action, payload) {
