@@ -553,22 +553,22 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 position: sticky !important;
                 left: 0px !important;
                 z-index: 25 !important;
-                min-width: 145px !important;
-                width: 145px !important;
-                max-width: 155px !important;
+                min-width: 175px !important;
+                width: 175px !important;
+                max-width: 190px !important;
                 background-color: #ffffff !important;
                 border-right: 2px solid #cbd5e1 !important;
                 box-shadow: 3px 0 8px -2px rgba(0, 0, 0, 0.18) !important;
                 padding-left: 6px !important;
-                padding-right: 4px !important;
+                padding-right: 6px !important;
             }
             .basket-sticky-table thead th.sticky-col-left-0 {
                 position: sticky !important;
                 top: 0px !important;
                 left: 0px !important;
-                min-width: 145px !important;
-                width: 145px !important;
-                max-width: 155px !important;
+                min-width: 175px !important;
+                width: 175px !important;
+                max-width: 190px !important;
                 background-color: #0f172a !important;
                 color: #ffffff !important;
                 z-index: 50 !important;
@@ -585,6 +585,10 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 font-size: 10.5px !important;
                 padding: 4px 5px !important;
                 white-space: nowrap !important;
+            }
+            .basket-sticky-table td.sticky-col-left-0 {
+                white-space: normal !important;
+                vertical-align: middle !important;
             }
             .basket-sticky-table thead tr:first-child th:not([rowspan]) {
                 height: 25px !important;
@@ -1790,7 +1794,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
         }
 
         // User Authentication & Roles Database
-        const BASE_APP_USERS = [{"username": "admin", "password_hash": "7fa46e4b244194bbe522fe5ddf10b3eb51e35d504b0e909bf212723637f2240c", "full_name": "Quản Trị Viên (Admin)", "role": "admin", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "Longan987", "updated_at": "Wed Sep 16 2026 13:18:41 GMT+0700 (Giờ Đông Dương)"}, {"username": "asm_hcm", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Chung Thành", "role": "asm", "scope_level": "vung", "scope_value": "HCM", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 17:21:08 GMT+0700 (Giờ Đông Dương)"}, {"username": "kimseungjin", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Kim Seung Jin", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 15:13:18 GMT+0700 (Giờ Đông Dương)"}, {"username": "hailp", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Lê Phúc Hải", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": ""}, {"username": "tm", "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "full_name": "Trade MKT", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123", "updated_at": ""}, {"username": "asm_danang", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Quản Lý Vùng Đà Nẵng (Nguyễn Văn Lúa)", "role": "asm", "scope_level": "vung", "scope_value": "Da Nang", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "gsbh_dn1", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "GSBH Đà Nẵng 1 (Nguyễn Văn Lúa)", "role": "gsbh", "scope_level": "office", "scope_value": "D.Nang", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "npp_phuoctai", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "NPP Phước Tài Đà Nẵng", "role": "npp", "scope_level": "npp", "scope_value": "1033603", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "gtnorth", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Từ Ngọc Chương", "role": "rsm", "scope_level": "region", "scope_value": "MIỀN BẮC", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 17:21:08 GMT+0700 (Giờ Đông Dương)"}, {"username": "gtsouth", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Vacant", "role": "rsm", "scope_level": "region", "scope_value": "MIỀN NAM", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 15:58:22 GMT+0700 (Giờ Đông Dương)"}, {"username": "bong", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Nguyễn Thị Kim Bông", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": "Tue Sep 15 2026 11:46:33 GMT+0700 (Giờ Đông Dương)"}, {"username": "kam_cgv", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "KAM Cụm Rạp Chiếu Phim CGV Cinemas", "role": "kam", "scope_level": "account", "scope_value": "CGV", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "npp_toanthuy", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "NPP Toàn Thủy Cần Thơ", "role": "npp", "scope_level": "npp", "scope_value": "CÔNG TY TNHH TMDV TOÀN THỦY", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "lyntb", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Nguyễn Thị Bích Ly", "role": "bod", "scope_level": "all", "scope_value": "all", "is_active": 1, "raw_password": "123456", "updated_at": "Thu Sep 17 2026 17:30:59 GMT+0700 (Giờ Đông Dương)"}, {"username": "head_b2b", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Trưởng Kênh B2B / Food Service Toàn Quốc", "role": "head_channel", "scope_level": "all", "scope_value": "Kênh B2B", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Thu Sep 17 2026 17:31:01 GMT+0700 (Giờ Đông Dương)"}, {"username": "head_kr", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Trưởng Kênh Khách Hàn Quốc (KR)", "role": "head_channel", "scope_level": "all", "scope_value": "Kênh KR", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Thu Sep 17 2026 17:31:02 GMT+0700 (Giờ Đông Dương)"}, {"username": "kam_bachhoaxanh", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "KAM Chuỗi Siêu Thị Bách Hóa Xanh", "role": "kam", "scope_level": "chain", "scope_value": "BHX", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "tm_mt", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Trade MKT MT", "role": "viewer", "scope_level": "all", "scope_value": "all", "is_active": 1, "raw_password": "123456", "updated_at": "Thu Sep 17 2026 17:31:02 GMT+0700 (Giờ Đông Dương)"}];
+        const BASE_APP_USERS = [{"username": "admin", "password_hash": "7fa46e4b244194bbe522fe5ddf10b3eb51e35d504b0e909bf212723637f2240c", "full_name": "Quản Trị Viên (Admin)", "role": "admin", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "Longan987", "updated_at": "Wed Sep 16 2026 13:18:41 GMT+0700 (Giờ Đông Dương)"}, {"username": "asm_hcm", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Chung Thành", "role": "asm", "scope_level": "vung", "scope_value": "HCM", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 17:21:08 GMT+0700 (Giờ Đông Dương)"}, {"username": "kimseungjin", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Kim Seung Jin", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 15:13:18 GMT+0700 (Giờ Đông Dương)"}, {"username": "hailp", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Lê Phúc Hải", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": ""}, {"username": "tm", "password_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "full_name": "Trade MKT", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123", "updated_at": ""}, {"username": "asm_danang", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Quản Lý Vùng Đà Nẵng (Nguyễn Văn Lúa)", "role": "asm", "scope_level": "vung", "scope_value": "Da Nang", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "gsbh_dn1", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "GSBH Đà Nẵng 1 (Nguyễn Văn Lúa)", "role": "gsbh", "scope_level": "office", "scope_value": "D.Nang", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "npp_phuoctai", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "NPP Phước Tài Đà Nẵng", "role": "npp", "scope_level": "npp", "scope_value": "1033603", "is_active": 1, "raw_password": "cj@2026", "updated_at": ""}, {"username": "gtnorth", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Từ Ngọc Chương", "role": "rsm", "scope_level": "region", "scope_value": "MIỀN BẮC", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 17:21:08 GMT+0700 (Giờ Đông Dương)"}, {"username": "gtsouth", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Vacant", "role": "rsm", "scope_level": "region", "scope_value": "MIỀN NAM", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 11 2026 15:58:22 GMT+0700 (Giờ Đông Dương)"}, {"username": "bong", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Nguyễn Thị Kim Bông", "role": "viewer", "scope_level": "all", "scope_value": "Tất cả", "is_active": 1, "raw_password": "123456", "updated_at": "Tue Sep 15 2026 11:46:33 GMT+0700 (Giờ Đông Dương)"}, {"username": "kam_cgv", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "KAM Cụm Rạp Chiếu Phim CGV Cinemas", "role": "kam", "scope_level": "account", "scope_value": "CGV", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "npp_toanthuy", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "NPP Toàn Thủy Cần Thơ", "role": "npp", "scope_level": "npp", "scope_value": "CÔNG TY TNHH TMDV TOÀN THỦY", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "lyntb", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Nguyễn Thị Bích Ly", "role": "bod", "scope_level": "all", "scope_value": "all", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 18 2026 08:33:58 GMT+0700 (Giờ Đông Dương)"}, {"username": "head_b2b", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Trưởng Kênh B2B / Food Service Toàn Quốc", "role": "head_channel", "scope_level": "all", "scope_value": "Kênh B2B", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Fri Sep 18 2026 08:34:01 GMT+0700 (Giờ Đông Dương)"}, {"username": "head_kr", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "Trưởng Kênh Khách Hàn Quốc (KR)", "role": "head_channel", "scope_level": "all", "scope_value": "Kênh KR", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Fri Sep 18 2026 08:34:00 GMT+0700 (Giờ Đông Dương)"}, {"username": "kam_bachhoaxanh", "password_hash": "ce869102d21af24a658981126bffb35fb131bb52fd268cb9480df0486e4c6faa", "full_name": "KAM Chuỗi Siêu Thị Bách Hóa Xanh", "role": "kam", "scope_level": "chain", "scope_value": "BHX", "is_active": 1, "raw_password": "cj@2026", "updated_at": "Wed Sep 16 2026 18:37:42 GMT+0700 (Giờ Đông Dương)"}, {"username": "tm_mt", "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92", "full_name": "Trade MKT MT", "role": "viewer", "scope_level": "all", "scope_value": "all", "is_active": 1, "raw_password": "123456", "updated_at": "Fri Sep 18 2026 08:34:00 GMT+0700 (Giờ Đông Dương)"}];
         const GOOGLE_SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwK7qLxIDHg7fpXaxcCHyFTM_Oo0_3TrLVdBw3MP9kdvoPRxquuuGQurq25QGtt3Pj9gg/exec";
 
         async function syncToGoogleSheet(action, payload) {
@@ -6129,8 +6133,9 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
         }
 
         function getBasketTheadHtml(tableType, colView) {
-            const col0Label = tableType === 'tree' ? 'CẤP BẬC / ĐƠN VỊ' : 'CẤP BẬC / ĐƠN VỊ & KỲ THÁNG';
-            const col0Width = tableType === 'tree' ? 'col-w-260' : 'col-w-280';
+            const isMobile = window.innerWidth <= 767;
+            const col0Label = isMobile ? 'CẤP BẬC / ĐƠN VỊ' : (tableType === 'tree' ? 'CẤP BẬC / ĐƠN VỊ' : 'CẤP BẬC / ĐƠN VỊ & KỲ THÁNG');
+            const col0Width = isMobile ? 'min-w-[175px] w-[175px] max-w-[190px]' : (tableType === 'tree' ? 'col-w-260' : 'col-w-280');
 
             if (colView === 'core') {
                 return '<tr>' +
@@ -6432,6 +6437,9 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                     selectEl.appendChild(opt);
                 });
                 currentBasketPeriod = selectEl.value || '2026-08';
+            }
+            if (window.innerWidth <= 767 && (!currentBasketColView || currentBasketColView === 'all')) {
+                currentBasketColView = 'core';
             }
             updateBasketTheads();
             updateBasketColViewButtons();
@@ -6900,7 +6908,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 let rowBg = 'bg-white';
                 let fontClass = 'text-slate-700';
                 let badgeLvl = '';
-                let indentPx = Math.max(0, lvl - rootLevel) * (window.innerWidth <= 767 ? 8 : 18);
+                let indentPx = Math.max(0, lvl - rootLevel) * (window.innerWidth <= 767 ? 6 : 18);
 
                 if (lvl === 0) {
                     rowBg = 'bg-slate-900 text-white font-black';
@@ -7040,14 +7048,28 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 const isZeroSale = (rowVal === 0 && rowOrders === 0);
 
                 const isMobile = window.innerWidth <= 767;
-                const tdCol0 = '<td class="py-2 pr-2 border border-slate-200 sticky-col-left-0 col-w-260 bg-inherit" style="padding-left: ' + (indentPx + (isMobile ? 4 : 8)) + 'px;">' +
-                    '<div class="flex items-center space-x-1 overflow-hidden whitespace-nowrap text-ellipsis">' +
-                        caret +
-                        badgeLvl +
-                        '<span class="' + fontClass + ' text-xs ml-1 truncate" title="' + name + '">' + name + '</span>' +
-                        '<button type="button" data-bid="' + id + '" onclick="event.stopPropagation(); showBasketDetailModal(this.dataset.bid, currentBasketPeriod)" class="ml-1 px-1.5 py-0.5 rounded text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-normal transition shrink-0" title="Xem thẻ 360°">📋</button>' +
-                    '</div>' +
-                '</td>';
+                let tdCol0 = '';
+                if (isMobile) {
+                    tdCol0 = '<td class="py-1.5 px-2 border border-slate-200 sticky-col-left-0 bg-inherit" style="padding-left: ' + (indentPx + 4) + 'px;">' +
+                        '<div class="flex flex-col justify-center space-y-0.5">' +
+                            '<div class="flex items-center space-x-1 shrink-0">' +
+                                caret +
+                                badgeLvl +
+                                '<button type="button" data-bid="' + id + '" onclick="event.stopPropagation(); showBasketDetailModal(this.dataset.bid, currentBasketPeriod)" class="ml-auto px-1.5 py-0.5 rounded text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-normal transition shrink-0" title="Xem thẻ 360°">📋 Thẻ 360°</button>' +
+                            '</div>' +
+                            '<div class="' + fontClass + ' text-[11px] font-bold text-slate-900 leading-snug break-words whitespace-normal pt-0.5" title="' + name + '">' + name + '</div>' +
+                        '</div>' +
+                    '</td>';
+                } else {
+                    tdCol0 = '<td class="py-2 pr-2 border border-slate-200 sticky-col-left-0 col-w-260 bg-inherit" style="padding-left: ' + (indentPx + 8) + 'px;">' +
+                        '<div class="flex items-center space-x-1 overflow-hidden whitespace-nowrap text-ellipsis">' +
+                            caret +
+                            badgeLvl +
+                            '<span class="' + fontClass + ' text-xs ml-1 truncate" title="' + name + '">' + name + '</span>' +
+                            '<button type="button" data-bid="' + id + '" onclick="event.stopPropagation(); showBasketDetailModal(this.dataset.bid, currentBasketPeriod)" class="ml-1 px-1.5 py-0.5 rounded text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-normal transition shrink-0" title="Xem thẻ 360°">📋</button>' +
+                        '</div>' +
+                    '</td>';
+                }
 
                 const tdVal = '<td class="px-2.5 py-2 border border-slate-200 text-right font-medium">' + (rowVal/1e6).toLocaleString('vi-VN', {maximumFractionDigits: 0}) + '</td>';
                 const tdOrders = '<td class="px-2.5 py-2 border border-slate-200 text-center font-medium">' + rowOrders.toLocaleString('vi-VN') + '</td>';
@@ -7562,7 +7584,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 let rowBg = 'bg-white';
                 let fontClass = 'text-slate-700';
                 let badgeLvl = '';
-                let indentPx = Math.max(0, lvl - rootLevel) * (window.innerWidth <= 767 ? 8 : 18);
+                let indentPx = Math.max(0, lvl - rootLevel) * (window.innerWidth <= 767 ? 6 : 18);
 
                 if (lvl === 0) {
                     rowBg = 'bg-slate-900 text-white font-black';
@@ -7609,15 +7631,30 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 // DÒNG CẤP ĐỊA BÀN (TỔNG HỢP GIAI ĐOẠN)
                 totalRenderedRows++;
                 const isMobile = window.innerWidth <= 767;
-                const mCol0 = '<td class="px-2.5 py-2 border border-slate-200 sticky-col-left-0 bg-inherit whitespace-nowrap">' +
-                    '<div class="flex items-center" style="padding-left: ' + indentPx + 'px">' +
-                        caret +
-                        '<span class="mr-1.5">' + badgeLvl + '</span>' +
-                        '<span class="' + fontClass + ' truncate max-w-[170px]" title="' + node.name + '">' + node.name + '</span>' +
-                        '<button type="button" data-bid="' + id + '" data-p="Tổng" onclick="event.stopPropagation(); showBasketDetailModal(this.dataset.bid, this.dataset.p)" class="ml-1 px-1.5 py-0.5 rounded text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-normal transition shrink-0" title="Xem thẻ 360°">📋</button>' +
-                        monthBtn +
-                    '</div>' +
-                '</td>';
+                let mCol0 = '';
+                if (isMobile) {
+                    mCol0 = '<td class="py-1.5 px-2 border border-slate-200 sticky-col-left-0 bg-inherit" style="padding-left: ' + (indentPx + 4) + 'px;">' +
+                        '<div class="flex flex-col justify-center space-y-1">' +
+                            '<div class="flex items-center space-x-1 shrink-0">' +
+                                caret +
+                                badgeLvl +
+                                '<button type="button" data-bid="' + id + '" data-p="Tổng" onclick="event.stopPropagation(); showBasketDetailModal(this.dataset.bid, this.dataset.p)" class="ml-auto px-1.5 py-0.5 rounded text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-normal transition shrink-0" title="Xem thẻ 360°">📋 Thẻ 360°</button>' +
+                            '</div>' +
+                            '<div class="' + fontClass + ' text-[11px] font-bold text-slate-900 leading-snug break-words whitespace-normal" title="' + node.name + '">' + node.name + '</div>' +
+                            (monthBtn ? '<div class="pt-0.5">' + monthBtn + '</div>' : '') +
+                        '</div>' +
+                    '</td>';
+                } else {
+                    mCol0 = '<td class="px-2.5 py-2 border border-slate-200 sticky-col-left-0 col-w-280 bg-inherit whitespace-nowrap">' +
+                        '<div class="flex items-center" style="padding-left: ' + indentPx + 'px">' +
+                            caret +
+                            '<span class="mr-1.5">' + badgeLvl + '</span>' +
+                            '<span class="' + fontClass + ' truncate max-w-[170px]" title="' + node.name + '">' + node.name + '</span>' +
+                            '<button type="button" data-bid="' + id + '" data-p="Tổng" onclick="event.stopPropagation(); showBasketDetailModal(this.dataset.bid, this.dataset.p)" class="ml-1 px-1.5 py-0.5 rounded text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-normal transition shrink-0" title="Xem thẻ 360°">📋</button>' +
+                            monthBtn +
+                        '</div>' +
+                    '</td>';
+                }
 
                 const mVal = '<td class="px-3 py-2 border border-slate-200 text-right font-bold">' + (sumVal/1e6).toLocaleString('vi-VN', {maximumFractionDigits: 0}) + '</td>';
                 const mOrders = '<td class="px-3 py-2 border border-slate-200 text-center font-semibold">' + sumOrders.toLocaleString('vi-VN') + '</td>';
@@ -7672,14 +7709,28 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                         const mBadgeOut = st.skuOut >= 3.0 ? 'bg-emerald-100 text-emerald-900 font-extrabold' : (st.skuOut >= 2.2 ? 'bg-sky-100 text-sky-900 font-bold' : 'bg-slate-200 text-slate-800 font-bold');
                         const mAlert1 = st.p1 > 50 ? 'text-rose-600 font-bold' : 'text-slate-700';
 
-                        const subCol0 = '<td class="px-2.5 py-1.5 border border-slate-200 sticky-col-left-0 bg-inherit whitespace-nowrap">' +
-                            '<div class="flex items-center" style="padding-left: ' + (indentPx + (isMobile ? 12 : 24)) + 'px">' +
-                                '<span class="text-teal-600 text-[10px] mr-1.5">📅</span>' +
-                                '<span class="text-teal-950 font-bold text-[11px]">Tháng ' + periodLabel + '</span>' +
-                                (isCur ? ' <span class="ml-1.5 px-1 py-0.2 bg-teal-600 text-white rounded text-[9px] font-black">HIỆN TẠI</span>' : '') +
-                                '<button type="button" data-bid="' + id + '" data-p="' + pKey + '" onclick="event.stopPropagation(); showBasketDetailModal(this.dataset.bid, this.dataset.p)" class="ml-1 px-1 py-0.2 rounded text-[9px] bg-teal-100 hover:bg-teal-200 text-teal-800 font-normal transition shrink-0" title="Xem thẻ tháng này">📋</button>' +
-                            '</div>' +
-                        '</td>';
+                        let subCol0 = '';
+                        if (isMobile) {
+                            subCol0 = '<td class="py-1 px-2 border border-slate-200 sticky-col-left-0 bg-inherit" style="padding-left: ' + (indentPx + 10) + 'px;">' +
+                                '<div class="flex items-center justify-between space-x-1">' +
+                                    '<div class="flex items-center space-x-1 shrink-0">' +
+                                        '<span class="text-teal-600 text-[10px]">📅</span>' +
+                                        '<span class="text-teal-950 font-bold text-[11px] whitespace-nowrap">' + periodLabel + '</span>' +
+                                        (isCur ? ' <span class="ml-1 px-1 py-0.2 bg-teal-600 text-white rounded text-[8px] font-black">HIỆN TẠI</span>' : '') +
+                                    '</div>' +
+                                    '<button type="button" data-bid="' + id + '" data-p="' + pKey + '" onclick="event.stopPropagation(); showBasketDetailModal(this.dataset.bid, this.dataset.p)" class="px-1 py-0.2 rounded text-[9px] bg-teal-100 hover:bg-teal-200 text-teal-800 font-normal transition shrink-0" title="Xem thẻ tháng này">📋 Thẻ</button>' +
+                                '</div>' +
+                            '</td>';
+                        } else {
+                            subCol0 = '<td class="px-2.5 py-1.5 border border-slate-200 sticky-col-left-0 col-w-280 bg-inherit whitespace-nowrap">' +
+                                '<div class="flex items-center" style="padding-left: ' + (indentPx + 24) + 'px">' +
+                                    '<span class="text-teal-600 text-[10px] mr-1.5">📅</span>' +
+                                    '<span class="text-teal-950 font-bold text-[11px]">Tháng ' + periodLabel + '</span>' +
+                                    (isCur ? ' <span class="ml-1.5 px-1 py-0.2 bg-teal-600 text-white rounded text-[9px] font-black">HIỆN TẠI</span>' : '') +
+                                    '<button type="button" data-bid="' + id + '" data-p="' + pKey + '" onclick="event.stopPropagation(); showBasketDetailModal(this.dataset.bid, this.dataset.p)" class="ml-1 px-1 py-0.2 rounded text-[9px] bg-teal-100 hover:bg-teal-200 text-teal-800 font-normal transition shrink-0" title="Xem thẻ tháng này">📋</button>' +
+                                '</div>' +
+                            '</td>';
+                        }
 
                         const subVal = '<td class="px-3 py-1.5 border border-slate-200 text-right font-medium">' + (st.val/1e6).toLocaleString('vi-VN', {maximumFractionDigits: 0}) + '</td>';
                         const subOrders = '<td class="px-3 py-1.5 border border-slate-200 text-center">' + st.orders.toLocaleString('vi-VN') + '</td>';
