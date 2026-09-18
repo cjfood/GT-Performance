@@ -7614,7 +7614,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                         caret +
                         '<span class="mr-1.5">' + badgeLvl + '</span>' +
                         '<span class="' + fontClass + ' truncate max-w-[170px]" title="' + node.name + '">' + node.name + '</span>' +
-                        '<button type="button" data-bid="' + id + '" onclick="event.stopPropagation(); showBasketDetailModal(this.dataset.bid, 'Tổng')" class="ml-1 px-1.5 py-0.5 rounded text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-normal transition shrink-0" title="Xem thẻ 360°">📋</button>' +
+                        '<button type="button" data-bid="' + id + '" data-p="Tổng" onclick="event.stopPropagation(); showBasketDetailModal(this.dataset.bid, this.dataset.p)" class="ml-1 px-1.5 py-0.5 rounded text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-normal transition shrink-0" title="Xem thẻ 360°">📋</button>' +
                         monthBtn +
                     '</div>' +
                 '</td>';
