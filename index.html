@@ -1698,8 +1698,8 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                                     <option value="npp">Theo Cấp Nhà Phân Phối</option>
                                 </select>
                             </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-700 mb-1">Phạm vi dữ liệu cụ thể *</label>
+                            <div id="scope-value-container">
+                                <label id="scope-value-label" class="block text-[11px] font-bold text-slate-700 mb-1">Phạm vi dữ liệu cụ thể *</label>
                                 <select id="form-scope-value" class="w-full px-3 py-1.5 text-xs border border-slate-300 rounded focus:outline-none focus:border-cj-blue bg-white">
                                     <option value="Tất cả">Toàn Quốc (Tất cả)</option>
                                 </select>
@@ -1893,15 +1893,22 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
 
                 if (su) {
                     if (su.is_active === 0 || su.is_deleted === true) return;
-                    const useLocal = sTime >= bTime;
+                    const isSuperAdmin = uKey === 'admin';
+                    let suRawPwd = su.raw_password;
+                    let suHash = su.password_hash;
+                    if (isSuperAdmin && (suRawPwd === '123456' || suRawPwd === '12345' || suRawPwd === 'admin@cj2026')) {
+                        suRawPwd = bu.raw_password;
+                        suHash = bu.password_hash;
+                    }
+                    const useLocal = Boolean(su && su.updated_at && sTime > bTime);
                     merged.push({
                         username: bu.username,
-                        password_hash: (useLocal ? su.password_hash : bu.password_hash) || bu.password_hash,
-                        raw_password: (useLocal ? su.raw_password : bu.raw_password) || bu.raw_password,
+                        password_hash: (useLocal ? suHash : bu.password_hash) || bu.password_hash,
+                        raw_password: (useLocal ? suRawPwd : bu.raw_password) || bu.raw_password,
                         full_name: (useLocal ? su.full_name : bu.full_name) || bu.full_name,
-                        role: (useLocal ? su.role : bu.role) || bu.role,
-                        scope_level: (useLocal ? su.scope_level : bu.scope_level) || bu.scope_level,
-                        scope_value: (useLocal ? su.scope_value : bu.scope_value) || bu.scope_value,
+                        role: isSuperAdmin ? 'admin' : ((useLocal ? su.role : bu.role) || bu.role),
+                        scope_level: isSuperAdmin ? 'all' : ((useLocal ? su.scope_level : bu.scope_level) || bu.scope_level),
+                        scope_value: isSuperAdmin ? 'Tất cả' : ((useLocal ? su.scope_value : bu.scope_value) || bu.scope_value),
                         is_active: 1,
                         updated_at: useLocal && su.updated_at ? su.updated_at : (bu.updated_at || '')
                     });
@@ -2040,34 +2047,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                     window.history.replaceState({}, document.title, window.location.pathname);
                 }
 
-                // 1. ĐẶC QUYỀN ADMIN TUYỆT ĐỐI
-                if (username === 'admin') {
-                    let matchedAdmin = {
-                        username: 'admin',
-                        full_name: 'Quản Trị Viên (Admin)',
-                        role: 'admin',
-                        scope_level: 'all',
-                        scope_value: 'Tất cả',
-                        is_active: 1,
-                        raw_password: password,
-                        password_hash: ''
-                    };
-                    const users = getAppUsers();
-                    const idx = users.findIndex(u => u.username && u.username.toLowerCase() === 'admin');
-                    if (idx >= 0) users[idx] = matchedAdmin;
-                    else users.push(matchedAdmin);
-                    saveAppUsers(users);
-
-                    setSessionUser(matchedAdmin, rememberInput ? rememberInput.checked : true);
-                    currentUser = matchedAdmin;
-                    document.getElementById('login-modal').classList.add('hidden');
-                    initUserSession(currentUser);
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<span>ĐĂNG NHẬP</span><span>➔</span>';
-                    return false;
-                }
-
-                // 2. Kiểm tra tài khoản tại Local / Base
+                // 1. Kiểm tra tài khoản tại Local / Base
                 let users = getAppUsers();
                 let matchedUser = users.find(u => u.username && u.username.toLowerCase() === username);
                 let baseUser = (typeof BASE_APP_USERS !== 'undefined' ? BASE_APP_USERS : []).find(bu => bu.username && bu.username.toLowerCase() === username);
@@ -2078,9 +2058,12 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
 
                 function checkPasswordMatch(userObj) {
                     if (!userObj) return false;
+                    // BẢO VỆ CHẶT CHẼ TÀI KHOẢN ADMIN: Tuyệt đối không chấp nhận mật khẩu rác/bypass
+                    if (username === 'admin') {
+                        if (['123456', '12345', 'cj@2026', 'admin', 'admin@cj2026'].includes(password)) return false;
+                    }
                     if (userObj.raw_password && userObj.raw_password === password) return true;
                     if (pwdHash && userObj.password_hash && userObj.password_hash === pwdHash) return true;
-                    if (['123456', '12345', 'cj@2026', username].includes(password)) return true;
                     return false;
                 }
 
@@ -2091,8 +2074,8 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                     matchedUser = { ...baseUser };
                 }
 
-                // 3. TỰ ĐỘNG GỌI CLOUD FALLBACK KHI KHÔNG TÌM THẤY Ở LOCAL / TÀI KHOẢN VỪA TẠO TỪ MÁY KHÁC
-                if (!isMatch) {
+                // 2. TỰ ĐỘNG GỌI CLOUD FALLBACK KHI KHÔNG TÌM THẤY Ở LOCAL (Không áp dụng cho admin để tránh giả mạo)
+                if (!isMatch && username !== 'admin') {
                     submitBtn.innerHTML = '<span class="inline-block animate-spin mr-1.5">🔄</span><span>Đang đồng bộ Đám mây...</span>';
                     try {
                         const cloudUsers = await fetchLatestUsersFromCloudQuick();
@@ -2117,7 +2100,6 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                 }
 
                 matchedUser.is_active = 1;
-                matchedUser.raw_password = password;
                 users = getAppUsers();
                 const idx = users.findIndex(u => u.username && u.username.toLowerCase() === username);
                 if (idx >= 0) users[idx] = matchedUser;
@@ -2323,10 +2305,8 @@ Vui lòng kiểm tra mạng và thử lại.`);
             let curHash = '';
             try { curHash = await sha256(currentPwd); } catch(e) {}
             const isMatch = (
-                currentUser.username === 'admin' ||
                 (currentUser.raw_password && currentUser.raw_password === currentPwd) ||
-                (curHash && currentUser.password_hash && currentUser.password_hash === curHash) ||
-                ['123456', '12345', 'cj@2026', currentUser.username].includes(currentPwd)
+                (curHash && currentUser.password_hash && currentUser.password_hash === curHash)
             );
 
             if (!isMatch) {
@@ -2590,31 +2570,49 @@ Vui lòng kiểm tra mạng và thử lại.`);
                 alert('Chỉ Quản trị viên (Admin) mới có quyền truy cập trang quản lý người dùng!');
                 return;
             }
-            renderAdminUserTable();
-            resetUserForm();
-            document.getElementById('admin-modal').classList.remove('hidden');
+            try {
+                renderAdminUserTable();
+                resetUserForm();
+            } catch(err) {
+                console.error('Lỗi khi tải bảng quản trị:', err);
+            }
+            const modal = document.getElementById('admin-modal');
+            if (modal) modal.classList.remove('hidden');
         }
 
         function closeAdminModal() {
-            document.getElementById('admin-modal').classList.add('hidden');
+            const modal = document.getElementById('admin-modal');
+            if (modal) modal.classList.add('hidden');
         }
 
         function renderAdminUserTable() {
             const users = getAppUsers();
-            const tbody = document.getElementById('admin-users-tbody');
-            const countBadge = document.getElementById('admin-user-count');
+            const tbody = document.getElementById('admin-user-tbody') || document.getElementById('admin-users-tbody');
+            const countBadge = document.getElementById('user-count-badge') || document.getElementById('admin-user-count');
+            if (countBadge) {
+                countBadge.innerText = `${users.length} tài khoản`;
+            }
             if (!tbody) return;
-            countBadge.innerText = `${users.length} tài khoản`;
             
             let html = '';
-            users.forEach(u => {
-                const isSuperAdmin = u.username.toLowerCase() === 'admin';
+            users.forEach((u, idx) => {
+                const isSuperAdmin = (u.username || '').toLowerCase() === 'admin';
                 const roleBadgeClass = u.role === 'admin' ? 'bg-amber-100 text-amber-800 border-amber-300' :
                                        u.role === 'rsm' ? 'bg-purple-100 text-purple-800 border-purple-300' :
                                        u.role === 'asm' ? 'bg-blue-100 text-blue-800 border-blue-300' :
                                        u.role === 'gsbh' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
+                                       u.role === 'npp' ? 'bg-orange-100 text-orange-800 border-orange-300' :
                                        'bg-slate-100 text-slate-700 border-slate-300';
                 
+                const scopeLevelMap = {
+                    'all': 'Toàn Quốc',
+                    'region': 'Cấp Miền',
+                    'vung': 'Cấp Vùng',
+                    'office': 'Cấp Office',
+                    'npp': 'Cấp NPP'
+                };
+                const scopeLevelName = scopeLevelMap[u.scope_level] || u.scope_level || 'Toàn Quốc';
+
                 let scopeDesc = '<span class="text-slate-500 font-semibold">Toàn quốc (Tất cả)</span>';
                 if (u.scope_level === 'region') scopeDesc = `<span class="text-purple-700 font-bold">Miền:</span> ${u.scope_value}`;
                 else if (u.scope_level === 'vung') scopeDesc = `<span class="text-blue-700 font-bold">Vùng:</span> ${u.scope_value}`;
@@ -2623,19 +2621,19 @@ Vui lòng kiểm tra mạng và thử lại.`);
 
                 const rawPwdDisplay = u.raw_password ? `<span class="font-mono text-[11px] bg-slate-100 px-1.5 py-0.5 rounded text-slate-700 font-semibold select-all">${u.raw_password}</span>` : '<span class="text-slate-400 italic text-[10px]">Chưa lưu</span>';
 
+                const statusBadge = u.is_active !== 0 ? '<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 mr-1.5">● Bật</span>' : '<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-50 text-red-700 mr-1.5">○ Khóa</span>';
+
                 html += `
                     <tr class="hover:bg-slate-50 border-b border-slate-100 transition">
+                        <td class="px-3 py-2.5 text-center font-semibold text-slate-500">${idx + 1}</td>
                         <td class="px-3 py-2.5 font-bold text-slate-800">${u.username}</td>
-                        <td class="px-3 py-2.5 font-medium text-slate-700">${u.full_name}</td>
                         <td class="px-3 py-2.5">${rawPwdDisplay}</td>
-                        <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold border ${roleBadgeClass}">${u.role.toUpperCase()}</span></td>
+                        <td class="px-3 py-2.5 font-medium text-slate-700">${u.full_name}</td>
+                        <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold border ${roleBadgeClass}">${(u.role || '').toUpperCase()}</span></td>
+                        <td class="px-3 py-2.5 font-semibold text-slate-600">${scopeLevelName}</td>
                         <td class="px-3 py-2.5 text-[11px]">${scopeDesc}</td>
-                        <td class="px-3 py-2.5 text-center">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${u.is_active !== 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}">
-                                ${u.is_active !== 0 ? '● Hoạt động' : '○ Đã khóa'}
-                            </span>
-                        </td>
                         <td class="px-3 py-2.5 text-center space-x-1 whitespace-nowrap">
+                            ${statusBadge}
                             <button type="button" onclick="editUser('${u.username}')" class="px-2 py-1 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded text-[11px] font-semibold transition">✏️ Sửa</button>
                             ${isSuperAdmin ? '' : `<button type="button" onclick="deleteUser('${u.username}')" class="px-2 py-1 bg-red-50 text-red-700 hover:bg-red-100 rounded text-[11px] font-semibold transition">🗑️ Xóa</button>`}
                         </td>
@@ -2646,52 +2644,73 @@ Vui lòng kiểm tra mạng và thử lại.`);
         }
 
         function resetUserForm() {
-            document.getElementById('form-user-edit-mode').value = 'create';
-            document.getElementById('admin-form-title').innerText = '➕ Thêm Tài Khoản Mới';
-            document.getElementById('form-username').value = '';
-            document.getElementById('form-username').readOnly = false;
-            document.getElementById('form-password').value = '';
-            document.getElementById('form-password').required = true;
-            document.getElementById('form-password').placeholder = 'Nhập mật khẩu';
-            document.getElementById('pwd-help-text').innerText = '(Bắt buộc cho tài khoản mới)';
-            document.getElementById('form-fullname').value = '';
-            document.getElementById('form-role').value = 'viewer';
-            document.getElementById('form-scope-level').value = 'all';
+            const modeEl = document.getElementById('form-user-edit-mode');
+            if (modeEl) modeEl.value = 'create';
+            const titleEl = document.getElementById('admin-form-title');
+            if (titleEl) titleEl.innerText = '➕ Thêm Tài Khoản Mới';
+            const uEl = document.getElementById('form-username');
+            if (uEl) { uEl.value = ''; uEl.readOnly = false; }
+            const pEl = document.getElementById('form-password');
+            if (pEl) { pEl.value = ''; pEl.required = true; pEl.placeholder = 'Nhập mật khẩu'; }
+            const hEl = document.getElementById('pwd-help-text');
+            if (hEl) hEl.innerText = '(Bắt buộc cho tài khoản mới)';
+            const fnEl = document.getElementById('form-fullname');
+            if (fnEl) fnEl.value = '';
+            const rEl = document.getElementById('form-role');
+            if (rEl) { rEl.value = 'viewer'; rEl.disabled = false; }
+            const slEl = document.getElementById('form-scope-level');
+            if (slEl) { slEl.value = 'all'; slEl.disabled = false; }
+            onScopeLevelChange();
+        }
+
+        function onRoleChange() {
+            const roleEl = document.getElementById('form-role');
+            const scopeLevelEl = document.getElementById('form-scope-level');
+            if (!roleEl || !scopeLevelEl) return;
+            const role = roleEl.value;
+            if (role === 'admin') scopeLevelEl.value = 'all';
+            else if (role === 'rsm') scopeLevelEl.value = 'region';
+            else if (role === 'asm') scopeLevelEl.value = 'vung';
+            else if (role === 'gsbh') scopeLevelEl.value = 'office';
+            else if (role === 'npp') scopeLevelEl.value = 'npp';
             onScopeLevelChange();
         }
 
         function onScopeLevelChange() {
-            const sLevel = document.getElementById('form-scope-level').value;
+            const scopeLevelEl = document.getElementById('form-scope-level');
             const container = document.getElementById('scope-value-container');
             const select = document.getElementById('form-scope-value');
+            const label = document.getElementById('scope-value-label');
+            if (!scopeLevelEl || !select) return;
+            const sLevel = scopeLevelEl.value;
             
             if (sLevel === 'all') {
-                container.classList.add('hidden');
+                if (container) container.classList.add('hidden');
                 select.innerHTML = '<option value="Tất cả">Tất cả</option>';
                 return;
             }
             
-            container.classList.remove('hidden');
+            if (container) container.classList.remove('hidden');
             let options = '';
             
             if (sLevel === 'region') {
-                document.getElementById('scope-value-label').innerText = 'Chọn Miền áp dụng *';
-                Object.keys(hierarchy).sort().forEach(r => {
+                if (label) label.innerText = 'Chọn Miền áp dụng *';
+                Object.keys(hierarchy || {}).sort().forEach(r => {
                     options += `<option value="${r}">${r}</option>`;
                 });
             } else if (sLevel === 'vung') {
-                document.getElementById('scope-value-label').innerText = 'Chọn Vùng áp dụng *';
+                if (label) label.innerText = 'Chọn Vùng áp dụng *';
                 const vungs = new Set();
-                for (const r in hierarchy) {
+                for (const r in hierarchy || {}) {
                     for (const v in hierarchy[r]) vungs.add(v);
                 }
                 Array.from(vungs).sort().forEach(v => {
                     options += `<option value="${v}">${v}</option>`;
                 });
             } else if (sLevel === 'office') {
-                document.getElementById('scope-value-label').innerText = 'Chọn Office áp dụng *';
+                if (label) label.innerText = 'Chọn Office áp dụng *';
                 const offices = new Set();
-                for (const r in hierarchy) {
+                for (const r in hierarchy || {}) {
                     for (const v in hierarchy[r]) {
                         for (const o in hierarchy[r][v]) offices.add(o);
                     }
@@ -2700,12 +2719,14 @@ Vui lòng kiểm tra mạng và thử lại.`);
                     options += `<option value="${o}">${o}</option>`;
                 });
             } else if (sLevel === 'npp') {
-                document.getElementById('scope-value-label').innerText = 'Chọn Nhà Phân Phối (NPP) *';
+                if (label) label.innerText = 'Chọn Nhà Phân Phối (NPP) *';
                 const npps = new Set();
-                for (const r in hierarchy) {
+                for (const r in hierarchy || {}) {
                     for (const v in hierarchy[r]) {
                         for (const o in hierarchy[r][v]) {
-                            hierarchy[r][v][o].forEach(n => npps.add(n));
+                            if (Array.isArray(hierarchy[r][v][o])) {
+                                hierarchy[r][v][o].forEach(n => npps.add(n));
+                            }
                         }
                     }
                 }
@@ -2713,7 +2734,7 @@ Vui lòng kiểm tra mạng và thử lại.`);
                     options += `<option value="${n}">${n}</option>`;
                 });
             }
-            select.innerHTML = options;
+            select.innerHTML = options || '<option value="Tất cả">Tất cả</option>';
         }
 
         function editUser(username) {
@@ -2721,22 +2742,41 @@ Vui lòng kiểm tra mạng và thử lại.`);
             const user = users.find(u => u.username.toLowerCase() === username.toLowerCase());
             if (!user) return;
             
+            const isSuperAdmin = (user.username || '').toLowerCase() === 'admin';
             document.getElementById('form-user-edit-mode').value = 'edit';
             document.getElementById('admin-form-title').innerText = `✏️ Cập Nhật Tài Khoản: ${user.username}`;
-            document.getElementById('form-username').value = user.username;
-            document.getElementById('form-username').readOnly = true;
-            document.getElementById('form-password').value = user.raw_password || '';
-            document.getElementById('form-password').required = false;
-            document.getElementById('form-password').placeholder = 'Để trống nếu giữ mật khẩu cũ';
+            
+            const uEl = document.getElementById('form-username');
+            uEl.value = user.username;
+            uEl.readOnly = true;
+            
+            const pEl = document.getElementById('form-password');
+            pEl.value = user.raw_password || '';
+            pEl.required = false;
+            pEl.placeholder = 'Để trống nếu giữ mật khẩu cũ';
             document.getElementById('pwd-help-text').innerText = '(Để trống nếu giữ nguyên)';
             
-            document.getElementById('form-fullname').value = user.full_name;
-            document.getElementById('form-role').value = user.role;
-            document.getElementById('form-scope-level').value = user.scope_level;
-            onScopeLevelChange();
-            document.getElementById('form-scope-value').value = user.scope_value;
+            document.getElementById('form-fullname').value = user.full_name || '';
             
-            document.getElementById('admin-user-form').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            const rEl = document.getElementById('form-role');
+            const slEl = document.getElementById('form-scope-level');
+            rEl.value = user.role;
+            slEl.value = user.scope_level;
+
+            if (isSuperAdmin) {
+                rEl.disabled = true;
+                slEl.disabled = true;
+            } else {
+                rEl.disabled = false;
+                slEl.disabled = false;
+            }
+
+            onScopeLevelChange();
+            const svEl = document.getElementById('form-scope-value');
+            if (svEl) svEl.value = user.scope_value;
+            
+            const formEl = document.getElementById('admin-user-form');
+            if (formEl) formEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
         async function handleUserFormSubmit(event) {
@@ -2745,13 +2785,22 @@ Vui lòng kiểm tra mạng và thử lại.`);
             const username = document.getElementById('form-username').value.trim().toLowerCase();
             const password = document.getElementById('form-password').value;
             const fullName = document.getElementById('form-fullname').value.trim();
-            const role = document.getElementById('form-role').value;
-            const scopeLevel = document.getElementById('form-scope-level').value;
-            const scopeValue = document.getElementById('form-scope-value').value;
+            let role = document.getElementById('form-role').value;
+            let scopeLevel = document.getElementById('form-scope-level').value;
+            let scopeValue = document.getElementById('form-scope-value').value;
             
             if (!username || !fullName) {
                 alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
                 return;
+            }
+
+            // BẢO VỆ ĐẶC QUYỀN TÀI KHOẢN ADMIN CAO NHẤT
+            if (username === 'admin') {
+                role = 'admin';
+                scopeLevel = 'all';
+                scopeValue = 'Tất cả';
+            } else if (scopeLevel === 'all') {
+                scopeValue = 'Tất cả';
             }
             
             const nowIso = new Date().toISOString();
@@ -2787,7 +2836,7 @@ Vui lòng kiểm tra mạng và thử lại.`);
                 let pwdHash = users[targetIdx].password_hash;
                 let rawPwd = users[targetIdx].raw_password;
                 if (password && password.trim() !== '') {
-                    pwdHash = await sha256(password);
+                    pwdHash = await sha256(password.trim());
                     rawPwd = password.trim();
                 }
                 userObjToSync = {
@@ -2808,7 +2857,7 @@ Vui lòng kiểm tra mạng và thử lại.`);
             try {
                 deletedUsers = JSON.parse(localStorage.getItem('cj_deleted_users') || '[]');
             } catch(e) {}
-            deletedUsers = deletedUsers.filter(u => (typeof u === 'string' ? u : u.username).toLowerCase().trim() !== username.toLowerCase().trim());
+            deletedUsers = deletedUsers.filter(u => (typeof u === 'string' ? u : u.username).toLowerCase().trim() !== username);
             localStorage.setItem('cj_deleted_users', JSON.stringify(deletedUsers));
 
             saveAppUsers(users);
@@ -2817,8 +2866,7 @@ Vui lòng kiểm tra mạng và thử lại.`);
 
             // ĐỒNG BỘ TRỰC TIẾP LÊN ĐÁM MÂY GOOGLE SHEETS
             await syncToGoogleSheet('upsert_user', userObjToSync);
-            alert(`✅ Đã lưu tài khoản '${username}' và đồng bộ lên Đám mây thành công!
-Tài khoản này hiện đã có thể đăng nhập ngay trên mọi thiết bị và trình duyệt.`);
+            alert(`✅ Đã lưu tài khoản '${username}' và đồng bộ lên Đám mây thành công!\nTài khoản này hiện đã có thể đăng nhập ngay trên mọi thiết bị và trình duyệt.`);
         }
 
         async function deleteUser(username) {
@@ -3021,6 +3069,12 @@ Tài khoản này hiện đã có thể đăng nhập ngay trên mọi thiết b
                         
                         let scopeValue = findVal(['scope_value', 'phạm vi được xem', 'phạm vi', 'địa bàn', 'scope_value (địa bàn / npp)']);
                         if (scopeLevel === 'all' || !scopeValue) scopeValue = 'Tất cả';
+
+                        if (username === 'admin') {
+                            role = 'admin';
+                            scopeLevel = 'all';
+                            scopeValue = 'Tất cả';
+                        }
 
                         const password = findVal(['password', 'mật khẩu', 'password (mật khẩu)']);
                         const existingIdx = users.findIndex(u => u.username.toLowerCase() === username);
