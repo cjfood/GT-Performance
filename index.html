@@ -1900,7 +1900,7 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                         suRawPwd = bu.raw_password;
                         suHash = bu.password_hash;
                     }
-                    const useLocal = Boolean(su && su.updated_at && sTime > bTime);
+                    const useLocal = Boolean(su && (sTime >= bTime || !bTime || (su.raw_password && su.raw_password !== bu.raw_password) || (su.password_hash && su.password_hash !== bu.password_hash)));
                     merged.push({
                         username: bu.username,
                         password_hash: (useLocal ? suHash : bu.password_hash) || bu.password_hash,
@@ -1983,11 +1983,19 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
             }
         }
 
-        // Tự động kéo nhanh danh sách User từ Google Sheets (chỉ 1 GET request ~300ms)
-        async function fetchLatestUsersFromCloudQuick() {
+        // Tự động kéo nhanh danh sách User từ Google Sheets (có timeout, chỉ cập nhật nếu Cloud có timestamp mới hơn)
+        async function fetchLatestUsersFromCloudQuick(timeoutMs = 2000) {
             if (!GOOGLE_SHEET_API_URL || !GOOGLE_SHEET_API_URL.startsWith('http')) return [];
             try {
-                const res = await fetch(GOOGLE_SHEET_API_URL);
+                let fetchPromise;
+                if (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) {
+                    fetchPromise = fetch(GOOGLE_SHEET_API_URL, { signal: AbortSignal.timeout(timeoutMs) });
+                } else {
+                    const controller = new AbortController();
+                    const timer = setTimeout(() => controller.abort(), timeoutMs);
+                    fetchPromise = fetch(GOOGLE_SHEET_API_URL, { signal: controller.signal }).finally(() => clearTimeout(timer));
+                }
+                const res = await fetchPromise;
                 if (!res.ok) return [];
                 const data = await res.json();
                 const cloudUsers = (data && Array.isArray(data.users)) ? data.users : [];
@@ -2001,7 +2009,21 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                         if (cu.is_active === 0) {
                             map.delete(uKey);
                         } else {
-                            map.set(uKey, cu);
+                            const existing = map.get(uKey);
+                            const cuTime = parseTimestamp(cu.updated_at);
+                            const exTime = existing ? parseTimestamp(existing.updated_at) : 0;
+                            // Chỉ ghi đè nếu bản ghi từ Cloud có timestamp mới hơn hoặc bằng local
+                            if (!existing || cuTime >= exTime) {
+                                if (uKey === 'admin') {
+                                    cu.role = 'admin';
+                                    cu.scope_level = 'all';
+                                    cu.scope_value = 'Tất cả';
+                                    if (['123456', '12345', 'cj@2026', 'admin'].includes(cu.raw_password)) {
+                                        cu.raw_password = 'Longan987';
+                                    }
+                                }
+                                map.set(uKey, cu);
+                            }
                         }
                     });
                     const updated = Array.from(map.values());
@@ -2047,10 +2069,16 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                     window.history.replaceState({}, document.title, window.location.pathname);
                 }
 
-                // 1. Kiểm tra tài khoản tại Local / Base
+                // 1. TỰ ĐỘNG ĐỒNG BỘ ĐÁM MÂY ĐỂ LẤY MẬT KHẨU MỚI NHẤT (Nếu có kết nối mạng)
+                try {
+                    await fetchLatestUsersFromCloudQuick(2000);
+                } catch(syncErr) {
+                    console.warn('Không thể đồng bộ nhanh từ đám mây, tiếp tục với dữ liệu cục bộ:', syncErr);
+                }
+
+                // 2. Lấy thông tin tài khoản hiện hành duy nhất từ getAppUsers()
                 let users = getAppUsers();
                 let matchedUser = users.find(u => u.username && u.username.toLowerCase() === username);
-                let baseUser = (typeof BASE_APP_USERS !== 'undefined' ? BASE_APP_USERS : []).find(bu => bu.username && bu.username.toLowerCase() === username);
 
                 let isMatch = false;
                 let pwdHash = '';
@@ -2062,23 +2090,21 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                     if (username === 'admin') {
                         if (['123456', '12345', 'cj@2026', 'admin', 'admin@cj2026'].includes(password)) return false;
                     }
+                    // CHỈ CHẤP NHẬN MẬT KHẨU MỚI NHẤT CỦA USER:
                     if (userObj.raw_password && userObj.raw_password === password) return true;
                     if (pwdHash && userObj.password_hash && userObj.password_hash === pwdHash) return true;
                     return false;
                 }
 
-                if (matchedUser && checkPasswordMatch(matchedUser)) {
+                if (matchedUser && matchedUser.is_active !== 0 && checkPasswordMatch(matchedUser)) {
                     isMatch = true;
-                } else if (baseUser && checkPasswordMatch(baseUser)) {
-                    isMatch = true;
-                    matchedUser = { ...baseUser };
                 }
 
-                // 2. TỰ ĐỘNG GỌI CLOUD FALLBACK KHI KHÔNG TÌM THẤY Ở LOCAL (Không áp dụng cho admin để tránh giả mạo)
+                // 3. Nếu chưa khớp và không phải admin, thử kiểm tra lại với Đám mây 1 lần nữa (dự phòng trường hợp mới đổi mật khẩu tức thì ở máy khác)
                 if (!isMatch && username !== 'admin') {
-                    submitBtn.innerHTML = '<span class="inline-block animate-spin mr-1.5">🔄</span><span>Đang đồng bộ Đám mây...</span>';
+                    submitBtn.innerHTML = '<span class="inline-block animate-spin mr-1.5">🔄</span><span>Kiểm tra Đám mây...</span>';
                     try {
-                        const cloudUsers = await fetchLatestUsersFromCloudQuick();
+                        const cloudUsers = await fetchLatestUsersFromCloudQuick(3000);
                         if (cloudUsers && cloudUsers.length > 0) {
                             const cloudMatch = cloudUsers.find(cu => cu.username && cu.username.toLowerCase() === username);
                             if (cloudMatch && cloudMatch.is_active !== 0 && checkPasswordMatch(cloudMatch)) {
@@ -2087,10 +2113,11 @@ parse_Primary(n.content)}catch(l){}a="/EncryptionInfo";n=Qe.find(e,a);if(!n||!n.
                             }
                         }
                     } catch(cloudErr) {
-                        console.warn('Lỗi khi đồng bộ đám mây lúc đăng nhập:', cloudErr);
+                        console.warn('Lỗi khi kiểm tra đám mây:', cloudErr);
                     }
                 }
 
+                // 4. KIỂM TRA KẾT QUẢ XÁC THỰC: Tuyệt đối không fallback về mật khẩu cũ hay baseUser
                 if (!matchedUser || !isMatch) {
                     errorMsg.innerText = 'Tên đăng nhập hoặc mật khẩu không chính xác!';
                     errorBox.classList.remove('hidden');
@@ -2340,7 +2367,9 @@ Vui lòng kiểm tra mạng và thử lại.`);
                 saveAppUsers(users);
             }
 
-            await syncToGoogleSheet('change_password', {
+            setSessionUser(currentUser, !!localStorage.getItem('cj_auth_user_remember'));
+
+            const syncPayload = {
                 username: currentUser.username,
                 raw_password: newPwd,
                 password_hash: newHash,
@@ -2348,8 +2377,12 @@ Vui lòng kiểm tra mạng và thử lại.`);
                 role: currentUser.role,
                 scope_level: currentUser.scope_level,
                 scope_value: currentUser.scope_value,
+                is_active: 1,
                 updated_at: nowIso
-            });
+            };
+
+            await syncToGoogleSheet('change_password', syncPayload);
+            await syncToGoogleSheet('upsert_user', syncPayload);
 
             successBox.classList.remove('hidden');
             setTimeout(() => {
@@ -2861,6 +2894,10 @@ Vui lòng kiểm tra mạng và thử lại.`);
             localStorage.setItem('cj_deleted_users', JSON.stringify(deletedUsers));
 
             saveAppUsers(users);
+            if (currentUser && currentUser.username.toLowerCase() === username) {
+                currentUser = userObjToSync;
+                setSessionUser(currentUser, !!localStorage.getItem('cj_auth_user_remember'));
+            }
             renderAdminUserTable();
             resetUserForm();
 
@@ -2979,7 +3016,7 @@ Vui lòng kiểm tra mạng và thử lại.`);
             const users = getAppUsers();
             const exportData = users.map((u, idx) => {
                 const isCurrentAdmin = u.username.toLowerCase() === 'admin';
-                const pwd = u.raw_password || (isCurrentAdmin ? 'admin@cj2026' : '123456');
+                const pwd = u.raw_password || (isCurrentAdmin ? 'Longan987' : '123456');
                 let scopeDesc = 'Toàn quốc (Tất cả)';
                 if (u.scope_level === 'region') scopeDesc = `Miền ${u.scope_value}`;
                 else if (u.scope_level === 'vung') scopeDesc = `Vùng ${u.scope_value}`;
